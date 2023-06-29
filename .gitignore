@@ -1,0 +1,26 @@
+### Git ignore template
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+.mvn
+mvnw*
+HELP.md
+target
+
+### VS Code ###
+.vscode/
+
+### generated files ###
+bin/
+gen/
+
+### MAC ###
+.DS_Store
+
+### Other ###
+logs
+log
+temp
+res
