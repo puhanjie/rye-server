@@ -1,1 +1,1 @@
-# ryes
+# rye-server
