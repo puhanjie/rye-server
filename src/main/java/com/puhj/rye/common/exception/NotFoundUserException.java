@@ -6,8 +6,7 @@ import lombok.Setter;
 /**
  * @author puhanjie
  * @description 用户不存在异常类
- * @create 2022/3/19 00:40
- * @modify 2022/3/19 00:40
+ * @create 2022-3-19
  */
 @Setter
 @Getter

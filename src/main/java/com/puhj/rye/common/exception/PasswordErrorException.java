@@ -6,8 +6,7 @@ import lombok.Setter;
 /**
  * @author puhanjie
  * @description 密码错误异常类
- * @create 2022/11/13 22:57
- * @modify 2022/11/13 22:57
+ * @create 2022-11-13
  */
 @Setter
 @Getter

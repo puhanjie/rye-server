@@ -35,11 +35,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public List<RoleListVO> getAll() {
-        return this.roleMapper.selectAll();
-    }
-
-    @Override
     public PageVO<RoleListVO> getPageList(Page<RoleListVO> page, RolePageDTO rolePageDTO) {
         Page<RoleListVO> pageList = this.roleMapper.selectPageList(page, rolePageDTO);
         return new PageVO<>(pageList);

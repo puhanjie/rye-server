@@ -24,8 +24,7 @@ import java.util.Map;
 /**
  * @author puhanjie
  * @description Shiro配置类
- * @create 2022/3/19 00:40
- * @modify 2022/3/19 00:40
+ * @create 2022-3-19
  */
 @Configuration
 public class ShiroConfig {

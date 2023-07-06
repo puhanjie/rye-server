@@ -6,8 +6,7 @@ import java.util.Date;
 /**
  * @author puhanjie
  * @description 日期格式化工具类
- * @create 2022/12/14 12:08
- * @modify 2022/12/14 12:08
+ * @create 2022-12-14
  */
 public class DateUtil {
 

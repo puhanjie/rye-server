@@ -20,8 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author puhanjie
  * @description 操作日志记录类
- * @create 2022/12/1 19:50
- * @modify 2022/12/1 19:50
+ * @create 2022-12-1
  */
 @Aspect
 @Component

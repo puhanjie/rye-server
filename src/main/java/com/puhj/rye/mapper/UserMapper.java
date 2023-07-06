@@ -8,8 +8,6 @@ import com.puhj.rye.vo.UserListVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 /**
  * <p>
  * 用户表 Mapper 接口
@@ -22,8 +20,6 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
 
     User selectByUsername(String username);
-
-    List<UserListVO> selectAll();
 
     Page<UserListVO> selectPageList(Page<UserListVO> page, @Param("userPageDTO") UserPageDTO userPageDTO);
 

@@ -10,8 +10,7 @@ import java.util.List;
 /**
  * @author puhanjie
  * @description 代码生成器
- * @create 2022/11/28 22:26
- * @modify 2022/11/28 22:26
+ * @create 2022-11-28
  */
 public class CodeGenerator {
 
@@ -37,7 +36,7 @@ public class CodeGenerator {
                             .xml("mapper")  // 设置mapper.xml包名
                             .service("service") // 设置service包名
                             .serviceImpl("service.impl")    // 设置serviceImpl包名
-                            .controller("controller.api.v1")   // 设置controllrt包名
+                            .controller("controller.api.v1")   // 设置controller包名
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, projectPath + "/src/main/resources/mapper")); // 设置mapper.xml文件生成路径
                 })
                 .strategyConfig((scanner, builder) ->

@@ -7,8 +7,7 @@ import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
 /**
  * @author puhanjie
  * @description shiro使用自定义subject工厂，不创建session
- * @create 2022/11/12 22:48
- * @modify 2022/11/12 22:48
+ * @create 2022-11-12
  */
 public class StatelessDefaultSubjectFactory extends DefaultWebSubjectFactory {
 

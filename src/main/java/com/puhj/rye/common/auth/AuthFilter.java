@@ -15,8 +15,7 @@ import java.io.IOException;
 /**
  * @author puhanjie
  * @description Shiro认证过滤器
- * @create 2022/3/19 00:40
- * @modify 2022/3/19 00:40
+ * @create 2022-3-19
  */
 public class AuthFilter extends FormAuthenticationFilter {
 

@@ -12,8 +12,6 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * <p>
  * 角色表 前端控制器
@@ -48,12 +46,6 @@ public class RoleController {
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.Role.UPDATE}, logical = Logical.OR)
     public boolean edit(@RequestBody Role role) {
         return this.roleService.updateById(role);
-    }
-
-    @GetMapping("/all")
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.Role.VIEW}, logical = Logical.OR)
-    public List<RoleListVO> getAll() {
-        return this.roleService.getAll();
     }
 
     @GetMapping("/list")

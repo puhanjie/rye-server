@@ -25,8 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author puhanjie
  * @description 请求成功后Controller返回数据统一拦截处理，包括全局异常捕获
- * @create 2022/3/21 18:35
- * @modify 2022/3/21 18:35
+ * @create 2022-3-21
  */
 @Slf4j
 @RestControllerAdvice

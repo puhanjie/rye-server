@@ -23,8 +23,6 @@ public interface RoleMapper extends BaseMapper<Role> {
 
     List<Role> selectListByUserId(Integer userId);
 
-    List<RoleListVO> selectAll();
-
     Page<RoleListVO> selectPageList(Page<RoleListVO> page, @Param("rolePageDTO") RolePageDTO rolePageDTO);
 
 }

@@ -10,8 +10,7 @@ import java.util.Date;
 /**
  * @author puhanjie
  * @description 权限列表VO
- * @create 2023/6/15 23:37
- * @modify 2023/6/15 23:37
+ * @create 2023-6-15
  */
 @Data
 @AllArgsConstructor

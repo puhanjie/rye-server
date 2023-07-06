@@ -25,20 +25,6 @@
         where id in (select role_id from user_role where user_id = #{userId})
     </select>
 
-    <select id="selectAll" resultMap="roleList">
-        select r.id,
-               r.name,
-               r.info,
-               r.create_time,
-               r.update_time,
-               p.id   pid,
-               p.name pname,
-               p.info pinfo
-        from role r
-                 left join role_permission rp on r.id = rp.role_id
-                 left join permission p on rp.permission_id = p.id
-    </select>
-
     <select id="selectPageList" parameterType="com.puhj.rye.dto.RolePageDTO" resultMap="roleList">
         select r.id,
         r.name,

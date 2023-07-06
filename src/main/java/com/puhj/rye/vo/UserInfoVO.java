@@ -13,8 +13,7 @@ import java.util.List;
 /**
  * @author puhanjie
  * @description 用户基本信息VO
- * @create 2022/3/21 19:35
- * @modify 2022/3/21 19:35
+ * @create 2022-3-21
  */
 @Data
 @AllArgsConstructor

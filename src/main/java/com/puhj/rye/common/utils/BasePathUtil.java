@@ -5,8 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author puhanjie
  * @description 访问基础路径工具类
- * @create 2022/12/14 13:22
- * @modify 2022/12/14 13:22
+ * @create 2022-12-14
  */
 public class BasePathUtil {
 

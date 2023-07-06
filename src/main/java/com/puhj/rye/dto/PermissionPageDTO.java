@@ -4,9 +4,8 @@ import lombok.Data;
 
 /**
  * @author puhanjie
- * @description 权限分页查询参数
- * @create 2023/6/15 23:55
- * @modify 2023/6/15 23:55
+ * @description 权限分页查询参数DTO
+ * @create 2023-6-15
  */
 @Data
 public class PermissionPageDTO {

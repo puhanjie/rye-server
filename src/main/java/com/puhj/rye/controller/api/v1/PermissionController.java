@@ -12,8 +12,6 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * <p>
  * 权限表 前端控制器
@@ -48,12 +46,6 @@ public class PermissionController {
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.Permission.UPDATE}, logical = Logical.OR)
     public boolean edit(@RequestBody Permission permission) {
         return this.permissionService.updateById(permission);
-    }
-
-    @GetMapping("/all")
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.Permission.VIEW}, logical = Logical.OR)
-    public List<PermissionListVO> getAll() {
-        return this.permissionService.getAll();
     }
 
     @GetMapping("/list")

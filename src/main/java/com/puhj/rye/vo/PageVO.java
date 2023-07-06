@@ -10,8 +10,7 @@ import java.util.List;
 /**
  * @author puhanjie
  * @description 分页结果VO
- * @create 2023/6/17 13:24
- * @modify 2023/6/17 13:24
+ * @create 2023-6-17
  */
 @Data
 @AllArgsConstructor

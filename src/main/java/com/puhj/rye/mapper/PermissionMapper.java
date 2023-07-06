@@ -23,8 +23,6 @@ public interface PermissionMapper extends BaseMapper<Permission> {
 
     List<Permission> selectListByRoleId(Integer roleId);
 
-    List<PermissionListVO> selectAll();
-
     Page<PermissionListVO> selectPageList(Page<PermissionListVO> page, @Param("permissionPageDTO") PermissionPageDTO permissionPageDTO);
 
 }

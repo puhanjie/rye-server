@@ -3,8 +3,7 @@ package com.puhj.rye.common.constant;
 /**
  * @author puhanjie
  * @description 返回结果状态码配置
- * @create 2022/3/20 18:11
- * @modify 2022/3/20 18:11
+ * @create 2022-3-20
  */
 public enum ResultCode {
 

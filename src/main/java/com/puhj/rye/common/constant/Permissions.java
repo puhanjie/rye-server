@@ -3,8 +3,7 @@ package com.puhj.rye.common.constant;
 /**
  * @author puhanjie
  * @description 系统权限配置类
- * @create 2022/3/19 00:40
- * @modify 2022/3/19 00:40
+ * @create 2022-3-19
  */
 public final class Permissions {
 

@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author puhanjie
  * @description 密码修改重置BO
- * @create 2023/6/18 13:45
- * @modify 2023/6/18 13:45
+ * @create 2023-6-18
  */
 @Data
 @AllArgsConstructor
@@ -16,5 +15,5 @@ import lombok.NoArgsConstructor;
 public class PasswordBO {
     private Integer userId;
 
-    private String newPwd;
+    private String newPassword;
 }

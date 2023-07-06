@@ -84,7 +84,7 @@ public class UserController {
         return this.userService.updateById(user);
     }
 
-    @GetMapping
+    @GetMapping("myself")
     @RequiresAuthentication
     public UserInfoVO getInfo() {
         Subject subject = SecurityUtils.getSubject();
@@ -97,12 +97,6 @@ public class UserController {
         return new UserInfoVO(user, userRoles, userPermissions);
     }
 
-    @GetMapping("/all")
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.User.VIEW}, logical = Logical.OR)
-    public List<UserListVO> getAll() {
-        return this.userService.getAll();
-    }
-
     @GetMapping("/list")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.User.VIEW}, logical = Logical.OR)
     public PageVO<UserListVO> getPageList(UserPageDTO userPageDTO) {
@@ -112,22 +106,19 @@ public class UserController {
 
     @PutMapping("/password")
     @RequiresAuthentication
-    public int updatePwd(@RequestBody UpdatePwdDTO updatePwdDTO) {
-        User currUser = this.userService.getById(updatePwdDTO.getUserId());
-        if (!updatePwdDTO.getCurrPwd().equals(currUser.getPassword())) {
-            throw new PasswordErrorException(ResultCode.CURRPWD_ERROR.getCode(), ResultCode.CURRPWD_ERROR.getMessage());
-        }
-        return this.userService.updatePwd(new PasswordBO(updatePwdDTO.getUserId(), updatePwdDTO.getNewPwd()));
-    }
-
-    @PutMapping("/resetpwd")
-    @RequiresAuthentication
-    public int resetPwd(@RequestBody ResetPwdDTO resetPwdDTO) {
-        User currUser = this.userService.getById(resetPwdDTO.getUserId());
+    public int updatePwd(@RequestBody PasswordDTO passwordDTO) {
+        User currUser = this.userService.getById(passwordDTO.getUserId());
         if (currUser == null) {
             throw new NotFoundUserException(ResultCode.NOT_FOUND_USER.getCode(), ResultCode.NOT_FOUND_USER.getMessage());
         }
-        return this.userService.updatePwd(new PasswordBO(resetPwdDTO.getUserId(), resetPwdDTO.getNewPwd()));
+
+        // 修改密码
+        if (passwordDTO.getType() == 2) {
+            if (!passwordDTO.getCurrentPassword().equals(currUser.getPassword())) {
+                throw new PasswordErrorException(ResultCode.CURRPWD_ERROR.getCode(), ResultCode.CURRPWD_ERROR.getMessage());
+            }
+        }
+        return this.userService.updatePassword(new PasswordBO(passwordDTO.getUserId(), passwordDTO.getNewPassword()));
     }
 
 }

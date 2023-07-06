@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author puhanjie
  * @description 统一响应数据VO
- * @create 2022/3/19 00:40
- * @modify 2022/3/19 00:40
+ * @create 2022-3-19
  */
 @Data
 @AllArgsConstructor

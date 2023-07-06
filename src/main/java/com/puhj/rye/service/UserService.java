@@ -8,8 +8,6 @@ import com.puhj.rye.entity.User;
 import com.puhj.rye.vo.PageVO;
 import com.puhj.rye.vo.UserListVO;
 
-import java.util.List;
-
 /**
  * <p>
  * 用户表 服务类
@@ -22,10 +20,8 @@ public interface UserService extends IService<User> {
 
     User getByUsername(String username);
 
-    List<UserListVO> getAll();
-
     PageVO<UserListVO> getPageList(Page<UserListVO> page, UserPageDTO userPageDTO);
 
-    int updatePwd(PasswordBO passwordBO);
+    int updatePassword(PasswordBO passwordBO);
 
 }

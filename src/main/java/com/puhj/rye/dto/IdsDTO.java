@@ -6,9 +6,8 @@ import java.util.List;
 
 /**
  * @author puhanjie
- * @description ID批量操作类
- * @create 2022/12/4 21:04
- * @modify 2022/12/4 21:04
+ * @description ID批量操作DTO
+ * @create 2022-12-4
  */
 @Data
 public class IdsDTO {

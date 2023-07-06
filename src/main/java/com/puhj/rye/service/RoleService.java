@@ -21,8 +21,6 @@ public interface RoleService extends IService<Role> {
 
     List<Role> getListByUserId(Integer userId);
 
-    List<RoleListVO> getAll();
-
     PageVO<RoleListVO> getPageList(Page<RoleListVO> page, RolePageDTO rolePageDTO);
 
 }

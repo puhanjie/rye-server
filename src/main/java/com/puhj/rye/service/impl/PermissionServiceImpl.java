@@ -39,11 +39,6 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     }
 
     @Override
-    public List<PermissionListVO> getAll() {
-        return this.permissionMapper.selectAll();
-    }
-
-    @Override
     public PageVO<PermissionListVO> getPageList(Page<PermissionListVO> page, PermissionPageDTO permissionPageDTO) {
         Page<PermissionListVO> pageList = this.permissionMapper.selectPageList(page, permissionPageDTO);
         return new PageVO<>(pageList);

@@ -15,8 +15,7 @@ import java.util.Date;
 /**
  * @author puhanjie
  * @description JWT工具类
- * @create 2022/3/19 00:40
- * @modify 2022/3/19 00:40
+ * @create 2022-3-19
  */
 @Component
 public class JwtUtil {

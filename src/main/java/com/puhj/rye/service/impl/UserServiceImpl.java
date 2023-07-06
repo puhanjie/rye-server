@@ -12,8 +12,6 @@ import com.puhj.rye.vo.PageVO;
 import com.puhj.rye.vo.UserListVO;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * <p>
  * 用户表 服务实现类
@@ -37,22 +35,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public List<UserListVO> getAll() {
-        return this.userMapper.selectAll();
-    }
-
-    @Override
     public PageVO<UserListVO> getPageList(Page<UserListVO> page, UserPageDTO userPageDTO) {
         Page<UserListVO> pageList = this.userMapper.selectPageList(page, userPageDTO);
         return new PageVO<>(pageList);
     }
 
     @Override
-    public int updatePwd(PasswordBO passwordBO) {
+    public int updatePassword(PasswordBO passwordBO) {
         User currUser = this.userMapper.selectById(passwordBO.getUserId());
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", passwordBO.getUserId());
-        updateWrapper.set("password", passwordBO.getNewPwd());
+        updateWrapper.set("password", passwordBO.getNewPassword());
         return this.userMapper.update(currUser, updateWrapper);
     }
 

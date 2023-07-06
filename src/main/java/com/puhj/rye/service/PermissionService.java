@@ -22,8 +22,6 @@ public interface PermissionService extends IService<Permission> {
 
     List<Permission> getListByRoles(List<Role> roles);
 
-    List<PermissionListVO> getAll();
-
     PageVO<PermissionListVO> getPageList(Page<PermissionListVO> page, PermissionPageDTO permissionPageDTO);
 
 }

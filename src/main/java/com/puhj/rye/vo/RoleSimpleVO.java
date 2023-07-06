@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * @author puhanjie
  * @description Role简要Vo
- * @create 2023/6/14 21:47
- * @modify 2023/6/14 21:47
+ * @create 2023-6-14
  */
 @Data
 @AllArgsConstructor

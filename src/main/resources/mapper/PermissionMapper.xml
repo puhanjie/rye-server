@@ -15,17 +15,6 @@
         where id in (select permission_id from role_permission where role_id = #{roleId})
     </select>
 
-    <select id="selectAll" resultType="com.puhj.rye.vo.PermissionListVO">
-        select id,
-               name,
-               info,
-               menu,
-               menu_name,
-               create_time,
-               update_time
-        from permission
-    </select>
-
     <select id="selectPageList" parameterType="com.puhj.rye.dto.PermissionPageDTO"
             resultType="com.puhj.rye.vo.PermissionListVO">
         select id,

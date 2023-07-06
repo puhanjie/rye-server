@@ -15,8 +15,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 /**
  * @author puhanjie
  * @description Swagger配置类
- * @create 2022/11/30 20:25
- * @modify 2022/11/30 20:25
+ * @create 2022-11-30
  */
 @Configuration
 @EnableOpenApi
