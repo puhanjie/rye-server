@@ -29,19 +29,19 @@ public class FileController {
         this.fileService = fileService;
     }
 
-    @PostMapping("/upload")
+    @PostMapping
     @RequiresAuthentication
     public List<FileVO> upload(HttpServletRequest request) throws IOException {
         return this.fileService.upload(request);
     }
 
-    @DeleteMapping("/remove")
+    @DeleteMapping
     @RequiresAuthentication
     public void remove(@RequestParam String path, HttpServletRequest request) {
         this.fileService.remove(path, request);
     }
 
-    @GetMapping("/download")
+    @GetMapping
     @RequiresAuthentication
     public void download(@RequestParam String path, HttpServletRequest request, HttpServletResponse response) throws IOException {
         this.fileService.download(path, request, response);
