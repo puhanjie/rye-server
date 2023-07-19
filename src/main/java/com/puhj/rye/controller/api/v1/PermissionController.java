@@ -9,6 +9,8 @@ import com.puhj.rye.service.PermissionService;
 import com.puhj.rye.vo.PageVO;
 import com.puhj.rye.vo.PermissionListVO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -55,6 +57,13 @@ public class PermissionController {
     }
 
     @Operation(summary = "查询权限列表", description = "分页查询权限列表")
+    @Parameters({
+            @Parameter(name = "pageNum", description = "分页查询页码"),
+            @Parameter(name = "pageSize", description = "每页数据大小"),
+            @Parameter(name = "name", description = "权限名"),
+            @Parameter(name = "info", description = "权限信息"),
+            @Parameter(name = "menuName", description = "菜单名称")
+    })
     @GetMapping("/list")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.Permission.VIEW}, logical = Logical.OR)
     public PageVO<PermissionListVO> getPageList(PermissionPageDTO permissionPageDTO) {

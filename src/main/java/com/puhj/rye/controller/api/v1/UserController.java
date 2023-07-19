@@ -22,6 +22,8 @@ import com.puhj.rye.vo.TokenVO;
 import com.puhj.rye.vo.UserInfoVO;
 import com.puhj.rye.vo.UserListVO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
@@ -109,6 +111,13 @@ public class UserController {
     }
 
     @Operation(summary = "查询用户列表", description = "分页查询用户列表")
+    @Parameters({
+            @Parameter(name = "pageNum", description = "分页查询页码"),
+            @Parameter(name = "pageSize", description = "每页数据大小"),
+            @Parameter(name = "username", description = "用户名"),
+            @Parameter(name = "phone", description = "手机"),
+            @Parameter(name = "email", description = "邮箱")
+    })
     @GetMapping("/list")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.User.VIEW}, logical = Logical.OR)
     public PageVO<UserListVO> getPageList(UserPageDTO userPageDTO) {

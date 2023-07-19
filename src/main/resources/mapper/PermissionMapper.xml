@@ -32,9 +32,6 @@
             <if test="permissionPageDTO.info != null and permissionPageDTO.info != ''">
                 and info like concat('%',#{permissionPageDTO.info},'%')
             </if>
-            <if test="permissionPageDTO.menu != null and permissionPageDTO.menu != ''">
-                and menu like concat('%',#{permissionPageDTO.menu},'%')
-            </if>
             <if test="permissionPageDTO.menuName != null and permissionPageDTO.menuName != ''">
                 and menu_name like concat('%',#{permissionPageDTO.menuName},'%')
             </if>

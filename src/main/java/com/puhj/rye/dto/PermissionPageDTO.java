@@ -17,7 +17,5 @@ public class PermissionPageDTO {
 
     private String info;
 
-    private String menu;
-
     private String menuName;
 }

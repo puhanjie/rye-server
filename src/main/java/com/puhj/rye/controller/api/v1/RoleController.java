@@ -9,6 +9,8 @@ import com.puhj.rye.service.RoleService;
 import com.puhj.rye.vo.PageVO;
 import com.puhj.rye.vo.RoleListVO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -55,6 +57,12 @@ public class RoleController {
     }
 
     @Operation(summary = "查询角色列表", description = "分页查询角色列表")
+    @Parameters({
+            @Parameter(name = "pageNum", description = "分页查询页码"),
+            @Parameter(name = "pageSize", description = "每页数据大小"),
+            @Parameter(name = "name", description = "角色名"),
+            @Parameter(name = "info", description = "角色信息")
+    })
     @GetMapping("/list")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.Role.VIEW}, logical = Logical.OR)
     public PageVO<RoleListVO> getPageList(RolePageDTO rolePageDTO) {
