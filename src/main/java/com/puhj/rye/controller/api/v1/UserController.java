@@ -106,7 +106,7 @@ public class UserController {
 
     @PutMapping("/password")
     @RequiresAuthentication
-    public int updatePwd(@RequestBody PasswordDTO passwordDTO) {
+    public int updatePassword(@RequestBody PasswordDTO passwordDTO) {
         User currUser = this.userService.getById(passwordDTO.getUserId());
         if (currUser == null) {
             throw new NotFoundUserException(ResultCode.NOT_FOUND_USER.getCode(), ResultCode.NOT_FOUND_USER.getMessage());
