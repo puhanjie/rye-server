@@ -33,11 +33,11 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     /*
      * 判断是否要执行 beforeBodyWrite 方法（true:执行;false:不执行）
-     * 因整合了swagger，所以swagger相关资源返回false，不进行拦截
+     * 因整合了springdoc，所以springdoc相关资源返回false，不进行拦截
      */
     @Override
     public boolean supports(@NotNull MethodParameter returnType, @NotNull Class<? extends HttpMessageConverter<?>> converterType) {
-        return !returnType.getDeclaringClass().getName().contains("springfox");
+        return !returnType.getDeclaringClass().getName().contains("springdoc");
     }
 
     @Override

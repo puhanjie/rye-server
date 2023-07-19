@@ -3,6 +3,8 @@ package com.puhj.rye.controller.api.v1;
 
 import com.puhj.rye.service.FileService;
 import com.puhj.rye.vo.FileVO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,7 @@ import java.util.List;
  * @author puhanjie
  * @since 2022-12-14
  */
+@Tag(name = "文件接口", description = "文件操作相关接口")
 @RestController
 @RequestMapping("/api/v1/file")
 public class FileController {
@@ -29,18 +32,21 @@ public class FileController {
         this.fileService = fileService;
     }
 
+    @Operation(summary = "文件上传", description = "上传一个或多个文件")
     @PostMapping
     @RequiresAuthentication
     public List<FileVO> upload(HttpServletRequest request) throws IOException {
         return this.fileService.upload(request);
     }
 
+    @Operation(summary = "删除文件", description = "根据文件路径删除一个文件")
     @DeleteMapping
     @RequiresAuthentication
     public void remove(@RequestParam String path, HttpServletRequest request) {
         this.fileService.remove(path, request);
     }
 
+    @Operation(summary = "文件下载", description = "根据文件路径下载一个文件")
     @GetMapping
     @RequiresAuthentication
     public void download(@RequestParam String path, HttpServletRequest request, HttpServletResponse response) throws IOException {

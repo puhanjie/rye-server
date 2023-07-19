@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -19,41 +20,46 @@ import java.time.LocalDateTime;
  * @author puhanjie
  * @since 2022-12-14
  */
+@Schema(name = "File对象", description = "文件表")
 @Data
 @TableName("file")
-@ApiModel(value = "File对象", description = "文件表")
 public class File implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty("文件地址")
+    @Schema(description = "文件地址")
     @TableField("path")
     private String path;
 
-    @ApiModelProperty("文件名")
+    @Schema(description = "文件名")
     @TableField("name")
     private String name;
 
-    @ApiModelProperty("文件大小（Byte）")
+    @Schema(description = "文件大小（Byte）")
     @TableField("file_size")
     private Long fileSize;
 
-    @ApiModelProperty("文件唯一uuid值")
+    @Schema(description = "文件唯一uuid值")
     @TableField("uuid")
     private String uuid;
 
-    @ApiModelProperty("创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Schema(description = "创建时间")
     @TableField("create_time")
     private LocalDateTime createTime;
 
-    @ApiModelProperty("更新时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Schema(description = "更新时间")
     @TableField("update_time")
     private LocalDateTime updateTime;
 
-    @ApiModelProperty("删除时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Schema(description = "删除时间")
     @TableField("delete_time")
     private LocalDateTime deleteTime;
 

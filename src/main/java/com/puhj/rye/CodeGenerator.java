@@ -25,7 +25,6 @@ public class CodeGenerator {
         FastAutoGenerator.create(url, username, password)
                 .globalConfig(builder -> {
                     builder.author("puhanjie")  // 设置作者
-                            .enableSwagger()    // 开启Swagger
                             .outputDir(projectPath + "/src/main/java");  // 指定输出目录
 
                 })

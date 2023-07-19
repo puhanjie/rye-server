@@ -10,9 +10,6 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
   mvc:
-    path-match:
-      # 这个mvc的配置是因为SpringBoot2不支持Swagger3的折衷配置，可考虑升级或降级SpringBoot版本
-      matching-strategy: ant_path_matcher
     throw-exception-if-no-handler-found: true
   web:
     resources:
@@ -35,8 +32,19 @@ jwt:
 files:
   path: "res/upload" # 上传路径为项目路径下的res/upload
 
-swagger:
-  swaggerEnabled: true
+springdoc:
+  swagger-ui:
+    # 配置swagger ui访问路径为：http://localhost:8088/swagger-ui/index.html
+    path: /swagger-ui/index.html
+    # 开启swagger ui界面
+    enabled: true
+  api-docs:
+    # api-docs路径：即swagger ui显示api信息时获取数据的访问路径
+    path: /v3/api-docs
+    # 开启api-docs
+    enabled: true
+  # 配置需要生成接口文档的扫描包
+  packages-to-scan: com.puhj.rye.controller.api.v1
 
 logging:
   config: classpath:config/logback-spring.xml

@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -21,35 +22,38 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("log")
-@ApiModel(value = "Log对象", description = "操作日志表")
+@Schema(name = "Log对象", description = "操作日志表")
 public class Log implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty("响应状态码")
+    @Schema(description = "响应状态码")
     @TableField("code")
     private Integer code;
 
-    @ApiModelProperty("响应状态消息")
+    @Schema(description = "响应状态消息")
     @TableField("message")
     private String message;
 
-    @ApiModelProperty("操作用户ID")
+    @Schema(description = "操作用户ID")
     @TableField("user_id")
     private Integer userId;
 
-    @ApiModelProperty("操作用户")
+    @Schema(description = "操作用户")
     @TableField("username")
     private String username;
 
-    @ApiModelProperty("接口地址")
+    @Schema(description = "接口地址")
     @TableField("path")
     private String path;
 
-    @ApiModelProperty("操作时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Schema(description = "操作时间")
     @TableField("operate_time")
     private LocalDateTime operateTime;
 

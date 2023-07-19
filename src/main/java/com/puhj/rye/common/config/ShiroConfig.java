@@ -107,9 +107,8 @@ public class ShiroConfig {
         // 设置url拦截所使用的过滤器
         Map<String, String> filterChainDefinitionMap = new HashMap<>();
         filterChainDefinitionMap.put("/api/v1/user/login", "anon");
-        filterChainDefinitionMap.put("/swagger-ui/**", "anon"); // Swagger资源放行
-        filterChainDefinitionMap.put("/swagger-resources/**", "anon");  // Swagger资源放行
-        filterChainDefinitionMap.put("/v3/**", "anon"); // Swagger资源放行
+        filterChainDefinitionMap.put("/swagger-ui/**", "anon"); // springdoc的swagger ui资源放行
+        filterChainDefinitionMap.put("/v3/**", "anon"); // springdoc的api-docs资源放行
         filterChainDefinitionMap.put("/res/**", "anon");  // 静态资源放行
         filterChainDefinitionMap.put("/**", "auth");
 

@@ -7,7 +7,10 @@ import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.NotFoundUserException;
 import com.puhj.rye.common.exception.PasswordErrorException;
 import com.puhj.rye.common.utils.JwtUtil;
-import com.puhj.rye.dto.*;
+import com.puhj.rye.dto.IdsDTO;
+import com.puhj.rye.dto.LoginDTO;
+import com.puhj.rye.dto.PasswordDTO;
+import com.puhj.rye.dto.UserPageDTO;
 import com.puhj.rye.entity.Permission;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.entity.User;
@@ -18,6 +21,8 @@ import com.puhj.rye.vo.PageVO;
 import com.puhj.rye.vo.TokenVO;
 import com.puhj.rye.vo.UserInfoVO;
 import com.puhj.rye.vo.UserListVO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -35,6 +40,7 @@ import java.util.List;
  * @author puhanjie
  * @since 2022-11-30
  */
+@Tag(name = "用户接口", description = "用户操作相关接口")
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -51,6 +57,7 @@ public class UserController {
         this.permissionService = permissionService;
     }
 
+    @Operation(summary = "登陆", description = "用户登陆接口")
     @PostMapping("/login")
     public TokenVO login(@RequestBody LoginDTO user) {
         User loginUser = this.userService.getByUsername(user.getUsername());
@@ -66,24 +73,28 @@ public class UserController {
         return new TokenVO(token);
     }
 
+    @Operation(summary = "新增用户", description = "增加一个用户")
     @PostMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.User.ADD}, logical = Logical.OR)
     public boolean add(@RequestBody User user) {
         return this.userService.save(user);
     }
 
+    @Operation(summary = "删除用户", description = "根据用户id数组删除用户")
     @DeleteMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.User.DELETE}, logical = Logical.OR)
     public boolean remove(@RequestBody IdsDTO idsDTO) {
         return this.userService.removeByIds(idsDTO.getIds());
     }
 
+    @Operation(summary = "修改用户", description = "修改用户信息")
     @PutMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.User.UPDATE}, logical = Logical.OR)
     public boolean edit(@RequestBody User user) {
         return this.userService.updateById(user);
     }
 
+    @Operation(summary = "获取当前用户", description = "通过token获取当前登陆用户信息")
     @GetMapping("myself")
     @RequiresAuthentication
     public UserInfoVO getInfo() {
@@ -97,6 +108,7 @@ public class UserController {
         return new UserInfoVO(user, userRoles, userPermissions);
     }
 
+    @Operation(summary = "查询用户列表", description = "分页查询用户列表")
     @GetMapping("/list")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.User.VIEW}, logical = Logical.OR)
     public PageVO<UserListVO> getPageList(UserPageDTO userPageDTO) {
@@ -104,6 +116,7 @@ public class UserController {
         return this.userService.getPageList(page, userPageDTO);
     }
 
+    @Operation(summary = "修改密码", description = "type=1为重置密码，type=2为修改密码")
     @PutMapping("/password")
     @RequiresAuthentication
     public int updatePassword(@RequestBody PasswordDTO passwordDTO) {
