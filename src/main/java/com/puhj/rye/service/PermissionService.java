@@ -2,7 +2,6 @@ package com.puhj.rye.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.puhj.rye.dto.PermissionPageDTO;
 import com.puhj.rye.entity.Permission;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.vo.PageVO;
@@ -22,6 +21,6 @@ public interface PermissionService extends IService<Permission> {
 
     List<Permission> getListByRoles(List<Role> roles);
 
-    PageVO<PermissionListVO> getPageList(Page<PermissionListVO> page, PermissionPageDTO permissionPageDTO);
+    PageVO<PermissionListVO> getPageList(Page<PermissionListVO> page, String name, String info, String menuName);
 
 }

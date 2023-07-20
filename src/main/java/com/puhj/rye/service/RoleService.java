@@ -2,7 +2,6 @@ package com.puhj.rye.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.puhj.rye.dto.RolePageDTO;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.vo.PageVO;
 import com.puhj.rye.vo.RoleListVO;
@@ -21,6 +20,6 @@ public interface RoleService extends IService<Role> {
 
     List<Role> getListByUserId(Integer userId);
 
-    PageVO<RoleListVO> getPageList(Page<RoleListVO> page, RolePageDTO rolePageDTO);
+    PageVO<RoleListVO> getPageList(Page<RoleListVO> page, String name, String info);
 
 }

@@ -2,7 +2,6 @@ package com.puhj.rye.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.puhj.rye.dto.UserPageDTO;
 import com.puhj.rye.entity.User;
 import com.puhj.rye.vo.UserListVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,6 +20,9 @@ public interface UserMapper extends BaseMapper<User> {
 
     User selectByUsername(String username);
 
-    Page<UserListVO> selectPageList(Page<UserListVO> page, @Param("userPageDTO") UserPageDTO userPageDTO);
+    Page<UserListVO> selectPageList(Page<UserListVO> page,
+                                    @Param("username") String username,
+                                    @Param("phone") String phone,
+                                    @Param("email") String email);
 
 }

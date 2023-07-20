@@ -14,7 +14,7 @@ public enum ResultCode {
     ACCESS_DENIED(10003, "无资源访问权限"),
     NOT_FOUND_USER(10004, "用户不存在"),
     NO_HANDLE_FOUND(10005, "资源不存在"),
-    CURRPWD_ERROR(10006, "当前密码错误");
+    CURRENT_PASSWORD_ERROR(10006, "当前密码错误");
 
     private final Integer code;
 

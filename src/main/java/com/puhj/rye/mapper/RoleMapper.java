@@ -2,7 +2,6 @@ package com.puhj.rye.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.puhj.rye.dto.RolePageDTO;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.vo.RoleListVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -23,6 +22,8 @@ public interface RoleMapper extends BaseMapper<Role> {
 
     List<Role> selectListByUserId(Integer userId);
 
-    Page<RoleListVO> selectPageList(Page<RoleListVO> page, @Param("rolePageDTO") RolePageDTO rolePageDTO);
+    Page<RoleListVO> selectPageList(Page<RoleListVO> page,
+                                    @Param("name") String name,
+                                    @Param("info") String info);
 
 }

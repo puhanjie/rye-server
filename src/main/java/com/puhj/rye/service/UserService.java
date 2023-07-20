@@ -3,7 +3,6 @@ package com.puhj.rye.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.puhj.rye.bo.PasswordBO;
-import com.puhj.rye.dto.UserPageDTO;
 import com.puhj.rye.entity.User;
 import com.puhj.rye.vo.PageVO;
 import com.puhj.rye.vo.UserListVO;
@@ -20,7 +19,7 @@ public interface UserService extends IService<User> {
 
     User getByUsername(String username);
 
-    PageVO<UserListVO> getPageList(Page<UserListVO> page, UserPageDTO userPageDTO);
+    PageVO<UserListVO> getPageList(Page<UserListVO> page, String username, String phone, String email);
 
     int updatePassword(PasswordBO passwordBO);
 

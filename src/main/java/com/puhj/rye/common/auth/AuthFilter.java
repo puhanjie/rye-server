@@ -51,7 +51,8 @@ public class AuthFilter extends FormAuthenticationFilter {
 
         // 因过滤器中的异常无法被springboot全局异常类捕获，因此发生异常需要给response对象写入信息返回给前端
         ResultVO<?> result = ResultVO.fail(ResultCode.AUTHENTICATION_FAIL.getCode(),
-                ResultCode.AUTHENTICATION_FAIL.getMessage(), req.getMethod() + " " + req.getRequestURI());
+                ResultCode.AUTHENTICATION_FAIL.getMessage(),
+                req.getMethod() + " " + req.getRequestURI());
 
         ObjectMapper objectMapper = new ObjectMapper();
 

@@ -2,7 +2,6 @@ package com.puhj.rye.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.puhj.rye.dto.RolePageDTO;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.mapper.RoleMapper;
 import com.puhj.rye.service.RoleService;
@@ -35,8 +34,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public PageVO<RoleListVO> getPageList(Page<RoleListVO> page, RolePageDTO rolePageDTO) {
-        Page<RoleListVO> pageList = this.roleMapper.selectPageList(page, rolePageDTO);
+    public PageVO<RoleListVO> getPageList(Page<RoleListVO> page, String name, String info) {
+        Page<RoleListVO> pageList = this.roleMapper.selectPageList(page, name, info);
         return new PageVO<>(pageList);
     }
 

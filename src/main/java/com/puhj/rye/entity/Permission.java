@@ -20,9 +20,9 @@ import java.util.Date;
  * @author puhanjie
  * @since 2022-11-30
  */
+@Schema(name = "Permission对象", description = "权限表")
 @Data
 @TableName("permission")
-@Schema(name = "Permission对象", description = "权限表")
 public class Permission implements Serializable {
 
     @Serial
@@ -47,14 +47,6 @@ public class Permission implements Serializable {
     @Schema(description = "归属菜单名称")
     @TableField("menu_name")
     private String menuName;
-
-    @Schema(description = "创建者")
-    @TableField("create_user")
-    private String createUser;
-
-    @Schema(description = "更新者")
-    @TableField("update_user")
-    private String updateUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "创建时间")

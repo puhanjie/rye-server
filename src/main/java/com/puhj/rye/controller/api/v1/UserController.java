@@ -7,10 +7,8 @@ import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.NotFoundUserException;
 import com.puhj.rye.common.exception.PasswordErrorException;
 import com.puhj.rye.common.utils.JwtUtil;
-import com.puhj.rye.dto.IdsDTO;
 import com.puhj.rye.dto.LoginDTO;
 import com.puhj.rye.dto.PasswordDTO;
-import com.puhj.rye.dto.UserPageDTO;
 import com.puhj.rye.entity.Permission;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.entity.User;
@@ -77,21 +75,21 @@ public class UserController {
 
     @Operation(summary = "新增用户", description = "增加一个用户")
     @PostMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.User.ADD}, logical = Logical.OR)
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.ADD}, logical = Logical.OR)
     public boolean add(@RequestBody User user) {
         return this.userService.save(user);
     }
 
     @Operation(summary = "删除用户", description = "根据用户id数组删除用户")
     @DeleteMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.User.DELETE}, logical = Logical.OR)
-    public boolean remove(@RequestBody IdsDTO idsDTO) {
-        return this.userService.removeByIds(idsDTO.getIds());
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.DELETE}, logical = Logical.OR)
+    public boolean remove(@RequestBody List<Integer> ids) {
+        return this.userService.removeByIds(ids);
     }
 
     @Operation(summary = "修改用户", description = "修改用户信息")
     @PutMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.User.UPDATE}, logical = Logical.OR)
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.UPDATE}, logical = Logical.OR)
     public boolean edit(@RequestBody User user) {
         return this.userService.updateById(user);
     }
@@ -119,10 +117,21 @@ public class UserController {
             @Parameter(name = "email", description = "邮箱")
     })
     @GetMapping("/list")
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.System.User.VIEW}, logical = Logical.OR)
-    public PageVO<UserListVO> getPageList(UserPageDTO userPageDTO) {
-        Page<UserListVO> page = new Page<>(userPageDTO.getPageNum(), userPageDTO.getPageSize());
-        return this.userService.getPageList(page, userPageDTO);
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.VIEW}, logical = Logical.OR)
+    public PageVO<UserListVO> getPageList(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                          @RequestParam(value = "username", required = false) String username,
+                                          @RequestParam(value = "phone", required = false) String phone,
+                                          @RequestParam(value = "email", required = false) String email) {
+        Page<UserListVO> page = new Page<>(pageNum, pageSize);
+        return this.userService.getPageList(page, username, phone, email);
+    }
+
+    @Operation(summary = "查询所有用户", description = "查询所有用户数据")
+    @GetMapping("/all")
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.VIEW}, logical = Logical.OR)
+    public List<User> getAll() {
+        return this.userService.list();
     }
 
     @Operation(summary = "修改密码", description = "type=1为重置密码，type=2为修改密码")
@@ -137,7 +146,7 @@ public class UserController {
         // 修改密码
         if (passwordDTO.getType() == 2) {
             if (!passwordDTO.getCurrentPassword().equals(currUser.getPassword())) {
-                throw new PasswordErrorException(ResultCode.CURRPWD_ERROR.getCode(), ResultCode.CURRPWD_ERROR.getMessage());
+                throw new PasswordErrorException(ResultCode.CURRENT_PASSWORD_ERROR.getCode(), ResultCode.CURRENT_PASSWORD_ERROR.getMessage());
             }
         }
         return this.userService.updatePassword(new PasswordBO(passwordDTO.getUserId(), passwordDTO.getNewPassword()));

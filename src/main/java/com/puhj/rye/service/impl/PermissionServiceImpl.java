@@ -2,7 +2,6 @@ package com.puhj.rye.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.puhj.rye.dto.PermissionPageDTO;
 import com.puhj.rye.entity.Permission;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.mapper.PermissionMapper;
@@ -39,8 +38,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     }
 
     @Override
-    public PageVO<PermissionListVO> getPageList(Page<PermissionListVO> page, PermissionPageDTO permissionPageDTO) {
-        Page<PermissionListVO> pageList = this.permissionMapper.selectPageList(page, permissionPageDTO);
+    public PageVO<PermissionListVO> getPageList(Page<PermissionListVO> page, String name, String info, String menuName) {
+        Page<PermissionListVO> pageList = this.permissionMapper.selectPageList(page, name, info, menuName);
         return new PageVO<>(pageList);
     }
 

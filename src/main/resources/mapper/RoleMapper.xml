@@ -25,7 +25,7 @@
         where id in (select role_id from user_role where user_id = #{userId})
     </select>
 
-    <select id="selectPageList" parameterType="com.puhj.rye.dto.RolePageDTO" resultMap="roleList">
+    <select id="selectPageList" resultMap="roleList">
         select r.id,
         r.name,
         r.info,
@@ -38,12 +38,13 @@
         left join role_permission rp on r.id = rp.role_id
         left join permission p on rp.permission_id = p.id
         <where>
-            <if test="rolePageDTO.name != null and rolePageDTO.name != ''">
-                and r.name like concat('%',#{rolePageDTO.name},'%')
+            <if test="name != null and name != ''">
+                and r.name like concat('%',#{name},'%')
             </if>
-            <if test="rolePageDTO.info != null and rolePageDTO.info != ''">
-                and r.info like concat('%',#{rolePageDTO.info},'%')
+            <if test="info != null and info != ''">
+                and r.info like concat('%',#{info},'%')
             </if>
         </where>
+        order by r.id
     </select>
 </mapper>

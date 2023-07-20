@@ -13,6 +13,7 @@ import org.springframework.web.filter.CorsFilter;
  */
 @Configuration
 public class CorsConfig {
+
     @Bean
     public CorsFilter corsFilter() {
         // 添加Cors配置信息
@@ -35,4 +36,5 @@ public class CorsConfig {
         // 返回新的CorsFilter
         return new CorsFilter(corsConfigurationSource);
     }
+
 }

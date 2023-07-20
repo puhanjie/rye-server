@@ -31,7 +31,7 @@
         where username = #{username}
     </select>
 
-    <select id="selectPageList" parameterType="com.puhj.rye.dto.UserPageDTO" resultMap="userList">
+    <select id="selectPageList" resultMap="userList">
         select u.id,
         u.username,
         u.phone,
@@ -46,15 +46,16 @@
         left join user_role `ur` on u.id = `ur`.user_id
         left join role r on `ur`.role_id = r.id
         <where>
-            <if test="userPageDTO.username != null and userPageDTO.username != ''">
-                and u.username like concat('%',#{userPageDTO.username},'%')
+            <if test="username != null and username != ''">
+                and u.username like concat('%',#{username},'%')
             </if>
-            <if test="userPageDTO.phone != null and userPageDTO.phone != ''">
-                and u.phone like concat('%',#{userPageDTO.phone},'%')
+            <if test="phone != null and phone != ''">
+                and u.phone like concat('%',#{phone},'%')
             </if>
-            <if test="userPageDTO.email != null and userPageDTO.email != ''">
-                and u.email like concat('%',#{userPageDTO.email},'%')
+            <if test="email != null and email != ''">
+                and u.email like concat('%',#{email},'%')
             </if>
         </where>
+        order by u.id
     </select>
 </mapper>

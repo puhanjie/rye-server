@@ -7,16 +7,13 @@
                info,
                menu,
                menu_name,
-               create_user,
-               update_user,
                create_time,
                update_time
         from permission
         where id in (select permission_id from role_permission where role_id = #{roleId})
     </select>
 
-    <select id="selectPageList" parameterType="com.puhj.rye.dto.PermissionPageDTO"
-            resultType="com.puhj.rye.vo.PermissionListVO">
+    <select id="selectPageList" resultType="com.puhj.rye.vo.PermissionListVO">
         select id,
         name,
         info,
@@ -26,15 +23,16 @@
         update_time
         from permission
         <where>
-            <if test="permissionPageDTO.name != null and permissionPageDTO.name != ''">
-                and name like concat('%',#{permissionPageDTO.name},'%')
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
             </if>
-            <if test="permissionPageDTO.info != null and permissionPageDTO.info != ''">
-                and info like concat('%',#{permissionPageDTO.info},'%')
+            <if test="info != null and info != ''">
+                and info like concat('%',#{info},'%')
             </if>
-            <if test="permissionPageDTO.menuName != null and permissionPageDTO.menuName != ''">
-                and menu_name like concat('%',#{permissionPageDTO.menuName},'%')
+            <if test="menuName != null and menuName != ''">
+                and menu_name like concat('%',#{menuName},'%')
             </if>
         </where>
+        order by id
     </select>
 </mapper>
