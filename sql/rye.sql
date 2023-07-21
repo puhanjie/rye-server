@@ -34,7 +34,7 @@ CREATE TABLE `file`
     PRIMARY KEY (`id`),
     UNIQUE KEY `md5_del` (`uuid`, `delete_time`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 33
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='文件表';
 
@@ -53,7 +53,7 @@ CREATE TABLE `log`
     `operate_time` datetime(3)  NOT NULL                                         DEFAULT CURRENT_TIMESTAMP(3) COMMENT '操作时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 80
+  AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='操作日志表';
 
@@ -72,7 +72,7 @@ CREATE TABLE `permission`
     `update_time` datetime(3)                                                  NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 4
+  AUTO_INCREMENT = 20
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='权限表';
 
@@ -262,7 +262,7 @@ CREATE TABLE `user_role`
     PRIMARY KEY (`id`),
     KEY `user_id_role_id` (`user_id`, `role_id`) USING BTREE COMMENT '联合索引'
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 4
+  AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='用户角色表';
 
