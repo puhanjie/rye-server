@@ -86,75 +86,75 @@ VALUES (1, 'app:admin', '系统管理员', '*', '*', '2022-11-12 13:19:33.000',
         '2022-11-12 13:19:33.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (2, 'analysis:view', '分析页:查看', 'analysis', '分析页', '2022-11-12 13:19:33.000',
+VALUES (2, 'analysis:view', '查看', 'analysis', '分析页', '2022-11-12 13:19:33.000',
         '2022-11-12 13:19:33.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (3, 'user:add', '用户管理:新增', 'user', '用户管理', '2022-12-14 15:51:09.000',
+VALUES (3, 'user:add', '新增', 'user', '用户管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (4, 'user:delete', '用户管理:删除', 'user', '用户管理', '2022-12-14 15:51:09.000',
+VALUES (4, 'user:delete', '删除', 'user', '用户管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (5, 'user:update', '用户管理:修改', 'user', '用户管理', '2022-12-14 15:51:09.000',
+VALUES (5, 'user:update', '修改', 'user', '用户管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (6, 'user:view', '用户管理:查看', 'user', '用户管理', '2022-12-14 15:51:01.000',
+VALUES (6, 'user:view', '查看', 'user', '用户管理', '2022-12-14 15:51:01.000',
         '2022-12-14 15:51:06.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (7, 'user:resetPassword', '用户管理:重置密码', 'user', '用户管理', '2022-12-14 15:51:09.000',
+VALUES (7, 'user:resetPassword', '重置密码', 'user', '用户管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (8, 'user:batchDelete', '用户管理:批量删除', 'user', '用户管理', '2022-12-14 15:51:09.000',
+VALUES (8, 'user:batchDelete', '批量删除', 'user', '用户管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (9, 'role:add', '角色管理:新增', 'role', '角色管理', '2022-12-14 15:51:09.000',
+VALUES (9, 'role:add', '新增', 'role', '角色管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (10, 'role:delete', '角色管理:删除', 'role', '角色管理', '2022-12-14 15:51:09.000',
+VALUES (10, 'role:delete', '删除', 'role', '角色管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (11, 'role:update', '角色管理:修改', 'role', '角色管理', '2022-12-14 15:51:09.000',
+VALUES (11, 'role:update', '修改', 'role', '角色管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (12, 'role:view', '角色管理:查看', 'role', '角色管理', '2022-12-14 15:51:01.000',
+VALUES (12, 'role:view', '查看', 'role', '角色管理', '2022-12-14 15:51:01.000',
         '2022-12-14 15:51:06.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (13, 'role:batchDelete', '角色管理:批量删除', 'role', '角色管理', '2022-12-14 15:51:09.000',
+VALUES (13, 'role:batchDelete', '批量删除', 'role', '角色管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (14, 'permission:add', '权限管理:新增', 'permission', '权限管理', '2022-12-14 15:51:09.000',
+VALUES (14, 'permission:add', '新增', 'permission', '权限管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (15, 'permission:delete', '权限管理:删除', 'permission', '权限管理', '2022-12-14 15:51:09.000',
+VALUES (15, 'permission:delete', '删除', 'permission', '权限管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (16, 'permission:update', '权限管理:修改', 'permission', '权限管理', '2022-12-14 15:51:09.000',
+VALUES (16, 'permission:update', '修改', 'permission', '权限管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (17, 'permission:view', '权限管理:查看', 'permission', '权限管理', '2022-12-14 15:51:01.000',
+VALUES (17, 'permission:view', '查看', 'permission', '权限管理', '2022-12-14 15:51:01.000',
         '2022-12-14 15:51:06.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (18, 'permission:batchDelete', '权限管理:批量删除', 'permission', '权限管理', '2022-12-14 15:51:09.000',
+VALUES (18, 'permission:batchDelete', '批量删除', 'permission', '权限管理', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `menu_name`, `create_time`,
                           `update_time`)
-VALUES (19, 'settings:view', '个人设置:查看', 'settings', '个人设置', '2022-12-14 15:51:09.000',
+VALUES (19, 'settings:view', '查看', 'settings', '个人设置', '2022-12-14 15:51:09.000',
         '2022-12-14 15:51:13.000');
 COMMIT;
 
