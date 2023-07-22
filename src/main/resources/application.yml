@@ -28,11 +28,14 @@ server:
     uri-encoding: UTF-8
 
 jwt:
-  secret: rye   # jwt token签名
-  expired-time: 7200    # token令牌有效时长（单位：秒）
+  # jwt token签名
+  secret: rye
+  # token令牌有效时长(单位:秒)
+  expired-time: 7200
 
 files:
-  path: "res/upload" # 上传路径为项目路径下的res/upload
+  # 上传路径为项目路径下的res/upload
+  path: "res/upload"
 
 logging:
   config: classpath:config/logback-spring.xml

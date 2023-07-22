@@ -37,7 +37,7 @@ public class AuthRealm extends AuthorizingRealm {
     private PermissionService permissionService;
 
     /**
-     * 添加对自定义的AutoToken类型的支持，否则会报错
+     * 添加对自定义的AutoToken类型的支持,否则会报错
      */
     @Override
     public boolean supports(AuthenticationToken token) {

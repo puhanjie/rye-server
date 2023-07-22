@@ -20,7 +20,7 @@ import java.io.IOException;
 public class AuthFilter extends FormAuthenticationFilter {
 
     /**
-     * 返回true，直接允许访问url；返回false，进入onAccessDenied()根据返回值决定是否访问url
+     * 返回true,直接允许访问url;返回false,进入onAccessDenied()根据返回值决定是否访问url
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
@@ -30,10 +30,10 @@ public class AuthFilter extends FormAuthenticationFilter {
         try {
             token = req.getHeader("Authorization").split(" ")[1];
         } catch (Exception e) {
-            // token获取失败，一般是token为空
+            // token获取失败,一般是token为空
             return false;
         }
-        // token验证失败（仅验证合法性，不验证是否失效），返回false进入onAccessDenied方法执行
+        // token验证失败(仅验证合法性,不验证是否失效),返回false进入onAccessDenied方法执行
         if (!JwtUtil.verify(token)) {
             return false;
         }
@@ -49,7 +49,7 @@ public class AuthFilter extends FormAuthenticationFilter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        // 因过滤器中的异常无法被springboot全局异常类捕获，因此发生异常需要给response对象写入信息返回给前端
+        // 因过滤器中的异常无法被springboot全局异常类捕获,因此发生异常需要给response对象写入信息返回给前端
         ResultVO<?> result = ResultVO.fail(ResultCode.AUTHENTICATION_FAIL.getCode(),
                 ResultCode.AUTHENTICATION_FAIL.getMessage(),
                 req.getMethod() + " " + req.getRequestURI());

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL，如果设置为WARN，则低于WARN的信息都不会输出 -->
-<!-- scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true -->
-<!-- scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。 -->
-<!-- debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
+<!-- scan:当此属性设置为true时,配置文件如果发生改变,将会被重新加载,默认值为true -->
+<!-- scanPeriod:设置监测配置文件是否有修改的时间间隔,如果没有给出时间单位,默认单位是毫秒;当scan为true时,此属性生效;默认的时间间隔为1分钟 -->
+<!-- debug:当此属性设置为true时,将打印出logback内部日志信息;实时查看logback运行状态;默认值为false -->
 <configuration scan="true" debug="false" scanPeriod="10 seconds">
     <!-- 设置上下文名称 -->
     <contextname>rye-log</contextname>
-    <!-- 定义日志文件的存储地址, 这里设置为项目的根目录 -->
-    <!-- 若未打包成jar，则日志生成在当前项目根路径的logs下；若打包成jar，则生成在jar包所在同级目录的logs目录下 -->
+    <!-- 定义日志文件的存储地址,这里设置为项目的根目录 -->
+    <!-- 若未打包成jar,则日志生成在当前项目根路径的logs下;若打包成jar,则生成在jar包所在同级目录的logs目录下 -->
     <property name="LOG_HOME" value="logs"/>
 
     <!-- 将日志输出到控制台 -->
@@ -20,30 +20,30 @@
     <!-- 按照每天生成日志文件 -->
     <appender name="INFO_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的目录及文件名-->
+            <!-- 日志文件输出的目录及文件名 -->
             <FileNamePattern>${LOG_HOME}/%d{yyyy-MM-dd}.log</FileNamePattern>
-            <!--日志文件保留天数-->
+            <!-- 日志文件保留天数 -->
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <!-- 格式化输出:%d表示日期,%thread表示线程名,%-5level:级别从左显示5个字符宽度%msg:日志消息,%n是换行符 -->
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
-        <!--日志文件最大的大小-->
+        <!-- 日志文件最大的大小 -->
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
             <MaxFileSize>500MB</MaxFileSize>
         </triggeringPolicy>
     </appender>
 
-    <!--root节点 全局日志级别，用来指定最基础的日志输出级别-->
+    <!-- root节点 全局日志级别,用来指定最基础的日志输出级别 -->
     <root level="INFO">
-        <!-- 将日志输出到文件-->
+        <!-- 将日志输出到文件 -->
         <appender-ref ref="INFO_LOG"/>
-        <!-- 将日志输出到控制台-->
+        <!-- 将日志输出到控制台 -->
         <appender-ref ref="CONSOLE_LOG"/>
     </root>
-    <!-- 子节点向上级传递 局部(包级)日志级别-->
+    <!-- 子节点向上级传递 局部(包级)日志级别 -->
     <logger name="org.springframework.web" level="INFO"/>
     <logger name="org.springframework" level="INFO"/>
     <logger name="com.puhj.rye" level="DEBUG"/>

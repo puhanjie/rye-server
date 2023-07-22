@@ -58,7 +58,7 @@ public class CodeGenerator {
                 .execute();
     }
 
-    // 处理 all 情况
+    // 处理all情况
     protected static List<String> getTables(String tables) {
         return "all".equals(tables) ? Collections.emptyList() : Arrays.asList(tables.split(","));
     }

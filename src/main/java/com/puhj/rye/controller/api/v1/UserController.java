@@ -134,7 +134,7 @@ public class UserController {
         return this.userService.list();
     }
 
-    @Operation(summary = "修改密码", description = "type=1为重置密码，type=2为修改密码")
+    @Operation(summary = "修改密码", description = "type=1为重置密码,type=2为修改密码")
     @PutMapping("/password")
     @RequiresAuthentication
     public int updatePassword(@RequestBody PasswordDTO passwordDTO) {

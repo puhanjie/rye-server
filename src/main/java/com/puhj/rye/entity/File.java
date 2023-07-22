@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
  * @author puhanjie
  * @since 2022-12-14
  */
-@Schema(name = "File对象", description = "文件表")
+@Schema(name = "File", description = "文件表")
 @Data
 @TableName("file")
 public class File implements Serializable {
@@ -40,7 +40,7 @@ public class File implements Serializable {
     @TableField("name")
     private String name;
 
-    @Schema(description = "文件大小（Byte）")
+    @Schema(description = "文件大小(Byte)")
     @TableField("file_size")
     private Long fileSize;
 

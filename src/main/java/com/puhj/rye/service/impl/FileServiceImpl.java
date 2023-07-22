@@ -79,7 +79,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     @Override
     public void remove(String path, HttpServletRequest request) {
         String fileDir = System.getProperty("user.dir") + path.substring(BasePathUtil.getBasePath(request).length());
-        this.fileMapper.deleteByPath(path); // 删除了的文件，更新文件表的delete_time字段表示已删除
+        this.fileMapper.deleteByPath(path); // 删除了的文件,更新文件表的delete_time字段表示已删除
         FileSystemUtils.deleteRecursively(new java.io.File(fileDir));
     }
 
@@ -98,7 +98,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
              BufferedInputStream bis = new BufferedInputStream(fis)) {
             OutputStream os = response.getOutputStream();
             response.setContentType("application/octet-stream");
-            // attachment表示以附件形式下载，若为inline则表示在线方式打开；fileName为下载后的文件名
+            // attachment表示以附件形式下载,若为inline则表示在线方式打开;fileName为下载后的文件名
             response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
             response.setHeader("Content-Length", String.valueOf(folder.length()));
             int i = bis.read(buffer);

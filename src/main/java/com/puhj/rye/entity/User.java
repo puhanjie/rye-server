@@ -20,7 +20,7 @@ import java.util.Date;
  * @author puhanjie
  * @since 2022-11-30
  */
-@Schema(name = "User对象", description = "用户表")
+@Schema(name = "User", description = "用户表")
 @Data
 @TableName("user")
 public class User implements Serializable {

@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
  * @author puhanjie
  * @since 2022-11-30
  */
-@Schema(name = "Log对象", description = "操作日志表")
+@Schema(name = "Log", description = "操作日志表")
 @Data
 @TableName("log")
 public class Log implements Serializable {

@@ -20,7 +20,7 @@ import java.util.Date;
  * @author puhanjie
  * @since 2022-11-30
  */
-@Schema(name = "Permission对象", description = "权限表")
+@Schema(name = "Permission", description = "权限表")
 @Data
 @TableName("permission")
 public class Permission implements Serializable {

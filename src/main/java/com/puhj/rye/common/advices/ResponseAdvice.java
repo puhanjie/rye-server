@@ -33,7 +33,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     /*
      * 判断是否要执行 beforeBodyWrite 方法（true:执行;false:不执行）
-     * 因整合了springdoc，所以springdoc相关资源返回false，不进行拦截
+     * 因整合了springdoc,所以springdoc相关资源返回false,不进行拦截
      */
     @Override
     public boolean supports(@NotNull MethodParameter returnType, @NotNull Class<? extends HttpMessageConverter<?>> converterType) {
@@ -42,7 +42,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object body, @NotNull MethodParameter returnType, @NotNull MediaType selectedContentType, @NotNull Class<? extends HttpMessageConverter<?>> selectedConverterType, @NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response) {
-        // 若已controller返回结果是ResultVO类型，则直接返回
+        // 若已controller返回结果是ResultVO类型,则直接返回
         if (body instanceof ResultVO) {
             return body;
         }
