@@ -17,20 +17,6 @@
         </collection>
     </resultMap>
 
-    <select id="selectByUsername" parameterType="java.lang.String" resultType="com.puhj.rye.entity.User">
-        select id,
-               username,
-               password,
-               phone,
-               avatar,
-               email,
-               create_time,
-               update_time,
-               delete_time
-        from user
-        where username = #{username}
-    </select>
-
     <select id="selectPageList" resultMap="userList">
         select u.id,
         u.username,

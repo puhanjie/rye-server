@@ -18,8 +18,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
-    User selectByUsername(String username);
-
     Page<UserListVO> selectPageList(Page<UserListVO> page,
                                     @Param("username") String username,
                                     @Param("phone") String phone,
