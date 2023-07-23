@@ -70,7 +70,8 @@ CREATE TABLE `permission`
     `menu_name`   varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci          DEFAULT NULL COMMENT '隶属菜单名称',
     `create_time` datetime(3)                                                  NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
     `update_time` datetime(3)                                                  NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
-    PRIMARY KEY (`id`) USING BTREE
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `username` (`name`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 20
   DEFAULT CHARSET = utf8mb4
@@ -171,6 +172,7 @@ CREATE TABLE `role`
     `update_time` datetime(3)                                                  NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
     `delete_time` datetime(3)                                                           DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`),
+    UNIQUE KEY `username` (`name`),
     UNIQUE KEY `name_del` (`name`, `delete_time`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
@@ -199,7 +201,7 @@ CREATE TABLE `role_permission`
     PRIMARY KEY (`id`),
     KEY `role_id_permission_id` (`role_id`, `permission_id`) USING BTREE COMMENT '联合索引'
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 3
+  AUTO_INCREMENT = 4
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='角色权限表';
 
@@ -211,6 +213,8 @@ INSERT INTO `role_permission` (`id`, `role_id`, `permission_id`)
 VALUES (1, 1, 1);
 INSERT INTO `role_permission` (`id`, `role_id`, `permission_id`)
 VALUES (2, 2, 2);
+INSERT INTO `role_permission` (`id`, `role_id`, `permission_id`)
+VALUES (3, 2, 19);
 COMMIT;
 
 -- ----------------------------
@@ -229,6 +233,7 @@ CREATE TABLE `user`
     `update_time` datetime(3)                                                  NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
     `delete_time` datetime(3)                                                           DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`),
+    UNIQUE KEY `username` (`username`),
     UNIQUE KEY `username_del` (`username`, `delete_time`),
     UNIQUE KEY `email_del` (`email`, `delete_time`)
 ) ENGINE = InnoDB

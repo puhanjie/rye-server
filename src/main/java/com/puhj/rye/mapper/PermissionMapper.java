@@ -7,8 +7,6 @@ import com.puhj.rye.vo.PermissionListVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 /**
  * <p>
  * 权限表 Mapper 接口
@@ -19,8 +17,6 @@ import java.util.List;
  */
 @Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
-
-    List<Permission> selectListByRoleId(Integer roleId);
 
     Page<PermissionListVO> selectPageList(Page<PermissionListVO> page,
                                           @Param("name") String name,

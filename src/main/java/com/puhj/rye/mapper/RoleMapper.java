@@ -7,8 +7,6 @@ import com.puhj.rye.vo.RoleListVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 /**
  * <p>
  * 角色表 Mapper 接口
@@ -19,8 +17,6 @@ import java.util.List;
  */
 @Mapper
 public interface RoleMapper extends BaseMapper<Role> {
-
-    List<Role> selectListByUserId(Integer userId);
 
     Page<RoleListVO> selectPageList(Page<RoleListVO> page,
                                     @Param("name") String name,

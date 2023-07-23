@@ -9,11 +9,8 @@ import com.puhj.rye.common.exception.PasswordErrorException;
 import com.puhj.rye.common.utils.JwtUtil;
 import com.puhj.rye.dto.LoginDTO;
 import com.puhj.rye.dto.PasswordDTO;
-import com.puhj.rye.entity.Permission;
-import com.puhj.rye.entity.Role;
+import com.puhj.rye.dto.UserDTO;
 import com.puhj.rye.entity.User;
-import com.puhj.rye.service.PermissionService;
-import com.puhj.rye.service.RoleService;
 import com.puhj.rye.service.UserService;
 import com.puhj.rye.vo.PageVO;
 import com.puhj.rye.vo.TokenVO;
@@ -23,11 +20,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,14 +42,8 @@ public class UserController {
 
     private final UserService userService;
 
-    private final RoleService roleService;
-
-    private final PermissionService permissionService;
-
-    public UserController(UserService userService, RoleService roleService, PermissionService permissionService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
-        this.permissionService = permissionService;
     }
 
     @Operation(summary = "登陆", description = "用户登陆接口")
@@ -76,8 +65,8 @@ public class UserController {
     @Operation(summary = "新增用户", description = "增加一个用户")
     @PostMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.ADD}, logical = Logical.OR)
-    public boolean add(@RequestBody User user) {
-        return this.userService.save(user);
+    public boolean add(@RequestBody UserDTO userDTO) {
+        return this.userService.add(userDTO);
     }
 
     @Operation(summary = "删除用户", description = "根据用户id数组删除用户")
@@ -90,22 +79,15 @@ public class UserController {
     @Operation(summary = "修改用户", description = "修改用户信息")
     @PutMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.UPDATE}, logical = Logical.OR)
-    public boolean edit(@RequestBody User user) {
-        return this.userService.updateById(user);
+    public boolean edit(@RequestBody UserDTO userDTO) {
+        return this.userService.edit(userDTO);
     }
 
     @Operation(summary = "获取当前用户", description = "通过token获取当前登陆用户信息")
     @GetMapping("myself")
     @RequiresAuthentication
     public UserInfoVO getInfo() {
-        Subject subject = SecurityUtils.getSubject();
-        String token = subject.getPrincipal().toString();
-        User user = this.userService.getByUsername(JwtUtil.getTokenInfo(token));
-
-        List<Role> userRoles = roleService.getListByUserId(user.getId());
-        List<Permission> userPermissions = permissionService.getListByRoles(userRoles);
-
-        return new UserInfoVO(user, userRoles, userPermissions);
+        return this.userService.getInfo();
     }
 
     @Operation(summary = "查询用户列表", description = "分页查询用户列表")

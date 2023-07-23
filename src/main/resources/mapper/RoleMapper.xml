@@ -14,17 +14,6 @@
         </collection>
     </resultMap>
 
-    <select id="selectListByUserId" parameterType="java.lang.Integer" resultType="com.puhj.rye.entity.Role">
-        select id,
-               name,
-               info,
-               create_time,
-               update_time,
-               delete_time
-        from role
-        where id in (select role_id from user_role where user_id = #{userId})
-    </select>
-
     <select id="selectPageList" resultMap="roleList">
         select r.id,
         r.name,

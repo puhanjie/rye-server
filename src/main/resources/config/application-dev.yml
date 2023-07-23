@@ -10,4 +10,9 @@ springdoc:
     # 开启api-docs
     enabled: true
   # 配置需要生成接口文档的扫描包
-  packages-to-scan: com.puhj.rye.controller.api.v1
+  packages-to-scan: com.puhj.rye.controller.api
+
+mybatis-plus:
+  configuration:
+    # 控制台打印sql语句
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

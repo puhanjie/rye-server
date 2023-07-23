@@ -2,6 +2,7 @@ package com.puhj.rye.controller.api.v1;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.puhj.rye.common.constant.Permissions;
+import com.puhj.rye.dto.RoleDTO;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.service.RoleService;
 import com.puhj.rye.vo.PageVO;
@@ -38,8 +39,8 @@ public class RoleController {
     @Operation(summary = "新增角色", description = "新增一个角色")
     @PostMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.ADD}, logical = Logical.OR)
-    public boolean add(@RequestBody Role role) {
-        return this.roleService.save(role);
+    public boolean add(@RequestBody RoleDTO roleDTO) {
+        return this.roleService.add(roleDTO);
     }
 
     @Operation(summary = "删除角色", description = "根据角色id数组删除角色")
@@ -52,8 +53,8 @@ public class RoleController {
     @Operation(summary = "修改角色", description = "修改角色信息")
     @PutMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.UPDATE}, logical = Logical.OR)
-    public boolean edit(@RequestBody Role role) {
-        return this.roleService.updateById(role);
+    public boolean edit(@RequestBody RoleDTO roleDTO) {
+        return this.roleService.edit(roleDTO);
     }
 
     @Operation(summary = "查询角色列表", description = "分页查询角色列表")
