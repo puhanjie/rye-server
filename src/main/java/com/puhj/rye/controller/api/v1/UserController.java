@@ -84,7 +84,7 @@ public class UserController {
     }
 
     @Operation(summary = "获取当前用户", description = "通过token获取当前登陆用户信息")
-    @GetMapping("myself")
+    @GetMapping("/info")
     @RequiresAuthentication
     public UserInfoVO getInfo() {
         return this.userService.getInfo();
@@ -98,21 +98,21 @@ public class UserController {
             @Parameter(name = "phone", description = "手机"),
             @Parameter(name = "email", description = "邮箱")
     })
-    @GetMapping("/list")
+    @GetMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.VIEW}, logical = Logical.OR)
-    public PageVO<UserListVO> getPageList(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                          @RequestParam(value = "username", required = false) String username,
-                                          @RequestParam(value = "phone", required = false) String phone,
-                                          @RequestParam(value = "email", required = false) String email) {
+    public PageVO<UserListVO> query(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                    @RequestParam(value = "username", required = false) String username,
+                                    @RequestParam(value = "phone", required = false) String phone,
+                                    @RequestParam(value = "email", required = false) String email) {
         Page<UserListVO> page = new Page<>(pageNum, pageSize);
-        return this.userService.getPageList(page, username, phone, email);
+        return this.userService.query(page, username, phone, email);
     }
 
     @Operation(summary = "查询所有用户", description = "查询所有用户数据")
-    @GetMapping("/all")
+    @GetMapping("/list")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.VIEW}, logical = Logical.OR)
-    public List<User> getAll() {
+    public List<User> getList() {
         return this.userService.list();
     }
 

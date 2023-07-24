@@ -88,8 +88,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public PageVO<RoleListVO> getPageList(Page<RoleListVO> page, String name, String info) {
-        Page<RoleListVO> pageList = this.roleMapper.selectPageList(page, name, info);
+    public PageVO<RoleListVO> query(Page<RoleListVO> page, String name, String info) {
+        Page<RoleListVO> pageList = this.roleMapper.query(page, name, info);
         return new PageVO<>(pageList);
     }
 

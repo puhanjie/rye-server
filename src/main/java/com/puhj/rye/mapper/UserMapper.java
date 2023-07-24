@@ -18,9 +18,9 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
-    Page<UserListVO> selectPageList(Page<UserListVO> page,
-                                    @Param("username") String username,
-                                    @Param("phone") String phone,
-                                    @Param("email") String email);
+    Page<UserListVO> query(Page<UserListVO> page,
+                           @Param("username") String username,
+                           @Param("phone") String phone,
+                           @Param("email") String email);
 
 }

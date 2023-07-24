@@ -64,21 +64,21 @@ public class PermissionController {
             @Parameter(name = "info", description = "权限信息"),
             @Parameter(name = "menuName", description = "菜单名称")
     })
-    @GetMapping("/list")
+    @GetMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.VIEW}, logical = Logical.OR)
-    public PageVO<PermissionListVO> getPageList(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                                @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                                @RequestParam(value = "name", required = false) String name,
-                                                @RequestParam(value = "info", required = false) String info,
-                                                @RequestParam(value = "menuName", required = false) String menuName) {
+    public PageVO<PermissionListVO> query(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                          @RequestParam(value = "name", required = false) String name,
+                                          @RequestParam(value = "info", required = false) String info,
+                                          @RequestParam(value = "menuName", required = false) String menuName) {
         Page<PermissionListVO> page = new Page<>(pageNum, pageSize);
-        return this.permissionService.getPageList(page, name, info, menuName);
+        return this.permissionService.query(page, name, info, menuName);
     }
 
     @Operation(summary = "查询所有权限", description = "查询所有权限数据")
-    @GetMapping("/all")
+    @GetMapping("/list")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.VIEW}, logical = Logical.OR)
-    public List<Permission> getAll() {
+    public List<Permission> getList() {
         return this.permissionService.list();
     }
 

@@ -118,8 +118,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public PageVO<UserListVO> getPageList(Page<UserListVO> page, String username, String phone, String email) {
-        Page<UserListVO> pageList = this.userMapper.selectPageList(page, username, phone, email);
+    public PageVO<UserListVO> query(Page<UserListVO> page, String username, String phone, String email) {
+        Page<UserListVO> pageList = this.userMapper.query(page, username, phone, email);
         return new PageVO<>(pageList);
     }
 
