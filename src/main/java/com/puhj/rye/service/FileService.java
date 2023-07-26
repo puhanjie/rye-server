@@ -3,6 +3,7 @@ package com.puhj.rye.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.puhj.rye.entity.File;
 import com.puhj.rye.vo.FileVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public interface FileService extends IService<File> {
 
-    List<FileVO> upload(HttpServletRequest request) throws IOException;
+    List<FileVO> upload(MultipartFile[] files, HttpServletRequest request) throws IOException;
 
     void remove(String path, HttpServletRequest request);
 

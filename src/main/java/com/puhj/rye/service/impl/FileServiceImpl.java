@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,10 +42,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     }
 
     @Override
-    public List<FileVO> upload(HttpServletRequest request) throws IOException {
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        Map<String, MultipartFile> files = multipartRequest.getFileMap();
-
+    public List<FileVO> upload(MultipartFile[] files, HttpServletRequest request) throws IOException {
         // 创建目录
         String fileDir = System.getProperty("user.dir");
         String dateFormat = DateUtil.getDateFormat(new Date(), "yyyyMMdd");
@@ -59,13 +55,13 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         }
 
         List<FileVO> fileList = new ArrayList<>();
-        for (Map.Entry<String, MultipartFile> entry : files.entrySet()) {
-            String fileName = entry.getValue().getOriginalFilename();
-            Long fileSize = entry.getValue().getSize();
+        for (MultipartFile file : files) {
+            String fileName = file.getOriginalFilename();
+            Long fileSize = file.getSize();
             String uuid = UUID.randomUUID().toString();
             String saveName = uuid + Objects.requireNonNull(fileName).substring(fileName.lastIndexOf("."));
 
-            entry.getValue().transferTo(new java.io.File(folder, saveName));
+            file.transferTo(new java.io.File(folder, saveName));
 
             String filePath = BasePathUtil.getBasePath(request) + "/" + this.path + "/" + dateFormat + "/" + saveName;
             fileList.add(new FileVO(fileName, uuid, filePath));

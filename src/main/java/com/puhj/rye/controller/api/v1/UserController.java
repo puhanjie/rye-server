@@ -12,19 +12,22 @@ import com.puhj.rye.dto.PasswordDTO;
 import com.puhj.rye.dto.UserDTO;
 import com.puhj.rye.entity.User;
 import com.puhj.rye.service.UserService;
-import com.puhj.rye.vo.PageVO;
-import com.puhj.rye.vo.TokenVO;
-import com.puhj.rye.vo.UserInfoVO;
-import com.puhj.rye.vo.UserListVO;
+import com.puhj.rye.vo.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -132,6 +135,23 @@ public class UserController {
             }
         }
         return this.userService.updatePassword(new PasswordBO(passwordDTO.getUserId(), passwordDTO.getNewPassword()));
+    }
+
+    @Operation(summary = "修改头像", description = "修改用户头像")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(content = {@Content(
+            mediaType = "multipart/form-data",
+            schema = @Schema(type = "object"),
+            schemaProperties = {
+                    @SchemaProperty(
+                            name = "files",
+                            schema = @Schema(type = "string", format = "binary")
+                    )
+            }
+    )})
+    @PutMapping("/avatar")
+    @RequiresAuthentication
+    public AvatarVO modifyAvatar(@RequestBody MultipartFile[] files, HttpServletRequest request) throws IOException {
+        return this.userService.modifyAvatar(files, request);
     }
 
 }

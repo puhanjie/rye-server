@@ -1,7 +1,7 @@
 springdoc:
   swagger-ui:
-    # 配置swagger ui访问路径为: http://localhost:8088/swagger-ui/index.html
-    path: /index.html
+    # swagger ui默认访问路径: http://localhost:8088/swagger-ui/index.html
+    # 若需自定义swagger ui访问路径,则增加springdoc.swagger-ui.path配置
     # 开启swagger ui界面
     enabled: true
   api-docs:

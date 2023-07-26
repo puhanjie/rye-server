@@ -4,9 +4,13 @@ package com.puhj.rye.controller.api.v1;
 import com.puhj.rye.service.FileService;
 import com.puhj.rye.vo.FileVO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,10 +37,20 @@ public class FileController {
     }
 
     @Operation(summary = "文件上传", description = "上传一个或多个文件")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(content = {@Content(
+            mediaType = "multipart/form-data",
+            schema = @Schema(type = "object"),
+            schemaProperties = {
+                    @SchemaProperty(
+                            name = "files",
+                            schema = @Schema(type = "string", format = "binary")
+                    )
+            }
+    )})
     @PostMapping
     @RequiresAuthentication
-    public List<FileVO> upload(HttpServletRequest request) throws IOException {
-        return this.fileService.upload(request);
+    public List<FileVO> upload(@RequestBody MultipartFile[] files, HttpServletRequest request) throws IOException {
+        return this.fileService.upload(files, request);
     }
 
     @Operation(summary = "删除文件", description = "根据文件路径删除一个文件")

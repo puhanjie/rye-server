@@ -12,17 +12,15 @@ import com.puhj.rye.entity.Role;
 import com.puhj.rye.entity.User;
 import com.puhj.rye.entity.UserRole;
 import com.puhj.rye.mapper.UserMapper;
-import com.puhj.rye.service.PermissionService;
-import com.puhj.rye.service.RoleService;
-import com.puhj.rye.service.UserRoleService;
-import com.puhj.rye.service.UserService;
-import com.puhj.rye.vo.PageVO;
-import com.puhj.rye.vo.UserInfoVO;
-import com.puhj.rye.vo.UserListVO;
+import com.puhj.rye.service.*;
+import com.puhj.rye.vo.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -44,14 +42,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     private final UserRoleService userRoleService;
 
+    private final FileService fileService;
+
     public UserServiceImpl(UserMapper userMapper,
                            RoleService roleService,
                            PermissionService permissionService,
-                           UserRoleService userRoleService) {
+                           UserRoleService userRoleService,
+                           FileService fileService) {
         this.userMapper = userMapper;
         this.roleService = roleService;
         this.permissionService = permissionService;
         this.userRoleService = userRoleService;
+        this.fileService = fileService;
     }
 
     @Override
@@ -130,6 +132,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         updateWrapper.eq("id", passwordBO.getUserId());
         updateWrapper.set("password", passwordBO.getNewPassword());
         return this.userMapper.update(user, updateWrapper);
+    }
+
+    @Override
+    public AvatarVO modifyAvatar(MultipartFile[] files, HttpServletRequest request) throws IOException {
+        Subject subject = SecurityUtils.getSubject();
+        String token = subject.getPrincipal().toString();
+        User user = this.getByUsername(JwtUtil.getTokenInfo(token));
+
+        // 删除原有头像文件
+        if (!user.getAvatar().isBlank()) {
+            this.fileService.remove(user.getAvatar(), request);
+        }
+        FileVO avatar = this.fileService.upload(files, request).get(0);
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", user.getId()).set("avatar", avatar.getFilePath());
+        this.userMapper.update(user, updateWrapper);
+        return new AvatarVO(avatar.getFilePath());
     }
 
 }

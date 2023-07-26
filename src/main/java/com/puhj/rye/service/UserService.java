@@ -5,9 +5,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.puhj.rye.bo.PasswordBO;
 import com.puhj.rye.dto.UserDTO;
 import com.puhj.rye.entity.User;
+import com.puhj.rye.vo.AvatarVO;
 import com.puhj.rye.vo.PageVO;
 import com.puhj.rye.vo.UserInfoVO;
 import com.puhj.rye.vo.UserListVO;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * <p>
@@ -30,5 +35,7 @@ public interface UserService extends IService<User> {
     PageVO<UserListVO> query(Page<UserListVO> page, String username, String phone, String email);
 
     int updatePassword(PasswordBO passwordBO);
+
+    AvatarVO modifyAvatar(MultipartFile[] files, HttpServletRequest request) throws IOException;
 
 }
