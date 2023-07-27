@@ -44,8 +44,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     }
 
     @Override
-    public PageVO<PermissionListVO> query(Page<PermissionListVO> page, String name, String info, String menuName) {
-        Page<PermissionListVO> pageList = this.permissionMapper.query(page, name, info, menuName);
+    public PageVO<PermissionListVO> query(Page<PermissionListVO> page, String name, String info, String menu) {
+        Page<PermissionListVO> pageList = this.permissionMapper.query(page, name, info, menu);
         return new PageVO<>(pageList);
     }
 

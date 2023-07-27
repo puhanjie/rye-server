@@ -28,6 +28,12 @@ public class UserInfoVO {
     @Schema(description = "用户名")
     private String username;
 
+    @Schema(description = "昵称")
+    private String nickname;
+
+    @Schema(description = "用户状态")
+    private String userStatus;
+
     @Schema(description = "手机")
     private String phone;
 
@@ -46,6 +52,8 @@ public class UserInfoVO {
     public UserInfoVO(User user, List<Role> roles, List<Permission> permissions) {
         this.id = user.getId();
         this.username = user.getUsername();
+        this.nickname = user.getNickname();
+        this.userStatus = user.getUserStatus();
         this.phone = user.getPhone();
         this.avatar = user.getAvatar();
         this.email = user.getEmail();

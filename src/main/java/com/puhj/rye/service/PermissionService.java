@@ -21,6 +21,6 @@ public interface PermissionService extends IService<Permission> {
 
     List<Permission> getListByRoles(List<Role> roles);
 
-    PageVO<PermissionListVO> query(Page<PermissionListVO> page, String name, String info, String menuName);
+    PageVO<PermissionListVO> query(Page<PermissionListVO> page, String name, String info, String menu);
 
 }

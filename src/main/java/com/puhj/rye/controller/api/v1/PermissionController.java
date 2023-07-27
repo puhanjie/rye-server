@@ -44,7 +44,7 @@ public class PermissionController {
 
     @Operation(summary = "删除权限", description = "根据权限id数组删除权限")
     @DeleteMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.DELETE}, logical = Logical.OR)
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.DELETE, Permissions.Permission.BATCHDELETE}, logical = Logical.OR)
     public boolean remove(@RequestBody List<Integer> ids) {
         return this.permissionService.removeByIds(ids);
     }
@@ -62,7 +62,7 @@ public class PermissionController {
             @Parameter(name = "pageSize", description = "每页数据大小"),
             @Parameter(name = "name", description = "权限名"),
             @Parameter(name = "info", description = "权限信息"),
-            @Parameter(name = "menuName", description = "菜单名称")
+            @Parameter(name = "menu", description = "菜单")
     })
     @GetMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.VIEW}, logical = Logical.OR)
@@ -70,9 +70,9 @@ public class PermissionController {
                                           @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                           @RequestParam(value = "name", required = false) String name,
                                           @RequestParam(value = "info", required = false) String info,
-                                          @RequestParam(value = "menuName", required = false) String menuName) {
+                                          @RequestParam(value = "menu", required = false) String menu) {
         Page<PermissionListVO> page = new Page<>(pageNum, pageSize);
-        return this.permissionService.query(page, name, info, menuName);
+        return this.permissionService.query(page, name, info, menu);
     }
 
     @Operation(summary = "查询所有权限", description = "查询所有权限数据")

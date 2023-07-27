@@ -28,11 +28,8 @@ public class PermissionListVO {
     @Schema(description = "权限信息")
     private String info;
 
-    @Schema(description = "隶属菜单")
+    @Schema(description = "菜单")
     private String menu;
-
-    @Schema(description = "隶属菜单名称")
-    private String menuName;
 
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

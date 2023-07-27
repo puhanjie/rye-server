@@ -32,7 +32,7 @@ public class Permission implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @Schema(description = "权限名称")
+    @Schema(description = "权限名")
     @TableField("name")
     private String name;
 
@@ -40,13 +40,9 @@ public class Permission implements Serializable {
     @TableField("info")
     private String info;
 
-    @Schema(description = "归属菜单")
+    @Schema(description = "菜单")
     @TableField("menu")
     private String menu;
-
-    @Schema(description = "归属菜单名称")
-    @TableField("menu_name")
-    private String menuName;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "创建时间")

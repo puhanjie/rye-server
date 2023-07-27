@@ -60,6 +60,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean add(UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
+        user.setNickname(userDTO.getNickname());
+        user.setUserStatus(userDTO.getUserStatus());
         user.setPassword(userDTO.getPassword());
         user.setPhone(userDTO.getPhone());
         user.setAvatar(userDTO.getAvatar());
@@ -92,6 +94,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", userDTO.getId())
                 .set("username", userDTO.getUsername())
+                .set("nickname", userDTO.getNickname())
+                .set("user_status", userDTO.getUserStatus())
                 .set("phone", userDTO.getPhone())
                 .set("avatar", userDTO.getAvatar())
                 .set("email", userDTO.getEmail());

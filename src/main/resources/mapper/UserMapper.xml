@@ -4,6 +4,8 @@
     <resultMap id="userList" type="com.puhj.rye.vo.UserListVO">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="user_status" property="userStatus"/>
         <result column="password" property="password"/>
         <result column="phone" property="phone"/>
         <result column="avatar" property="avatar"/>
@@ -20,6 +22,8 @@
     <select id="query" resultMap="userList">
         select u.id,
         u.username,
+        u.nickname,
+        d.item_text as user_status,
         u.phone,
         u.avatar,
         u.email,
@@ -29,6 +33,7 @@
         r.name rname,
         r.info rinfo
         from user u
+        left join dictionary d on d.dict_name = 'user_status' and u.user_status = d.item_value
         left join user_role `ur` on u.id = `ur`.user_id
         left join role r on `ur`.role_id = r.id
         <where>

@@ -6,7 +6,6 @@
         name,
         info,
         menu,
-        menu_name,
         create_time,
         update_time
         from permission
@@ -17,8 +16,8 @@
             <if test="info != null and info != ''">
                 and info like concat('%',#{info},'%')
             </if>
-            <if test="menuName != null and menuName != ''">
-                and menu_name like concat('%',#{menuName},'%')
+            <if test="menu != null and menu != ''">
+                and menu = #{menu}
             </if>
         </where>
         order by id

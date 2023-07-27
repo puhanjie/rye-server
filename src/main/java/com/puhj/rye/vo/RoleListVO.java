@@ -37,7 +37,7 @@ public class RoleListVO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
-    @Schema(description = "对应权限")
+    @Schema(description = "权限")
     private List<PermissionSimpleVO> permissions;
 
 }

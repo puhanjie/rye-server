@@ -10,7 +10,6 @@ import com.puhj.rye.vo.TokenVO;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -36,12 +35,7 @@ public class LogAspect {
         this.logService = logService;
     }
 
-    // 定义切点
-    @Pointcut("execution(public * com.puhj.rye.common.advices.ResponseAdvice.beforeBodyWrite(..))")
-    public void resultPointcut() {
-    }
-
-    @AfterReturning(value = "resultPointcut()", returning = "result")
+    @AfterReturning(pointcut = "execution(public * com.puhj.rye.common.advices.ResponseAdvice.beforeBodyWrite(..))", returning = "result")
     public void getResult(Object result) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = attributes.getRequest();

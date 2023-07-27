@@ -3,6 +3,7 @@ package com.puhj.rye.common.advices;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.NotFoundUserException;
 import com.puhj.rye.common.exception.PasswordErrorException;
+import com.puhj.rye.common.exception.UserStatusException;
 import com.puhj.rye.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
@@ -106,6 +107,15 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
         return ResultVO.fail(ResultCode.NO_HANDLE_FOUND.getCode(), ResultCode.NO_HANDLE_FOUND.getMessage(), method + " " + requestUrl);
+    }
+
+    @ExceptionHandler(value = UserStatusException.class)
+    @ResponseStatus(code = HttpStatus.FORBIDDEN)
+    public ResultVO<?> handleUserStatusException(HttpServletRequest request, UserStatusException e) {
+        log.error(e.getMessage(), e);
+        String requestUrl = request.getRequestURI();
+        String method = request.getMethod();
+        return ResultVO.fail(e.getCode(), e.getMsg(), method + " " + requestUrl);
     }
 
 }

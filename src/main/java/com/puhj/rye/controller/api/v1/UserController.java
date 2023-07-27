@@ -6,6 +6,7 @@ import com.puhj.rye.common.constant.Permissions;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.NotFoundUserException;
 import com.puhj.rye.common.exception.PasswordErrorException;
+import com.puhj.rye.common.exception.UserStatusException;
 import com.puhj.rye.common.utils.JwtUtil;
 import com.puhj.rye.dto.LoginDTO;
 import com.puhj.rye.dto.PasswordDTO;
@@ -60,6 +61,10 @@ public class UserController {
         if (!loginUser.getPassword().equals(user.getPassword())) {
             throw new PasswordErrorException(ResultCode.PASSWORD_ERROR.getCode(), ResultCode.PASSWORD_ERROR.getMessage());
         }
+        // 用户状态异常
+        if (!"0".equals(loginUser.getUserStatus())) {
+            throw new UserStatusException(ResultCode.USER_STATUS_ERROR.getCode(), ResultCode.USER_STATUS_ERROR.getMessage());
+        }
 
         String token = JwtUtil.createToken(loginUser.getUsername());
         return new TokenVO(token);
@@ -74,7 +79,7 @@ public class UserController {
 
     @Operation(summary = "删除用户", description = "根据用户id数组删除用户")
     @DeleteMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.DELETE}, logical = Logical.OR)
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.DELETE, Permissions.User.BATCHDELETE}, logical = Logical.OR)
     public boolean remove(@RequestBody List<Integer> ids) {
         return this.userService.removeByIds(ids);
     }

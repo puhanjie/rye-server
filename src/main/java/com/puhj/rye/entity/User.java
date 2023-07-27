@@ -32,9 +32,17 @@ public class User implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @Schema(description = "用户名，唯一")
+    @Schema(description = "用户名(唯一)")
     @TableField("username")
     private String username;
+
+    @Schema(description = "昵称")
+    @TableField("nickname")
+    private String nickname;
+
+    @Schema(description = "用户状态(字典:user_status)")
+    @TableField("user_status")
+    private String userStatus;
 
     @Schema(description = "登陆密码")
     @TableField("password")
