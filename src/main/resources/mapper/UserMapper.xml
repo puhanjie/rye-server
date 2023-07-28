@@ -23,7 +23,7 @@
         select u.id,
         u.username,
         u.nickname,
-        d.item_text as user_status,
+        u.user_status,
         u.phone,
         u.avatar,
         u.email,

@@ -73,4 +73,14 @@ public class DictionaryController {
         return this.dictionaryService.query(page, dictName, itemText);
     }
 
+    @Operation(summary = "查询字典", description = "根据字典类型查询字典列表")
+    @Parameters({
+            @Parameter(name = "dictName", description = "字典名")
+    })
+    @GetMapping("/list")
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Dictionary.VIEW}, logical = Logical.OR)
+    public List<Dictionary> getList(@RequestParam String dictName) {
+        return this.dictionaryService.getList(dictName);
+    }
+
 }
