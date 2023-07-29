@@ -5,7 +5,7 @@ import com.puhj.rye.entity.Log;
 import com.puhj.rye.entity.User;
 import com.puhj.rye.service.LogService;
 import com.puhj.rye.service.UserService;
-import com.puhj.rye.vo.ResultVO;
+import com.puhj.rye.vo.ResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -46,7 +46,7 @@ public class LogAspect {
 
         String token = request.getHeader("Authorization").split(" ")[1];
         User user = this.userService.getByUsername(JwtUtil.getTokenInfo(token));
-        ResultVO<?> res = (ResultVO<?>) result;
+        ResponseVO<?> res = (ResponseVO<?>) result;
         Log operateLog = new Log(res.getCode(), res.getMessage(), user.getId(), user.getUsername(), res.getRequest());
         // 记录操作日志和系统运行日志
         this.logService.add(operateLog);

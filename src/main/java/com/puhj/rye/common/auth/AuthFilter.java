@@ -3,7 +3,7 @@ package com.puhj.rye.common.auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.utils.JwtUtil;
-import com.puhj.rye.vo.ResultVO;
+import com.puhj.rye.vo.ResponseVO;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 
 import javax.servlet.ServletRequest;
@@ -50,7 +50,7 @@ public class AuthFilter extends FormAuthenticationFilter {
         HttpServletResponse resp = (HttpServletResponse) response;
 
         // 因过滤器中的异常无法被springboot全局异常类捕获,因此发生异常需要给response对象写入信息返回给前端
-        ResultVO<?> result = ResultVO.fail(ResultCode.AUTHENTICATION_FAIL.getCode(),
+        ResponseVO<?> result = ResponseVO.fail(ResultCode.AUTHENTICATION_FAIL.getCode(),
                 ResultCode.AUTHENTICATION_FAIL.getMessage(),
                 req.getMethod() + " " + req.getRequestURI());
 

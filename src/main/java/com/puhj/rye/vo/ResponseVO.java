@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
  * @description 统一数据响应对象
  * @create 2022-3-19
  */
-@Schema(name = "ResultVO", description = "统一数据响应对象")
+@Schema(name = "ResponseVO", description = "统一数据响应对象")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResultVO<T> {
+public class ResponseVO<T> {
 
     @Schema(description = "响应状态码")
     @JsonProperty(index = 0)
@@ -36,23 +36,23 @@ public class ResultVO<T> {
     @JsonProperty(index = 3)
     private T data;
 
-    public static <T> ResultVO<T> success(T data, String request) {
-        ResultVO<T> resultVO = new ResultVO<>();
-        resultVO.setCode(ResultCode.SUCCESS.getCode());
-        resultVO.setMessage(ResultCode.SUCCESS.getMessage());
-        resultVO.setRequest(request);
-        resultVO.setData(data);
+    public static <T> ResponseVO<T> success(T data, String request) {
+        ResponseVO<T> responseVO = new ResponseVO<>();
+        responseVO.setCode(ResultCode.SUCCESS.getCode());
+        responseVO.setMessage(ResultCode.SUCCESS.getMessage());
+        responseVO.setRequest(request);
+        responseVO.setData(data);
 
-        return resultVO;
+        return responseVO;
     }
 
-    public static <T> ResultVO<T> fail(Integer code, String message, String request) {
-        ResultVO<T> resultVO = new ResultVO<>();
-        resultVO.setCode(code);
-        resultVO.setMessage(message);
-        resultVO.setRequest(request);
+    public static <T> ResponseVO<T> fail(Integer code, String message, String request) {
+        ResponseVO<T> responseVO = new ResponseVO<>();
+        responseVO.setCode(code);
+        responseVO.setMessage(message);
+        responseVO.setRequest(request);
 
-        return resultVO;
+        return responseVO;
     }
 
 }
