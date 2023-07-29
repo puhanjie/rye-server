@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.puhj.rye.bo.PasswordBO;
 import com.puhj.rye.common.constant.Permissions;
 import com.puhj.rye.common.constant.ResultCode;
-import com.puhj.rye.common.exception.NotFoundUserException;
-import com.puhj.rye.common.exception.PasswordErrorException;
-import com.puhj.rye.common.exception.UserStatusException;
+import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.JwtUtil;
 import com.puhj.rye.dto.LoginDTO;
 import com.puhj.rye.dto.PasswordDTO;
@@ -21,9 +19,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,14 +56,14 @@ public class UserController {
         User loginUser = this.userService.getByUsername(user.getUsername());
 
         if (loginUser == null) {
-            throw new NotFoundUserException(ResultCode.NOT_FOUND_USER.getCode(), ResultCode.NOT_FOUND_USER.getMessage());
+            throw new HttpException(ResultCode.NOT_FOUND_USER);
         }
         if (!loginUser.getPassword().equals(user.getPassword())) {
-            throw new PasswordErrorException(ResultCode.PASSWORD_ERROR.getCode(), ResultCode.PASSWORD_ERROR.getMessage());
+            throw new HttpException(ResultCode.PASSWORD_ERROR);
         }
         // 用户状态异常
         if (!"0".equals(loginUser.getUserStatus())) {
-            throw new UserStatusException(ResultCode.USER_STATUS_ERROR.getCode(), ResultCode.USER_STATUS_ERROR.getMessage());
+            throw new HttpException(ResultCode.USER_STATUS_ERROR);
         }
 
         String token = JwtUtil.createToken(loginUser.getUsername());
@@ -128,15 +128,20 @@ public class UserController {
     @PutMapping("/password")
     @RequiresAuthentication
     public int updatePassword(@RequestBody PasswordDTO passwordDTO) {
-        User currUser = this.userService.getById(passwordDTO.getUserId());
-        if (currUser == null) {
-            throw new NotFoundUserException(ResultCode.NOT_FOUND_USER.getCode(), ResultCode.NOT_FOUND_USER.getMessage());
+        Subject subject = SecurityUtils.getSubject();
+        String token = subject.getPrincipal().toString();
+        User currentUser = this.userService.getByUsername(JwtUtil.getTokenInfo(token));
+        User user = this.userService.getById(passwordDTO.getUserId());
+
+        // 重置密码校验
+        if (passwordDTO.getType() == 1 && !"admin".equals(currentUser.getUsername())) {
+            throw new HttpException(ResultCode.NOT_ADMIN);
         }
 
-        // 修改密码
+        // 修改密码校验
         if (passwordDTO.getType() == 2) {
-            if (!passwordDTO.getCurrentPassword().equals(currUser.getPassword())) {
-                throw new PasswordErrorException(ResultCode.CURRENT_PASSWORD_ERROR.getCode(), ResultCode.CURRENT_PASSWORD_ERROR.getMessage());
+            if (!passwordDTO.getCurrentPassword().equals(user.getPassword())) {
+                throw new HttpException(ResultCode.CURRENT_PASSWORD_ERROR);
             }
         }
         return this.userService.updatePassword(new PasswordBO(passwordDTO.getUserId(), passwordDTO.getNewPassword()));

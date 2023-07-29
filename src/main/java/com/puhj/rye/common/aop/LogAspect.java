@@ -6,7 +6,6 @@ import com.puhj.rye.entity.User;
 import com.puhj.rye.service.LogService;
 import com.puhj.rye.service.UserService;
 import com.puhj.rye.vo.ResultVO;
-import com.puhj.rye.vo.TokenVO;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -35,26 +34,17 @@ public class LogAspect {
         this.logService = logService;
     }
 
-    @AfterReturning(pointcut = "execution(public * com.puhj.rye.common.advices.ResponseAdvice.beforeBodyWrite(..))", returning = "result")
+    @AfterReturning(value = "execution(public * com.puhj.rye.common.advices.ResponseAdvice.beforeBodyWrite(..))", returning = "result")
     public void getResult(Object result) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
-        // 处理token获取为null异常，避免登陆接口调用时用户名或密码错误异常无法被捕获问题
-        String token;
-        try {
-            if ("/api/v1/user/login".equals(request.getRequestURI())) {
-                token = ((TokenVO) ((ResultVO<?>) result).getData()).getToken();
-            } else {
-                token = request.getHeader("Authorization").split(" ")[1];
-            }
-        } catch (NullPointerException e) {
-            ResultVO<?> failRes = (ResultVO<?>) result;
-            log.error("==> 接口：" + failRes.getRequest() + " 被调用 - [状态：" + failRes.getCode() + "|" + failRes.getMessage() + "]");
-            log.error("token is null", e);
+        // 登陆接口暂不记录操作日志,因为无法从request中获取到token记录操作人
+        if ("/api/v1/user/login".equals(request.getRequestURI())) {
             return;
         }
 
+        String token = request.getHeader("Authorization").split(" ")[1];
         User user = this.userService.getByUsername(JwtUtil.getTokenInfo(token));
         ResultVO<?> res = (ResultVO<?>) result;
         Log operateLog = new Log(res.getCode(), res.getMessage(), user.getId(), user.getUsername(), res.getRequest());

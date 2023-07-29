@@ -10,23 +10,29 @@ import lombok.Getter;
 @Getter
 public enum ResultCode {
 
-    SUCCESS(0, "成功"),
-    FAIL(-1, "失败"),
-    AUTHENTICATION_FAIL(10001, "非法身份"),
-    PASSWORD_ERROR(10002, "密码错误"),
-    ACCESS_DENIED(10003, "无资源访问权限"),
-    NOT_FOUND_USER(10004, "用户不存在"),
-    NO_HANDLE_FOUND(10005, "资源不存在"),
-    CURRENT_PASSWORD_ERROR(10006, "当前密码错误"),
-    USER_STATUS_ERROR(10007, "用户状态异常");
+    SUCCESS(0, "成功", 200),
+    FAIL(-1, "失败", 500),
+    // 用户类异常码
+    AUTHENTICATION_FAIL(10000, "非法身份", 403),
+    PASSWORD_ERROR(10001, "密码错误", 403),
+    NOT_FOUND_USER(10002, "用户不存在", 404),
+    CURRENT_PASSWORD_ERROR(10003, "当前密码错误", 403),
+    NOT_ADMIN(10004, "无管理员权限", 403),
+    USER_STATUS_ERROR(10004, "用户状态异常", 403),
+    // 资源类异常码
+    NO_HANDLE_FOUND(20000, "资源不存在", 404),
+    ACCESS_DENIED(20001, "无资源访问权限", 403);
 
     private final Integer code;
 
     private final String message;
 
-    ResultCode(Integer code, String message) {
+    private final Integer httpCode;
+
+    ResultCode(Integer code, String message, Integer httpCode) {
         this.code = code;
         this.message = message;
+        this.httpCode = httpCode;
     }
 
     @Override
@@ -34,6 +40,7 @@ public enum ResultCode {
         return "ResultCode{" +
                 "code=" + code +
                 ", message='" + message + '\'' +
+                ", httpCode=" + httpCode +
                 '}';
     }
 

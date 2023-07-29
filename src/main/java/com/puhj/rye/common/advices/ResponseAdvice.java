@@ -1,9 +1,7 @@
 package com.puhj.rye.common.advices;
 
 import com.puhj.rye.common.constant.ResultCode;
-import com.puhj.rye.common.exception.NotFoundUserException;
-import com.puhj.rye.common.exception.PasswordErrorException;
-import com.puhj.rye.common.exception.UserStatusException;
+import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
@@ -12,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * @author puhanjie
@@ -64,6 +64,18 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         return ResultVO.fail(ResultCode.FAIL.getCode(), ResultCode.FAIL.getMessage(), method + " " + requestUrl);
     }
 
+    // 自定义业务异常捕获
+    @ExceptionHandler(value = HttpException.class)
+    public ResponseEntity<?> handleSystemException(HttpServletRequest request, HttpException e) {
+        log.error(e.getCode().toString() + '|' + e.getMessage(), e);
+        String requestUrl = request.getRequestURI();
+        String method = request.getMethod();
+        HttpStatus httpStatus = HttpStatus.resolve(e.getHttpCode());
+        ResultVO<Object> resultVO = ResultVO.fail(e.getCode(), e.getMessage(), method + " " + requestUrl);
+        return new ResponseEntity<>(resultVO, Objects.requireNonNullElse(httpStatus, HttpStatus.BAD_REQUEST));
+    }
+
+    // shiro认证异常捕获
     @ExceptionHandler(value = AuthenticationException.class)
     @ResponseStatus(code = HttpStatus.FORBIDDEN)
     public ResultVO<?> handleUserNotFoundErrorException(HttpServletRequest request, AuthenticationException e) {
@@ -73,6 +85,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         return ResultVO.fail(ResultCode.AUTHENTICATION_FAIL.getCode(), ResultCode.AUTHENTICATION_FAIL.getMessage(), method + " " + requestUrl);
     }
 
+    // shiro授权异常捕获
     @ExceptionHandler(value = AuthorizationException.class)
     @ResponseStatus(code = HttpStatus.FORBIDDEN)
     public ResultVO<?> handleNoPermissionException(HttpServletRequest request, AuthorizationException e) {
@@ -82,24 +95,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         return ResultVO.fail(ResultCode.ACCESS_DENIED.getCode(), ResultCode.ACCESS_DENIED.getMessage(), method + " " + requestUrl);
     }
 
-    @ExceptionHandler(value = NotFoundUserException.class)
-    @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    public ResultVO<?> handleNotFoundUserException(HttpServletRequest request, NotFoundUserException e) {
-        log.error(e.getMessage(), e);
-        String requestUrl = request.getRequestURI();
-        String method = request.getMethod();
-        return ResultVO.fail(ResultCode.NOT_FOUND_USER.getCode(), ResultCode.NOT_FOUND_USER.getMessage(), method + " " + requestUrl);
-    }
-
-    @ExceptionHandler(value = PasswordErrorException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public ResultVO<?> handlePasswordErrorException(HttpServletRequest request, PasswordErrorException e) {
-        log.error(e.getMessage(), e);
-        String requestUrl = request.getRequestURI();
-        String method = request.getMethod();
-        return ResultVO.fail(e.getCode(), e.getMsg(), method + " " + requestUrl);
-    }
-
+    // 请求资源不存在异常捕获
     @ExceptionHandler(value = NoHandlerFoundException.class)
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     public ResultVO<?> handleNoHandlerFoundException(HttpServletRequest request, NoHandlerFoundException e) {
@@ -107,15 +103,6 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
         return ResultVO.fail(ResultCode.NO_HANDLE_FOUND.getCode(), ResultCode.NO_HANDLE_FOUND.getMessage(), method + " " + requestUrl);
-    }
-
-    @ExceptionHandler(value = UserStatusException.class)
-    @ResponseStatus(code = HttpStatus.FORBIDDEN)
-    public ResultVO<?> handleUserStatusException(HttpServletRequest request, UserStatusException e) {
-        log.error(e.getMessage(), e);
-        String requestUrl = request.getRequestURI();
-        String method = request.getMethod();
-        return ResultVO.fail(e.getCode(), e.getMsg(), method + " " + requestUrl);
     }
 
 }

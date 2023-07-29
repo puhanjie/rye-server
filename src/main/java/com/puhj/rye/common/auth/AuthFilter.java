@@ -58,7 +58,7 @@ public class AuthFilter extends FormAuthenticationFilter {
 
         resp.setCharacterEncoding("utf-8");
         resp.setContentType("application/json; charset = utf-8");
-        resp.setStatus(403);
+        resp.setStatus(ResultCode.AUTHENTICATION_FAIL.getHttpCode());
         resp.getWriter().write(objectMapper.writeValueAsString(result));
         return false;
     }
