@@ -5,13 +5,16 @@
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="nickname" property="nickname"/>
-        <result column="user_status" property="userStatus"/>
         <result column="password" property="password"/>
         <result column="phone" property="phone"/>
         <result column="avatar" property="avatar"/>
         <result column="email" property="email"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
+        <association property="userStatus" javaType="com.puhj.rye.vo.UserStatusVO">
+            <result column="item_value" property="itemValue"/>
+            <result column="item_text" property="itemText"/>
+        </association>
         <collection property="roles" javaType="java.util.List" ofType="com.puhj.rye.vo.RoleSimpleVO">
             <id column="rid" property="id"/>
             <result column="rname" property="name"/>
@@ -23,12 +26,13 @@
         select u.id,
         u.username,
         u.nickname,
-        u.user_status,
         u.phone,
         u.avatar,
         u.email,
         u.create_time,
         u.update_time,
+        d.item_value,
+        d.item_text,
         r.id rid,
         r.name rname,
         r.info rinfo

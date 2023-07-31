@@ -30,7 +30,7 @@ public class UserListVO {
     private String nickname;
 
     @Schema(description = "用户状态")
-    private String userStatus;
+    private UserStatusVO userStatus;
 
     @Schema(description = "手机")
     private String phone;

@@ -117,14 +117,7 @@ public class UserController {
         return this.userService.query(page, username, phone, email);
     }
 
-    @Operation(summary = "查询所有用户", description = "查询所有用户数据")
-    @GetMapping("/list")
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.VIEW}, logical = Logical.OR)
-    public List<User> getList() {
-        return this.userService.list();
-    }
-
-    @Operation(summary = "修改密码", description = "type=1为重置密码,type=2为修改密码")
+    @Operation(summary = "重置/修改密码", description = "type=1为重置密码,type=2为修改密码")
     @PutMapping("/password")
     @RequiresAuthentication
     public int updatePassword(@RequestBody PasswordDTO passwordDTO) {
