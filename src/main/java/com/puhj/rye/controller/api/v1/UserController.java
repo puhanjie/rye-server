@@ -106,15 +106,15 @@ public class UserController {
             @Parameter(name = "phone", description = "手机"),
             @Parameter(name = "email", description = "邮箱")
     })
-    @GetMapping
+    @GetMapping("/list")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.VIEW}, logical = Logical.OR)
-    public PageVO<UserListVO> query(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                    @RequestParam(value = "username", required = false) String username,
-                                    @RequestParam(value = "phone", required = false) String phone,
-                                    @RequestParam(value = "email", required = false) String email) {
+    public PageVO<UserListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                   @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                   @RequestParam(value = "username", required = false) String username,
+                                   @RequestParam(value = "phone", required = false) String phone,
+                                   @RequestParam(value = "email", required = false) String email) {
         Page<UserListVO> page = new Page<>(pageNum, pageSize);
-        return this.userService.query(page, username, phone, email);
+        return this.userService.list(page, username, phone, email);
     }
 
     @Operation(summary = "重置/修改密码", description = "type=1为重置密码,type=2为修改密码")

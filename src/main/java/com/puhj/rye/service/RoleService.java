@@ -25,6 +25,6 @@ public interface RoleService extends IService<Role> {
 
     List<Role> getListByUserId(Integer userId);
 
-    PageVO<RoleListVO> query(Page<RoleListVO> page, String name, String info);
+    PageVO<RoleListVO> list(Page<RoleListVO> page, String name, String info);
 
 }

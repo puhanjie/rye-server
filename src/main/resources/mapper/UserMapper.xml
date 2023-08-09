@@ -22,7 +22,7 @@
         </collection>
     </resultMap>
 
-    <select id="query" resultMap="userList">
+    <select id="list" resultMap="userList">
         select u.id,
         u.username,
         u.nickname,

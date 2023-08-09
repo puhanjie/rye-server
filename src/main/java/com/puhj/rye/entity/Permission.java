@@ -54,4 +54,9 @@ public class Permission implements Serializable {
     @TableField("update_time")
     private Date updateTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Schema(description = "删除时间")
+    @TableField("delete_time")
+    private Date deleteTime;
+
 }

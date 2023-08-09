@@ -18,9 +18,9 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
 
-    Page<PermissionListVO> query(Page<PermissionListVO> page,
-                                 @Param("name") String name,
-                                 @Param("info") String info,
-                                 @Param("menu") String menu);
+    Page<PermissionListVO> list(Page<PermissionListVO> page,
+                                @Param("name") String name,
+                                @Param("info") String info,
+                                @Param("menu") String menu);
 
 }

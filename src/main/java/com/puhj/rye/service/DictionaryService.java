@@ -3,6 +3,7 @@ package com.puhj.rye.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.puhj.rye.entity.Dictionary;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.puhj.rye.vo.DictionaryListVO;
 import com.puhj.rye.vo.PageVO;
 
 import java.util.List;
@@ -17,8 +18,8 @@ import java.util.List;
  */
 public interface DictionaryService extends IService<Dictionary> {
 
-    PageVO<Dictionary> query(Page<Dictionary> page, String dictName, String itemText);
+    PageVO<DictionaryListVO> list(Page<DictionaryListVO> page, String dictName, String itemText);
 
-    List<Dictionary> getList(String dictName);
+    List<Dictionary> getItems(String dictName);
 
 }

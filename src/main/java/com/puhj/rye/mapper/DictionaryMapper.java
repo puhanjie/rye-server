@@ -3,6 +3,7 @@ package com.puhj.rye.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.puhj.rye.entity.Dictionary;
+import com.puhj.rye.vo.DictionaryListVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,8 +18,8 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface DictionaryMapper extends BaseMapper<Dictionary> {
 
-    Page<Dictionary> query(Page<Dictionary> page,
-                           @Param("dictName") String dictName,
-                           @Param("itemText") String itemText);
+    Page<DictionaryListVO> list(Page<DictionaryListVO> page,
+                          @Param("dictName") String dictName,
+                          @Param("itemText") String itemText);
 
 }

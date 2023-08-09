@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.entity.Dictionary;
 import com.puhj.rye.mapper.DictionaryMapper;
 import com.puhj.rye.service.DictionaryService;
+import com.puhj.rye.vo.DictionaryListVO;
 import com.puhj.rye.vo.PageVO;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +30,13 @@ public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Diction
     }
 
     @Override
-    public PageVO<Dictionary> query(Page<Dictionary> page, String dictName, String itemText) {
-        Page<Dictionary> pageList = this.dictionaryMapper.query(page, dictName, itemText);
+    public PageVO<DictionaryListVO> list(Page<DictionaryListVO> page, String dictName, String itemText) {
+        Page<DictionaryListVO> pageList = this.dictionaryMapper.list(page, dictName, itemText);
         return new PageVO<>(pageList);
     }
 
     @Override
-    public List<Dictionary> getList(String dictName) {
+    public List<Dictionary> getItems(String dictName) {
         QueryWrapper<Dictionary> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dict_name", dictName);
         return this.dictionaryMapper.selectList(queryWrapper);

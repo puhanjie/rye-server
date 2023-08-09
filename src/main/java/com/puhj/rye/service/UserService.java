@@ -32,7 +32,7 @@ public interface UserService extends IService<User> {
 
     UserInfoVO getInfo();
 
-    PageVO<UserListVO> query(Page<UserListVO> page, String username, String phone, String email);
+    PageVO<UserListVO> list(Page<UserListVO> page, String username, String phone, String email);
 
     int updatePassword(PasswordBO passwordBO);
 

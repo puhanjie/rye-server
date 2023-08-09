@@ -18,8 +18,8 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface RoleMapper extends BaseMapper<Role> {
 
-    Page<RoleListVO> query(Page<RoleListVO> page,
-                           @Param("name") String name,
-                           @Param("info") String info);
+    Page<RoleListVO> list(Page<RoleListVO> page,
+                          @Param("name") String name,
+                          @Param("info") String info);
 
 }

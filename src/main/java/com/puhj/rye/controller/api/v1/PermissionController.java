@@ -64,21 +64,21 @@ public class PermissionController {
             @Parameter(name = "info", description = "权限信息"),
             @Parameter(name = "menu", description = "菜单")
     })
-    @GetMapping
+    @GetMapping("/list")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.VIEW}, logical = Logical.OR)
-    public PageVO<PermissionListVO> query(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                          @RequestParam(value = "name", required = false) String name,
-                                          @RequestParam(value = "info", required = false) String info,
-                                          @RequestParam(value = "menu", required = false) String menu) {
+    public PageVO<PermissionListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                         @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                         @RequestParam(value = "name", required = false) String name,
+                                         @RequestParam(value = "info", required = false) String info,
+                                         @RequestParam(value = "menu", required = false) String menu) {
         Page<PermissionListVO> page = new Page<>(pageNum, pageSize);
-        return this.permissionService.query(page, name, info, menu);
+        return this.permissionService.list(page, name, info, menu);
     }
 
     @Operation(summary = "查询所有权限", description = "查询所有权限数据")
-    @GetMapping("/list")
+    @GetMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.VIEW}, logical = Logical.OR)
-    public List<Permission> getList() {
+    public List<Permission> query() {
         return this.permissionService.list();
     }
 

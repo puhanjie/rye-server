@@ -14,7 +14,7 @@
         </collection>
     </resultMap>
 
-    <select id="query" resultMap="roleList">
+    <select id="list" resultMap="roleList">
         select r.id,
         r.name,
         r.info,

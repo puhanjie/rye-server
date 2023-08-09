@@ -64,20 +64,20 @@ public class RoleController {
             @Parameter(name = "name", description = "角色名"),
             @Parameter(name = "info", description = "角色信息")
     })
-    @GetMapping
+    @GetMapping("/list")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.VIEW}, logical = Logical.OR)
-    public PageVO<RoleListVO> query(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                    @RequestParam(value = "name", required = false) String name,
-                                    @RequestParam(value = "info", required = false) String info) {
+    public PageVO<RoleListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                   @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                   @RequestParam(value = "name", required = false) String name,
+                                   @RequestParam(value = "info", required = false) String info) {
         Page<RoleListVO> page = new Page<>(pageNum, pageSize);
-        return this.roleService.query(page, name, info);
+        return this.roleService.list(page, name, info);
     }
 
     @Operation(summary = "查询所有角色", description = "查询所有角色数据")
-    @GetMapping("/list")
+    @GetMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.VIEW}, logical = Logical.OR)
-    public List<Role> getList() {
+    public List<Role> query() {
         return this.roleService.list();
     }
 

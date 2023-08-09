@@ -31,8 +31,7 @@ CREATE TABLE `file`
     `create_time` datetime(3)                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
     `update_time` datetime(3)                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
     `delete_time` datetime(3)                                                            DEFAULT NULL COMMENT '删除时间',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `md5_del` (`uuid`, `delete_time`)
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = utf8mb4
@@ -69,8 +68,8 @@ CREATE TABLE `permission`
     `menu`        varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '菜单',
     `create_time` datetime(3)                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
     `update_time` datetime(3)                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
-    PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `username` (`name`)
+    `delete_time` datetime(3)                                                            DEFAULT NULL COMMENT '删除时间',
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 25
   DEFAULT CHARSET = utf8mb4
@@ -80,54 +79,54 @@ CREATE TABLE `permission`
 -- Records of permission
 -- ----------------------------
 BEGIN;
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (1, 'app:admin', '管理员', '*', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (2, 'analysis:view', '查看', 'analysis', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (3, 'user:add', '新增', 'user', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (4, 'user:delete', '删除', 'user', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (5, 'user:update', '修改', 'user', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (6, 'user:view', '查看', 'user', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (7, 'user:resetPassword', '重置密码', 'user', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (8, 'user:batchDelete', '批量删除', 'user', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (9, 'role:add', '新增', 'role', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (10, 'role:delete', '删除', 'role', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (11, 'role:update', '修改', 'role', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (12, 'role:view', '查看', 'role', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (13, 'role:batchDelete', '批量删除', 'role', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (14, 'permission:add', '新增', 'permission', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (15, 'permission:delete', '删除', 'permission', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (16, 'permission:update', '修改', 'permission', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (17, 'permission:view', '查看', 'permission', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (18, 'permission:batchDelete', '批量删除', 'permission', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (19, 'dictionary:add', '新增', 'dictionary', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (20, 'dictionary:delete', '删除', 'dictionary', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (21, 'dictionary:update', '修改', 'dictionary', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (22, 'dictionary:view', '查看', 'dictionary', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (23, 'dictionary:batchDelete', '批量删除', 'dictionary', NOW(), NOW());
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`)
-VALUES (24, 'settings:view', '查看', 'settings', NOW(), NOW());
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (1, 'app:admin', '管理员', '*', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (2, 'analysis:view', '查看', 'analysis', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (3, 'user:add', '新增', 'user', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (4, 'user:delete', '删除', 'user', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (5, 'user:update', '修改', 'user', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (6, 'user:view', '查看', 'user', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (7, 'user:resetPassword', '重置密码', 'user', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (8, 'user:batchDelete', '批量删除', 'user', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (9, 'role:add', '新增', 'role', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (10, 'role:delete', '删除', 'role', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (11, 'role:update', '修改', 'role', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (12, 'role:view', '查看', 'role', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (13, 'role:batchDelete', '批量删除', 'role', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (14, 'permission:add', '新增', 'permission', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (15, 'permission:delete', '删除', 'permission', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (16, 'permission:update', '修改', 'permission', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (17, 'permission:view', '查看', 'permission', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (18, 'permission:batchDelete', '批量删除', 'permission', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (19, 'dictionary:add', '新增', 'dictionary', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (20, 'dictionary:delete', '删除', 'dictionary', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (21, 'dictionary:update', '修改', 'dictionary', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (22, 'dictionary:view', '查看', 'dictionary', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (23, 'dictionary:batchDelete', '批量删除', 'dictionary', NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
+VALUES (24, 'settings:view', '查看', 'settings', NOW(), NOW(), NULL);
 COMMIT;
 
 -- ----------------------------
@@ -142,9 +141,7 @@ CREATE TABLE `role`
     `create_time` datetime(3)                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
     `update_time` datetime(3)                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
     `delete_time` datetime(3)                                                            DEFAULT NULL COMMENT '删除时间',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `username` (`name`),
-    UNIQUE KEY `name_del` (`name`, `delete_time`)
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8mb4
@@ -169,8 +166,7 @@ CREATE TABLE `role_permission`
     `id`            int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
     `role_id`       int unsigned NOT NULL COMMENT '角色id',
     `permission_id` int unsigned NOT NULL COMMENT '权限id',
-    PRIMARY KEY (`id`),
-    KEY `role_id_permission_id` (`role_id`, `permission_id`) USING BTREE COMMENT '联合索引'
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
   DEFAULT CHARSET = utf8mb4
@@ -206,9 +202,7 @@ CREATE TABLE `user`
     `update_time` datetime(3)                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
     `delete_time` datetime(3)                                                            DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `username` (`username`),
-    UNIQUE KEY `username_del` (`username`, `delete_time`),
-    UNIQUE KEY `email_del` (`email`, `delete_time`)
+    UNIQUE KEY `username` (`username`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8mb4
@@ -237,8 +231,7 @@ CREATE TABLE `user_role`
     `id`      int unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
     `user_id` int unsigned NOT NULL COMMENT '用户id',
     `role_id` int unsigned NOT NULL COMMENT '角色id',
-    PRIMARY KEY (`id`),
-    KEY `user_id_role_id` (`user_id`, `role_id`) USING BTREE COMMENT '联合索引'
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8mb4
@@ -266,6 +259,9 @@ CREATE TABLE `dictionary`
     `item_value`  varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '字典值',
     `item_text`   varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典值文本',
     `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '描述',
+    `create_time` datetime(3)                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+    `update_time` datetime(3)                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+    `delete_time` datetime(3)                                                            DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
@@ -276,12 +272,18 @@ CREATE TABLE `dictionary`
 -- Records of dictionary
 -- ----------------------------
 BEGIN;
-INSERT INTO `dictionary` (`id`, `dict_name`, `dict_text`, `item_value`, `item_text`, `description`)
-VALUES (1, 'user_status', '用户状态', '0', '正常', '用户账户状态');
-INSERT INTO `dictionary` (`id`, `dict_name`, `dict_text`, `item_value`, `item_text`, `description`)
-VALUES (2, 'user_status', '用户状态', '1', '冻结', '用户账户状态');
-INSERT INTO `dictionary` (`id`, `dict_name`, `dict_text`, `item_value`, `item_text`, `description`)
-VALUES (3, 'user_status', '用户状态', '2', '注销', '用户账户状态');
+INSERT INTO `dictionary` (`id`, `dict_name`, `dict_text`, `item_value`, `item_text`, `description`, `create_time`,
+                          `update_time`, `delete_time`)
+VALUES (1, 'user_status', '用户状态', '0', '正常', '用户账户状态', NOW(),
+        NOW(), NULL);
+INSERT INTO `dictionary` (`id`, `dict_name`, `dict_text`, `item_value`, `item_text`, `description`, `create_time`,
+                          `update_time`, `delete_time`)
+VALUES (2, 'user_status', '用户状态', '1', '冻结', '用户账户状态', NOW(),
+        NOW(), NULL);
+INSERT INTO `dictionary` (`id`, `dict_name`, `dict_text`, `item_value`, `item_text`, `description`, `create_time`,
+                          `update_time`, `delete_time`)
+VALUES (3, 'user_status', '用户状态', '2', '注销', '用户账户状态', NOW(),
+        NOW(), NULL);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

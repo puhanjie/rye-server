@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.puhj.rye.common.constant.Permissions;
 import com.puhj.rye.entity.Dictionary;
 import com.puhj.rye.service.DictionaryService;
+import com.puhj.rye.vo.DictionaryListVO;
 import com.puhj.rye.vo.PageVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -63,24 +64,24 @@ public class DictionaryController {
             @Parameter(name = "dictName", description = "字典名"),
             @Parameter(name = "itemText", description = "字典值文本")
     })
-    @GetMapping
+    @GetMapping("/list")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Dictionary.VIEW}, logical = Logical.OR)
-    public PageVO<Dictionary> query(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                    @RequestParam(value = "dictName", required = false) String dictName,
-                                    @RequestParam(value = "itemText", required = false) String itemText) {
-        Page<Dictionary> page = new Page<>(pageNum, pageSize);
-        return this.dictionaryService.query(page, dictName, itemText);
+    public PageVO<DictionaryListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                         @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                         @RequestParam(value = "dictName", required = false) String dictName,
+                                         @RequestParam(value = "itemText", required = false) String itemText) {
+        Page<DictionaryListVO> page = new Page<>(pageNum, pageSize);
+        return this.dictionaryService.list(page, dictName, itemText);
     }
 
-    @Operation(summary = "查询字典", description = "根据字典类型查询字典列表")
+    @Operation(summary = "查询字典项", description = "根据字典类型查询字典项")
     @Parameters({
             @Parameter(name = "dictName", description = "字典名")
     })
-    @GetMapping("/list")
+    @GetMapping("/items")
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Dictionary.VIEW}, logical = Logical.OR)
-    public List<Dictionary> getList(@RequestParam String dictName) {
-        return this.dictionaryService.getList(dictName);
+    public List<Dictionary> getItems(@RequestParam String dictName) {
+        return this.dictionaryService.getItems(dictName);
     }
 
 }
