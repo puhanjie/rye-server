@@ -24,6 +24,7 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -54,11 +55,12 @@ public class UserController {
     @PostMapping("/login")
     public TokenVO login(@RequestBody LoginDTO user) {
         User loginUser = this.userService.getByUsername(user.getUsername());
+        String encryptPassword = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
 
         if (loginUser == null) {
             throw new HttpException(ResultCode.NOT_FOUND_USER);
         }
-        if (!loginUser.getPassword().equals(user.getPassword())) {
+        if (!loginUser.getPassword().equals(encryptPassword)) {
             throw new HttpException(ResultCode.PASSWORD_ERROR);
         }
         // 用户状态异常
@@ -74,6 +76,9 @@ public class UserController {
     @PostMapping
     @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.ADD}, logical = Logical.OR)
     public boolean add(@RequestBody UserDTO userDTO) {
+        String password = userDTO.getPassword();
+        // 加密密码
+        userDTO.setPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
         return this.userService.add(userDTO);
     }
 
@@ -133,11 +138,14 @@ public class UserController {
 
         // 修改密码校验
         if (passwordDTO.getType() == 2) {
-            if (!passwordDTO.getCurrentPassword().equals(user.getPassword())) {
+            String currentPassword = DigestUtils.md5DigestAsHex(passwordDTO.getCurrentPassword().getBytes());
+            if (!currentPassword.equals(user.getPassword())) {
                 throw new HttpException(ResultCode.CURRENT_PASSWORD_ERROR);
             }
         }
-        return this.userService.updatePassword(new PasswordBO(passwordDTO.getUserId(), passwordDTO.getNewPassword()));
+
+        String newPassword = DigestUtils.md5DigestAsHex(passwordDTO.getNewPassword().getBytes());
+        return this.userService.updatePassword(new PasswordBO(passwordDTO.getUserId(), newPassword));
     }
 
     @Operation(summary = "修改头像", description = "修改用户头像")
