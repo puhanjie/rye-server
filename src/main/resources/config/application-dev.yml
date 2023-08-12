@@ -1,10 +1,18 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/rye?serverTimezone=UTC&characterEncoding=UTF8
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: root123456
     type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      url: jdbc:mysql://localhost:3306/rye?serverTimezone=UTC&characterEncoding=utf8
+      username: root
+      # 测试类RyeApplicationTests中运行encrypt()方法获取加密密码和公钥,此加密密码为:root123456
+      password: l860zR8+SX1DYJ2mVfA1LWC1d7N9z+zP52oF++oGrdHPDtCR+FGqJHuoLw+CCJtUjMb0SCZFDX+k122zSP+GNg==
+      # 数据库密码解密公钥
+      public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMoPLX5Wj2EuVFoQagCGR/pZINNLq6EQ9axwiHPoIVPrHc+GWo1qlTnkv8mm9wJyEtomwxndwEWrPd3ZqhS8THECAwEAAQ==
+      filters: config
+      connect-properties:
+        config.decrypt: true
+        config.decrypt.key: ${spring.datasource.druid.public-key}
 
 springdoc:
   swagger-ui:
