@@ -45,7 +45,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
                     removePermissions.add(permissionId);
                 }
             }
-            if (removePermissions.size() > 0) {
+            if (!removePermissions.isEmpty()) {
                 queryWrapper.clear();
                 queryWrapper.eq("role_id", roleId).in("permission_id", removePermissions);
                 if (this.rolePermissionMapper.delete(queryWrapper) < 0) {
@@ -66,7 +66,7 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
             }
         } catch (NullPointerException e) {
             // 若permissionIds为空且角色有权限数据时,则清空权限
-            if (permissions.size() > 0 && permissionIds == null) {
+            if (!permissions.isEmpty() && permissionIds == null) {
                 queryWrapper.clear();
                 queryWrapper.eq("role_id", roleId);
                 return this.rolePermissionMapper.delete(queryWrapper) >= 0;

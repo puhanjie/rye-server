@@ -14,6 +14,7 @@ import com.puhj.rye.service.UserRoleService;
 import com.puhj.rye.vo.PageVO;
 import com.puhj.rye.vo.RoleListVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         this.rolePermissionService = rolePermissionService;
     }
 
+    @Transactional
     @Override
     public boolean add(RoleDTO roleDTO) {
         Role role = new Role();
@@ -67,6 +69,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         return true;
     }
 
+    @Transactional
     @Override
     public boolean edit(RoleDTO roleDTO) {
         Role role = this.roleMapper.selectById(roleDTO.getId());

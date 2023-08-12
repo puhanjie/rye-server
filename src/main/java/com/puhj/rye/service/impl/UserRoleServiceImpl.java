@@ -41,7 +41,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
                     removeRoles.add(roleId);
                 }
             }
-            if (removeRoles.size() > 0) {
+            if (!removeRoles.isEmpty()) {
                 queryWrapper.clear();
                 queryWrapper.eq("user_id", userId).in("role_id", removeRoles);
                 if (this.userRoleMapper.delete(queryWrapper) < 0) {
@@ -62,7 +62,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
             }
         } catch (NullPointerException e) {
             // 若roleIds为空且用户有角色数据时,则清空角色
-            if (roles.size() > 0 && roleIds == null) {
+            if (!roles.isEmpty() && roleIds == null) {
                 queryWrapper.clear();
                 queryWrapper.eq("user_id", userId);
                 return this.userRoleMapper.delete(queryWrapper) >= 0;

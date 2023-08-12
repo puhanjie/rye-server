@@ -9,6 +9,7 @@ import com.puhj.rye.service.FileService;
 import com.puhj.rye.vo.FileVO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +42,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         this.fileMapper = fileMapper;
     }
 
+    @Transactional
     @Override
     public List<FileVO> upload(MultipartFile[] files, HttpServletRequest request) throws IOException {
         // 创建目录
@@ -72,6 +74,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         return fileList;
     }
 
+    @Transactional
     @Override
     public void remove(String path, HttpServletRequest request) {
         String fileDir = System.getProperty("user.dir") + path.substring(BasePathUtil.getBasePath(request).length());

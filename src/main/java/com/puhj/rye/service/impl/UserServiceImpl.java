@@ -17,6 +17,7 @@ import com.puhj.rye.vo.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +57,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         this.fileService = fileService;
     }
 
+    @Transactional
     @Override
     public boolean add(UserDTO userDTO) {
         User user = new User();
@@ -88,6 +90,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return true;
     }
 
+    @Transactional
     @Override
     public boolean edit(UserDTO userDTO) {
         User user = this.userMapper.selectById(userDTO.getId());
