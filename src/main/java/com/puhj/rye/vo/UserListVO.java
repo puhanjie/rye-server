@@ -1,6 +1,7 @@
 package com.puhj.rye.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,6 +51,7 @@ public class UserListVO {
     private Date updateTime;
 
     @Schema(description = "角色")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<RoleSimpleVO> roles;
 
 }

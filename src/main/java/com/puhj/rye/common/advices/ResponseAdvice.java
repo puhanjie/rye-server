@@ -67,7 +67,7 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     // 自定义业务异常捕获
     @ExceptionHandler(value = HttpException.class)
     public ResponseEntity<?> handleSystemException(HttpServletRequest request, HttpException e) {
-        log.error(e.getCode().toString() + '|' + e.getMessage(), e);
+        log.error(e.getCode().toString() + " | " + e.getMessage(), e);
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
         HttpStatus httpStatus = HttpStatus.resolve(e.getHttpCode());

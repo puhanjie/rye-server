@@ -85,6 +85,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public List<Role> getListByUserId(Integer userId) {
+        List<Integer> roleIds = this.userRoleService.getRoleIdsByUserId(userId);
+        // 用户没分配角色
+        if (roleIds.isEmpty()) {
+            return null;
+        }
         QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("id", this.userRoleService.getRoleIdsByUserId(userId));
         return this.roleMapper.selectList(queryWrapper);

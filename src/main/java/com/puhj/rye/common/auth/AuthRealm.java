@@ -54,6 +54,10 @@ public class AuthRealm extends AuthorizingRealm {
 
         List<Role> roles = this.roleService.getListByUserId(user.getId());
         List<Permission> permissions = this.permissionService.getListByRoles(roles);
+        // 无角色或权限,则返回一个未初始化过的SimpleAuthorizationInfo对象
+        if (roles == null || permissions == null) {
+            return new SimpleAuthorizationInfo();
+        }
 
         List<String> roleList = new ArrayList<>();
         List<String> permissionList = new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.puhj.rye.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.puhj.rye.entity.Permission;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.entity.User;
@@ -44,9 +45,11 @@ public class UserInfoVO {
     private String email;
 
     @Schema(description = "角色")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<RoleSimpleVO> roles = new ArrayList<>();
 
     @Schema(description = "权限")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<PermissionSimpleVO> permissions = new ArrayList<>();
 
     public UserInfoVO(User user, List<Role> roles, List<Permission> permissions) {
@@ -60,6 +63,16 @@ public class UserInfoVO {
 
         roles.forEach(role -> this.roles.add(new RoleSimpleVO(role.getId(), role.getName(), role.getInfo())));
         permissions.forEach(permission -> this.permissions.add(new PermissionSimpleVO(permission.getId(), permission.getName(), permission.getInfo())));
+    }
+
+    public UserInfoVO(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.nickname = user.getNickname();
+        this.userStatus = user.getUserStatus();
+        this.phone = user.getPhone();
+        this.avatar = user.getAvatar();
+        this.email = user.getEmail();
     }
 
 }

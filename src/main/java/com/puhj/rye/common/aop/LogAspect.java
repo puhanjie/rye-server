@@ -50,7 +50,7 @@ public class LogAspect {
         Log operateLog = new Log(res.getCode(), res.getMessage(), user.getId(), user.getUsername(), res.getRequest());
         // 记录操作日志和系统运行日志
         this.logService.add(operateLog);
-        log.info("==> 接口：" + res.getRequest() + " 被调用 - [操作人：" + user.getUsername() + "] - [状态：" + res.getCode() + "|" + res.getMessage() + "]");
+        log.info("==> 接口：" + res.getRequest() + " 被调用 - [操作人：" + user.getUsername() + "] - [状态：" + res.getCode() + " | " + res.getMessage() + "]");
     }
 
 }

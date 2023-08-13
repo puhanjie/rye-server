@@ -37,7 +37,15 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
     @Override
     public List<Permission> getListByRoles(List<Role> roles) {
+        if (roles == null) {
+            return null;
+        }
         List<Integer> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
+        List<Integer> permissionIds = this.rolePermissionService.getPermissionIdsByRoleIds(roleIds);
+        // 角色没分配权限
+        if (permissionIds.isEmpty()) {
+            return null;
+        }
         QueryWrapper<Permission> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("id", this.rolePermissionService.getPermissionIdsByRoleIds(roleIds));
         return this.permissionMapper.selectList(queryWrapper);
