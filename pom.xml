@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.puhj</groupId>
     <artifactId>rye-server</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.0</version>
     <name>rye</name>
     <description>rye</description>
     <properties>

@@ -61,18 +61,12 @@ public class UserInfoVO {
         this.avatar = user.getAvatar();
         this.email = user.getEmail();
 
-        roles.forEach(role -> this.roles.add(new RoleSimpleVO(role.getId(), role.getName(), role.getInfo())));
-        permissions.forEach(permission -> this.permissions.add(new PermissionSimpleVO(permission.getId(), permission.getName(), permission.getInfo())));
-    }
-
-    public UserInfoVO(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
-        this.nickname = user.getNickname();
-        this.userStatus = user.getUserStatus();
-        this.phone = user.getPhone();
-        this.avatar = user.getAvatar();
-        this.email = user.getEmail();
+        if (roles != null) {
+            roles.forEach(role -> this.roles.add(new RoleSimpleVO(role.getId(), role.getName(), role.getInfo())));
+        }
+        if (permissions != null) {
+            permissions.forEach(permission -> this.permissions.add(new PermissionSimpleVO(permission.getId(), permission.getName(), permission.getInfo())));
+        }
     }
 
 }

@@ -122,9 +122,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = this.getByUsername(JwtUtil.getTokenInfo(token));
 
         List<Role> userRoles = roleService.getListByUserId(user.getId());
-        if (userRoles == null) {
-            return new UserInfoVO(user);
-        }
         List<Permission> userPermissions = permissionService.getListByRoles(userRoles);
         return new UserInfoVO(user, userRoles, userPermissions);
     }

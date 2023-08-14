@@ -13,7 +13,6 @@ import com.puhj.rye.vo.PermissionListVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -40,14 +39,14 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         if (roles == null) {
             return null;
         }
-        List<Integer> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
+        List<Integer> roleIds = roles.stream().map(Role::getId).toList();
         List<Integer> permissionIds = this.rolePermissionService.getPermissionIdsByRoleIds(roleIds);
         // 角色没分配权限
         if (permissionIds.isEmpty()) {
             return null;
         }
         QueryWrapper<Permission> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in("id", this.rolePermissionService.getPermissionIdsByRoleIds(roleIds));
+        queryWrapper.in("id", permissionIds);
         return this.permissionMapper.selectList(queryWrapper);
     }
 

@@ -91,7 +91,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             return null;
         }
         QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in("id", this.userRoleService.getRoleIdsByUserId(userId));
+        queryWrapper.in("id", roleIds);
         return this.roleMapper.selectList(queryWrapper);
     }
 
