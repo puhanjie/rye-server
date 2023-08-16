@@ -15,10 +15,7 @@
             <result column="item_value" property="itemValue"/>
             <result column="item_text" property="itemText"/>
         </association>
-        <collection property="roles" javaType="java.util.List" ofType="com.puhj.rye.vo.RoleSimpleVO">
-            <id column="rid" property="id"/>
-            <result column="rname" property="name"/>
-            <result column="rinfo" property="info"/>
+        <collection property="roles" column="id" javaType="java.util.List" ofType="com.puhj.rye.vo.RoleSimpleVO" select="getRolesByUserId">
         </collection>
     </resultMap>
 
@@ -32,14 +29,9 @@
         u.create_time,
         u.update_time,
         d.item_value,
-        d.item_text,
-        r.id rid,
-        r.name rname,
-        r.info rinfo
+        d.item_text
         from user u
         left join dictionary d on d.dict_name = 'user_status' and u.user_status = d.item_value
-        left join user_role `ur` on u.id = `ur`.user_id
-        left join role r on `ur`.role_id = r.id
         <where>
             <if test="username != null and username != ''">
                 and u.username like concat('%',#{username},'%')
@@ -52,5 +44,14 @@
             </if>
         </where>
         order by u.id
+    </select>
+
+    <select id="getRolesByUserId" resultType="com.puhj.rye.vo.RoleSimpleVO">
+        select r.id,
+        r.name,
+        r.info
+        from user_role ur
+        left join role r on ur.role_id=r.id
+        where ur.user_id = #{id}
     </select>
 </mapper>
