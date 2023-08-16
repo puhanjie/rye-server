@@ -7,7 +7,8 @@
         <result column="info" property="info"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <collection property="permissions" column="id" javaType="java.util.List" ofType="com.puhj.rye.vo.PermissionSimpleVO" select="getPermissionsByRoleId">
+        <collection property="permissions" column="id" javaType="java.util.List"
+                    ofType="com.puhj.rye.vo.PermissionSimpleVO" select="getPermissionsByRoleId">
         </collection>
     </resultMap>
 
@@ -31,10 +32,10 @@
 
     <select id="getPermissionsByRoleId" resultType="com.puhj.rye.vo.PermissionSimpleVO">
         select p.id,
-        p.name,
-        p.info
+               p.name,
+               p.info
         from role_permission rp
-        left join permission p on rp.permission_id = p.id
+                 left join permission p on rp.permission_id = p.id
         where rp.role_id = #{id}
     </select>
 </mapper>
