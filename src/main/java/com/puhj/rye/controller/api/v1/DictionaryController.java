@@ -79,7 +79,7 @@ public class DictionaryController {
             @Parameter(name = "dictName", description = "字典名")
     })
     @GetMapping("/items")
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Dictionary.VIEW}, logical = Logical.OR)
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Dictionary.VIEW, Permissions.User.VIEW}, logical = Logical.OR)
     public List<Dictionary> getItems(@RequestParam String dictName) {
         return this.dictionaryService.getItems(dictName);
     }

@@ -77,7 +77,7 @@ public class PermissionController {
 
     @Operation(summary = "查询所有权限", description = "查询所有权限数据")
     @GetMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.VIEW}, logical = Logical.OR)
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.VIEW, Permissions.Role.VIEW}, logical = Logical.OR)
     public List<Permission> query() {
         return this.permissionService.list();
     }

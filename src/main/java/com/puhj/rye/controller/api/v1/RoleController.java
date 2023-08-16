@@ -76,7 +76,7 @@ public class RoleController {
 
     @Operation(summary = "查询所有角色", description = "查询所有角色数据")
     @GetMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.VIEW}, logical = Logical.OR)
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.VIEW, Permissions.User.VIEW}, logical = Logical.OR)
     public List<Role> query() {
         return this.roleService.list();
     }
