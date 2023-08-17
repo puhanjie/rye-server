@@ -6,7 +6,7 @@
  Source Schema         : rye
 
  Target Server Type    : MySQL
- Target Server Version : 80033 (8.0.28)
+ Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 */
 
