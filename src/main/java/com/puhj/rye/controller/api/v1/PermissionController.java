@@ -49,9 +49,9 @@ public class PermissionController {
         return this.permissionService.removeByIds(ids);
     }
 
-    @Operation(summary = "修改权限", description = "修改权限信息")
+    @Operation(summary = "编辑权限", description = "编辑权限信息")
     @PutMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.UPDATE}, logical = Logical.OR)
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.EDIT}, logical = Logical.OR)
     public boolean edit(@RequestBody Permission permission) {
         return this.permissionService.updateById(permission);
     }

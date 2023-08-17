@@ -50,9 +50,9 @@ public class DictionaryController {
         return this.dictionaryService.removeByIds(ids);
     }
 
-    @Operation(summary = "修改字典", description = "修改字典信息")
+    @Operation(summary = "编辑字典", description = "编辑字典信息")
     @PutMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Dictionary.UPDATE}, logical = Logical.OR)
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Dictionary.EDIT}, logical = Logical.OR)
     public boolean edit(@RequestBody Dictionary dictionary) {
         return this.dictionaryService.updateById(dictionary);
     }

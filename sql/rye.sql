@@ -88,7 +88,7 @@ VALUES (3, 'user:add', '新增', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
 VALUES (4, 'user:delete', '删除', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (5, 'user:update', '修改', 'user', NOW(), NOW(), NULL);
+VALUES (5, 'user:edit', '编辑', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
 VALUES (6, 'user:view', '查看', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
@@ -100,7 +100,7 @@ VALUES (9, 'role:add', '新增', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
 VALUES (10, 'role:delete', '删除', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (11, 'role:update', '修改', 'role', NOW(), NOW(), NULL);
+VALUES (11, 'role:edit', '编辑', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
 VALUES (12, 'role:view', '查看', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
@@ -110,7 +110,7 @@ VALUES (14, 'permission:add', '新增', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
 VALUES (15, 'permission:delete', '删除', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (16, 'permission:update', '修改', 'permission', NOW(), NOW(), NULL);
+VALUES (16, 'permission:edit', '编辑', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
 VALUES (17, 'permission:view', '查看', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
@@ -120,7 +120,7 @@ VALUES (19, 'dictionary:add', '新增', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
 VALUES (20, 'dictionary:delete', '删除', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (21, 'dictionary:update', '修改', 'dictionary', NOW(), NOW(), NULL);
+VALUES (21, 'dictionary:edit', '编辑', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
 VALUES (22, 'dictionary:view', '查看', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)

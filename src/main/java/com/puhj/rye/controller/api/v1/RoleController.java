@@ -50,9 +50,9 @@ public class RoleController {
         return this.roleService.removeByIds(ids);
     }
 
-    @Operation(summary = "修改角色", description = "修改角色信息")
+    @Operation(summary = "编辑角色", description = "编辑角色信息")
     @PutMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.UPDATE}, logical = Logical.OR)
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.EDIT}, logical = Logical.OR)
     public boolean edit(@RequestBody RoleDTO roleDTO) {
         return this.roleService.edit(roleDTO);
     }

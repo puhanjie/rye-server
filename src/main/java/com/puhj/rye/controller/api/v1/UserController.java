@@ -89,9 +89,9 @@ public class UserController {
         return this.userService.removeByIds(ids);
     }
 
-    @Operation(summary = "修改用户", description = "修改用户信息")
+    @Operation(summary = "编辑用户", description = "编辑用户信息")
     @PutMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.UPDATE}, logical = Logical.OR)
+    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.EDIT}, logical = Logical.OR)
     public boolean edit(@RequestBody UserDTO userDTO) {
         return this.userService.edit(userDTO);
     }
