@@ -214,11 +214,11 @@ CREATE TABLE `user`
 BEGIN;
 INSERT INTO `user` (`id`, `username`, `nickname`, `user_status`, `password`, `phone`, `avatar`, `email`, `create_time`,
                     `update_time`, `delete_time`)
-VALUES (1, 'admin', '管理员', '0', 'c3284d0f94606de1fd2af172aba15bf3', '15887280652', '', 'hanjie.pu@outlook.com', NOW(),
+VALUES (1, 'admin', '管理员', '0', 'c3284d0f94606de1fd2af172aba15bf3', '15887280652', NULL, 'hanjie.pu@outlook.com', NOW(),
         NOW(), NULL);
 INSERT INTO `user` (`id`, `username`, `nickname`, `user_status`, `password`, `phone`, `avatar`, `email`, `create_time`,
                     `update_time`, `delete_time`)
-VALUES (2, 'guest', '访客', '0', 'c42d47602bc29f89644841702ca0ebf6', '18650329448', '', 'example@fox.com', NOW(),
+VALUES (2, 'guest', '访客', '0', 'c42d47602bc29f89644841702ca0ebf6', '18650329448', NULL, 'example@fox.com', NOW(),
         NOW(), NULL);
 COMMIT;
 
