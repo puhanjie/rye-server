@@ -28,9 +28,9 @@ CREATE TABLE `file`
     `name`        varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文件名',
     `file_size`   bigint                                                                 DEFAULT NULL COMMENT '文件大小(Byte)',
     `uuid`        varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci           DEFAULT NULL COMMENT '文件唯一uuid值',
-    `create_time` datetime                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` datetime                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `delete_time` datetime                                                            DEFAULT NULL COMMENT '删除时间',
+    `create_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `delete_time` datetime                                                               DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -49,7 +49,7 @@ CREATE TABLE `log`
     `user_id`      int unsigned NOT NULL COMMENT '操作用户ID',
     `username`     varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  DEFAULT NULL COMMENT '操作用户',
     `path`         varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '接口地址',
-    `operate_time` datetime  NOT NULL                                         DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
+    `operate_time` datetime     NOT NULL                                         DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -66,9 +66,9 @@ CREATE TABLE `permission`
     `name`        varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限名',
     `info`        varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci          DEFAULT NULL COMMENT '权限信息',
     `menu`        varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '菜单',
-    `create_time` datetime                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` datetime                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `delete_time` datetime                                                            DEFAULT NULL COMMENT '删除时间',
+    `create_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `delete_time` datetime                                                               DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 25
@@ -138,9 +138,9 @@ CREATE TABLE `role`
     `id`          int unsigned                                                  NOT NULL AUTO_INCREMENT COMMENT 'id',
     `name`        varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色名称',
     `info`        varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci          DEFAULT NULL COMMENT '角色信息',
-    `create_time` datetime                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` datetime                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `delete_time` datetime                                                            DEFAULT NULL COMMENT '删除时间',
+    `create_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `delete_time` datetime                                                               DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
@@ -198,9 +198,9 @@ CREATE TABLE `user`
     `phone`       varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci           DEFAULT NULL COMMENT '用户手机',
     `avatar`      varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci          DEFAULT NULL COMMENT '头像url',
     `email`       varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci          DEFAULT NULL COMMENT '邮箱',
-    `create_time` datetime                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` datetime                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `delete_time` datetime                                                            DEFAULT NULL COMMENT '删除时间',
+    `create_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `delete_time` datetime                                                               DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`),
     UNIQUE KEY `username` (`username`)
 ) ENGINE = InnoDB
@@ -214,7 +214,8 @@ CREATE TABLE `user`
 BEGIN;
 INSERT INTO `user` (`id`, `username`, `nickname`, `user_status`, `password`, `phone`, `avatar`, `email`, `create_time`,
                     `update_time`, `delete_time`)
-VALUES (1, 'admin', '管理员', '0', 'c3284d0f94606de1fd2af172aba15bf3', '15887280652', NULL, 'hanjie.pu@outlook.com', NOW(),
+VALUES (1, 'admin', '管理员', '0', 'c3284d0f94606de1fd2af172aba15bf3', '15887280652', NULL, 'hanjie.pu@outlook.com',
+        NOW(),
         NOW(), NULL);
 INSERT INTO `user` (`id`, `username`, `nickname`, `user_status`, `password`, `phone`, `avatar`, `email`, `create_time`,
                     `update_time`, `delete_time`)
@@ -259,9 +260,9 @@ CREATE TABLE `dictionary`
     `item_value`  varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '字典值',
     `item_text`   varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典值文本',
     `description` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '描述',
-    `create_time` datetime                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` datetime                                                   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `delete_time` datetime                                                            DEFAULT NULL COMMENT '删除时间',
+    `create_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `delete_time` datetime                                                               DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
