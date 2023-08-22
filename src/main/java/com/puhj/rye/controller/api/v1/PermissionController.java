@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,21 +38,24 @@ public class PermissionController {
 
     @Operation(summary = "新增权限", description = "新增一个权限")
     @PostMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.ADD}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(Permissions.Permission.ADD)
     public boolean add(@RequestBody Permission permission) {
         return this.permissionService.save(permission);
     }
 
     @Operation(summary = "删除权限", description = "根据权限id数组删除权限")
     @DeleteMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.DELETE, Permissions.Permission.BATCHDELETE}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(value = {Permissions.Permission.DELETE, Permissions.Permission.BATCHDELETE}, logical = Logical.OR)
     public boolean remove(@RequestBody List<Integer> ids) {
         return this.permissionService.removeByIds(ids);
     }
 
     @Operation(summary = "编辑权限", description = "编辑权限信息")
     @PutMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.EDIT}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(Permissions.Permission.EDIT)
     public boolean edit(@RequestBody Permission permission) {
         return this.permissionService.updateById(permission);
     }
@@ -65,7 +69,8 @@ public class PermissionController {
             @Parameter(name = "menu", description = "菜单")
     })
     @GetMapping("/list")
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.VIEW}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(Permissions.Permission.VIEW)
     public PageVO<PermissionListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                          @RequestParam(value = "name", required = false) String name,
@@ -77,7 +82,8 @@ public class PermissionController {
 
     @Operation(summary = "查询所有权限", description = "查询所有权限数据")
     @GetMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Permission.VIEW, Permissions.Role.VIEW}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(value = {Permissions.Permission.VIEW, Permissions.Role.VIEW}, logical = Logical.OR)
     public List<Permission> query() {
         return this.permissionService.list();
     }

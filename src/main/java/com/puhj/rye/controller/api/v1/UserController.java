@@ -23,6 +23,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
@@ -74,7 +75,8 @@ public class UserController {
 
     @Operation(summary = "新增用户", description = "增加一个用户")
     @PostMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.ADD}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(Permissions.User.ADD)
     public boolean add(@RequestBody UserDTO userDTO) {
         String password = userDTO.getPassword();
         // 加密密码
@@ -84,14 +86,16 @@ public class UserController {
 
     @Operation(summary = "删除用户", description = "根据用户id数组删除用户")
     @DeleteMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.DELETE, Permissions.User.BATCHDELETE}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(value = {Permissions.User.DELETE, Permissions.User.BATCHDELETE}, logical = Logical.OR)
     public boolean remove(@RequestBody List<Integer> ids) {
         return this.userService.removeByIds(ids);
     }
 
     @Operation(summary = "编辑用户", description = "编辑用户信息")
     @PutMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.EDIT}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(Permissions.User.EDIT)
     public boolean edit(@RequestBody UserDTO userDTO) {
         return this.userService.edit(userDTO);
     }
@@ -112,7 +116,8 @@ public class UserController {
             @Parameter(name = "email", description = "邮箱")
     })
     @GetMapping("/list")
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.User.VIEW}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(Permissions.User.VIEW)
     public PageVO<UserListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                    @RequestParam(value = "username", required = false) String username,

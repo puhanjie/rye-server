@@ -67,7 +67,7 @@ CREATE TABLE `permission`
     `delete_time` datetime                                                               DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 24
+  AUTO_INCREMENT = 23
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='权限表';
 
@@ -76,51 +76,49 @@ CREATE TABLE `permission`
 -- ----------------------------
 BEGIN;
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (1, 'app:admin', '管理员', '*', NOW(), NOW(), NULL);
+VALUES (1, 'user:add', '新增', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (2, 'user:add', '新增', 'user', NOW(), NOW(), NULL);
+VALUES (2, 'user:delete', '删除', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (3, 'user:delete', '删除', 'user', NOW(), NOW(), NULL);
+VALUES (3, 'user:edit', '编辑', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (4, 'user:edit', '编辑', 'user', NOW(), NOW(), NULL);
+VALUES (4, 'user:view', '查看', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (5, 'user:view', '查看', 'user', NOW(), NOW(), NULL);
+VALUES (5, 'user:resetPassword', '重置密码', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (6, 'user:resetPassword', '重置密码', 'user', NOW(), NOW(), NULL);
+VALUES (6, 'user:batchDelete', '批量删除', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (7, 'user:batchDelete', '批量删除', 'user', NOW(), NOW(), NULL);
+VALUES (7, 'role:add', '新增', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (8, 'role:add', '新增', 'role', NOW(), NOW(), NULL);
+VALUES (8, 'role:delete', '删除', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (9, 'role:delete', '删除', 'role', NOW(), NOW(), NULL);
+VALUES (9, 'role:edit', '编辑', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (10, 'role:edit', '编辑', 'role', NOW(), NOW(), NULL);
+VALUES (10, 'role:view', '查看', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (11, 'role:view', '查看', 'role', NOW(), NOW(), NULL);
+VALUES (11, 'role:batchDelete', '批量删除', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (12, 'role:batchDelete', '批量删除', 'role', NOW(), NOW(), NULL);
+VALUES (12, 'permission:add', '新增', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (13, 'permission:add', '新增', 'permission', NOW(), NOW(), NULL);
+VALUES (13, 'permission:delete', '删除', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (14, 'permission:delete', '删除', 'permission', NOW(), NOW(), NULL);
+VALUES (14, 'permission:edit', '编辑', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (15, 'permission:edit', '编辑', 'permission', NOW(), NOW(), NULL);
+VALUES (15, 'permission:view', '查看', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (16, 'permission:view', '查看', 'permission', NOW(), NOW(), NULL);
+VALUES (16, 'permission:batchDelete', '批量删除', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (17, 'permission:batchDelete', '批量删除', 'permission', NOW(), NOW(), NULL);
+VALUES (17, 'dictionary:add', '新增', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (18, 'dictionary:add', '新增', 'dictionary', NOW(), NOW(), NULL);
+VALUES (18, 'dictionary:delete', '删除', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (19, 'dictionary:delete', '删除', 'dictionary', NOW(), NOW(), NULL);
+VALUES (19, 'dictionary:edit', '编辑', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (20, 'dictionary:edit', '编辑', 'dictionary', NOW(), NOW(), NULL);
+VALUES (20, 'dictionary:view', '查看', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (21, 'dictionary:view', '查看', 'dictionary', NOW(), NOW(), NULL);
+VALUES (21, 'dictionary:batchDelete', '批量删除', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (22, 'dictionary:batchDelete', '批量删除', 'dictionary', NOW(), NOW(), NULL);
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (23, 'settings:view', '查看', 'settings', NOW(), NOW(), NULL);
+VALUES (22, 'settings:view', '查看', 'settings', NOW(), NOW(), NULL);
 COMMIT;
 
 -- ----------------------------
@@ -175,7 +173,7 @@ VALUES (1, 1, 1);
 INSERT INTO `role_permission` (`id`, `role_id`, `permission_id`)
 VALUES (2, 2, 2);
 INSERT INTO `role_permission` (`id`, `role_id`, `permission_id`)
-VALUES (3, 2, 23);
+VALUES (3, 2, 22);
 COMMIT;
 
 -- ----------------------------

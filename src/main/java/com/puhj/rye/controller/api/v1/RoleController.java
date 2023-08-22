@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,21 +39,24 @@ public class RoleController {
 
     @Operation(summary = "新增角色", description = "新增一个角色")
     @PostMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.ADD}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(Permissions.Role.ADD)
     public boolean add(@RequestBody RoleDTO roleDTO) {
         return this.roleService.add(roleDTO);
     }
 
     @Operation(summary = "删除角色", description = "根据角色id数组删除角色")
     @DeleteMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.DELETE, Permissions.Role.BATCHDELETE}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(value = {Permissions.Role.DELETE, Permissions.Role.BATCHDELETE}, logical = Logical.OR)
     public boolean remove(@RequestBody List<Integer> ids) {
         return this.roleService.removeByIds(ids);
     }
 
     @Operation(summary = "编辑角色", description = "编辑角色信息")
     @PutMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.EDIT}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(Permissions.Role.EDIT)
     public boolean edit(@RequestBody RoleDTO roleDTO) {
         return this.roleService.edit(roleDTO);
     }
@@ -65,7 +69,8 @@ public class RoleController {
             @Parameter(name = "info", description = "角色信息")
     })
     @GetMapping("/list")
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.VIEW}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(Permissions.Role.VIEW)
     public PageVO<RoleListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                    @RequestParam(value = "name", required = false) String name,
@@ -76,7 +81,8 @@ public class RoleController {
 
     @Operation(summary = "查询所有角色", description = "查询所有角色数据")
     @GetMapping
-    @RequiresPermissions(value = {Permissions.ADMIN, Permissions.Role.VIEW, Permissions.User.VIEW}, logical = Logical.OR)
+    @RequiresRoles(Permissions.ADMIN)
+    @RequiresPermissions(value = {Permissions.Role.VIEW, Permissions.User.VIEW}, logical = Logical.OR)
     public List<Role> query() {
         return this.roleService.list();
     }
