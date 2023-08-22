@@ -66,7 +66,7 @@ CREATE TABLE `permission`
     `update_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `delete_time` datetime                                                               DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `username` (`name`)
+    UNIQUE KEY `name` (`name`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 23
   DEFAULT CHARSET = utf8mb4
@@ -135,7 +135,7 @@ CREATE TABLE `role`
     `update_time` datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `delete_time` datetime                                                               DEFAULT NULL COMMENT '删除时间',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `username` (`name`)
+    UNIQUE KEY `name` (`name`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8mb4
