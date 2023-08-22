@@ -7,6 +7,7 @@ package com.puhj.rye.common.constant;
  */
 public final class Permissions {
 
+    // admin角色标识
     public static final String ADMIN = "admin";
 
     /* 用户管理 */

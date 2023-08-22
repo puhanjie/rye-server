@@ -34,8 +34,9 @@
         select p.id,
                p.name,
                p.info
-        from role_permission rp
-                 left join permission p on rp.permission_id = p.id
+        from permission p
+                 left join role_permission rp on p.id = rp.permission_id
         where rp.role_id = #{id}
+           or #{id} = 1
     </select>
 </mapper>

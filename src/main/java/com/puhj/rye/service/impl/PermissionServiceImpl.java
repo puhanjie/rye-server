@@ -3,6 +3,7 @@ package com.puhj.rye.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.puhj.rye.common.constant.Permissions;
 import com.puhj.rye.entity.Permission;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.mapper.PermissionMapper;
@@ -39,6 +40,14 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         if (roles == null) {
             return null;
         }
+
+        // admin返回所有权限
+        for (Role role : roles) {
+            if (Permissions.ADMIN.equals(role.getName())) {
+                return this.list();
+            }
+        }
+
         List<Integer> roleIds = roles.stream().map(Role::getId).toList();
         List<Integer> permissionIds = this.rolePermissionService.getPermissionIdsByRoleIds(roleIds);
         // 角色没分配权限

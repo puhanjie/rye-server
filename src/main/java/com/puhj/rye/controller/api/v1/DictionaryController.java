@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +38,6 @@ public class DictionaryController {
 
     @Operation(summary = "新增字典", description = "增加一个字典项")
     @PostMapping
-    @RequiresRoles(Permissions.ADMIN)
     @RequiresPermissions(Permissions.Dictionary.ADD)
     public boolean add(@RequestBody Dictionary dictionary) {
         return this.dictionaryService.save(dictionary);
@@ -47,7 +45,6 @@ public class DictionaryController {
 
     @Operation(summary = "删除字典", description = "根据字典id数组删除字典")
     @DeleteMapping
-    @RequiresRoles(Permissions.ADMIN)
     @RequiresPermissions(value = {Permissions.Dictionary.DELETE, Permissions.Dictionary.BATCHDELETE}, logical = Logical.OR)
     public boolean remove(@RequestBody List<Integer> ids) {
         return this.dictionaryService.removeByIds(ids);
@@ -55,7 +52,6 @@ public class DictionaryController {
 
     @Operation(summary = "编辑字典", description = "编辑字典信息")
     @PutMapping
-    @RequiresRoles(Permissions.ADMIN)
     @RequiresPermissions(Permissions.Dictionary.EDIT)
     public boolean edit(@RequestBody Dictionary dictionary) {
         return this.dictionaryService.updateById(dictionary);
@@ -69,7 +65,6 @@ public class DictionaryController {
             @Parameter(name = "itemText", description = "字典值文本")
     })
     @GetMapping("/list")
-    @RequiresRoles(Permissions.ADMIN)
     @RequiresPermissions(Permissions.Dictionary.VIEW)
     public PageVO<DictionaryListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
@@ -84,7 +79,6 @@ public class DictionaryController {
             @Parameter(name = "dictName", description = "字典名")
     })
     @GetMapping("/items")
-    @RequiresRoles(Permissions.ADMIN)
     @RequiresPermissions(value = {Permissions.Dictionary.VIEW, Permissions.User.VIEW}, logical = Logical.OR)
     public List<Dictionary> getItems(@RequestParam String dictName) {
         return this.dictionaryService.getItems(dictName);

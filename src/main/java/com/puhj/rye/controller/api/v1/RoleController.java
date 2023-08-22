@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +38,6 @@ public class RoleController {
 
     @Operation(summary = "新增角色", description = "新增一个角色")
     @PostMapping
-    @RequiresRoles(Permissions.ADMIN)
     @RequiresPermissions(Permissions.Role.ADD)
     public boolean add(@RequestBody RoleDTO roleDTO) {
         return this.roleService.add(roleDTO);
@@ -47,7 +45,6 @@ public class RoleController {
 
     @Operation(summary = "删除角色", description = "根据角色id数组删除角色")
     @DeleteMapping
-    @RequiresRoles(Permissions.ADMIN)
     @RequiresPermissions(value = {Permissions.Role.DELETE, Permissions.Role.BATCHDELETE}, logical = Logical.OR)
     public boolean remove(@RequestBody List<Integer> ids) {
         return this.roleService.removeByIds(ids);
@@ -55,7 +52,6 @@ public class RoleController {
 
     @Operation(summary = "编辑角色", description = "编辑角色信息")
     @PutMapping
-    @RequiresRoles(Permissions.ADMIN)
     @RequiresPermissions(Permissions.Role.EDIT)
     public boolean edit(@RequestBody RoleDTO roleDTO) {
         return this.roleService.edit(roleDTO);
@@ -69,7 +65,6 @@ public class RoleController {
             @Parameter(name = "info", description = "角色信息")
     })
     @GetMapping("/list")
-    @RequiresRoles(Permissions.ADMIN)
     @RequiresPermissions(Permissions.Role.VIEW)
     public PageVO<RoleListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
@@ -81,7 +76,6 @@ public class RoleController {
 
     @Operation(summary = "查询所有角色", description = "查询所有角色数据")
     @GetMapping
-    @RequiresRoles(Permissions.ADMIN)
     @RequiresPermissions(value = {Permissions.Role.VIEW, Permissions.User.VIEW}, logical = Logical.OR)
     public List<Role> query() {
         return this.roleService.list();

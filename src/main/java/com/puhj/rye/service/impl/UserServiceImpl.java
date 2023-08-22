@@ -18,6 +18,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -148,7 +149,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = this.getByUsername(JwtUtil.getTokenInfo(token));
 
         // 删除原有头像文件
-        if (!user.getAvatar().isBlank()) {
+        if (StringUtils.hasLength(user.getAvatar())) {
             this.fileService.remove(user.getAvatar(), request);
         }
         FileVO avatar = this.fileService.upload(files, request).get(0);
