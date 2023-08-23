@@ -45,7 +45,7 @@ public class RoleController {
 
     @Operation(summary = "删除角色", description = "根据角色id数组删除角色")
     @DeleteMapping
-    @RequiresPermissions(value = {Permissions.Role.DELETE, Permissions.Role.BATCHDELETE}, logical = Logical.OR)
+    @RequiresPermissions(Permissions.Role.DELETE)
     public boolean remove(@RequestBody List<Integer> ids) {
         return this.roleService.removeByIds(ids);
     }

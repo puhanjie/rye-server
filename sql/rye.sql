@@ -68,7 +68,7 @@ CREATE TABLE `permission`
     PRIMARY KEY (`id`),
     UNIQUE KEY `name` (`name`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 23
+  AUTO_INCREMENT = 19
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='权限表';
 
@@ -87,39 +87,31 @@ VALUES (4, 'user:view', '查看', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
 VALUES (5, 'user:resetPassword', '重置密码', 'user', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (6, 'user:batchDelete', '批量删除', 'user', NOW(), NOW(), NULL);
+VALUES (6, 'role:add', '新增', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (7, 'role:add', '新增', 'role', NOW(), NOW(), NULL);
+VALUES (7, 'role:delete', '删除', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (8, 'role:delete', '删除', 'role', NOW(), NOW(), NULL);
+VALUES (8, 'role:edit', '编辑', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (9, 'role:edit', '编辑', 'role', NOW(), NOW(), NULL);
+VALUES (9, 'role:view', '查看', 'role', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (10, 'role:view', '查看', 'role', NOW(), NOW(), NULL);
+VALUES (10, 'permission:add', '新增', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (11, 'role:batchDelete', '批量删除', 'role', NOW(), NOW(), NULL);
+VALUES (11, 'permission:delete', '删除', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (12, 'permission:add', '新增', 'permission', NOW(), NOW(), NULL);
+VALUES (12, 'permission:edit', '编辑', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (13, 'permission:delete', '删除', 'permission', NOW(), NOW(), NULL);
+VALUES (13, 'permission:view', '查看', 'permission', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (14, 'permission:edit', '编辑', 'permission', NOW(), NOW(), NULL);
+VALUES (14, 'dictionary:add', '新增', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (15, 'permission:view', '查看', 'permission', NOW(), NOW(), NULL);
+VALUES (15, 'dictionary:delete', '删除', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (16, 'permission:batchDelete', '批量删除', 'permission', NOW(), NOW(), NULL);
+VALUES (16, 'dictionary:edit', '编辑', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (17, 'dictionary:add', '新增', 'dictionary', NOW(), NOW(), NULL);
+VALUES (17, 'dictionary:view', '查看', 'dictionary', NOW(), NOW(), NULL);
 INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (18, 'dictionary:delete', '删除', 'dictionary', NOW(), NOW(), NULL);
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (19, 'dictionary:edit', '编辑', 'dictionary', NOW(), NOW(), NULL);
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (20, 'dictionary:view', '查看', 'dictionary', NOW(), NOW(), NULL);
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (21, 'dictionary:batchDelete', '批量删除', 'dictionary', NOW(), NOW(), NULL);
-INSERT INTO `permission` (`id`, `name`, `info`, `menu`, `create_time`, `update_time`, `delete_time`)
-VALUES (22, 'settings:view', '查看', 'settings', NOW(), NOW(), NULL);
+VALUES (18, 'settings:view', '查看', 'settings', NOW(), NOW(), NULL);
 COMMIT;
 
 -- ----------------------------
@@ -171,7 +163,7 @@ CREATE TABLE `role_permission`
 -- ----------------------------
 BEGIN;
 INSERT INTO `role_permission` (`id`, `role_id`, `permission_id`)
-VALUES (1, 2, 22);
+VALUES (1, 2, 18);
 COMMIT;
 
 -- ----------------------------

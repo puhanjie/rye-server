@@ -44,7 +44,7 @@ public class PermissionController {
 
     @Operation(summary = "删除权限", description = "根据权限id数组删除权限")
     @DeleteMapping
-    @RequiresPermissions(value = {Permissions.Permission.DELETE, Permissions.Permission.BATCHDELETE}, logical = Logical.OR)
+    @RequiresPermissions(Permissions.Permission.DELETE)
     public boolean remove(@RequestBody List<Integer> ids) {
         return this.permissionService.removeByIds(ids);
     }

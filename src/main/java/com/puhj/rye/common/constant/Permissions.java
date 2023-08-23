@@ -16,7 +16,6 @@ public final class Permissions {
         public static final String ADD = "user:add";
         public static final String EDIT = "user:edit";
         public static final String DELETE = "user:delete";
-        public static final String BATCHDELETE = "user:batchDelete";
     }
 
     /* 角色管理 */
@@ -25,7 +24,6 @@ public final class Permissions {
         public static final String ADD = "role:add";
         public static final String EDIT = "role:edit";
         public static final String DELETE = "role:delete";
-        public static final String BATCHDELETE = "role:batchDelete";
     }
 
     /* 权限管理 */
@@ -34,7 +32,6 @@ public final class Permissions {
         public static final String ADD = "permission:add";
         public static final String EDIT = "permission:edit";
         public static final String DELETE = "permission:delete";
-        public static final String BATCHDELETE = "permission:batchDelete";
     }
 
     /* 字典管理 */
@@ -43,7 +40,6 @@ public final class Permissions {
         public static final String ADD = "dictionary:add";
         public static final String EDIT = "dictionary:edit";
         public static final String DELETE = "dictionary:delete";
-        public static final String BATCHDELETE = "dictionary:batchDelete";
     }
 
 }

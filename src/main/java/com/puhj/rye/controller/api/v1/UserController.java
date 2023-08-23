@@ -20,7 +20,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
@@ -84,7 +83,7 @@ public class UserController {
 
     @Operation(summary = "删除用户", description = "根据用户id数组删除用户")
     @DeleteMapping
-    @RequiresPermissions(value = {Permissions.User.DELETE, Permissions.User.BATCHDELETE}, logical = Logical.OR)
+    @RequiresPermissions(Permissions.User.DELETE)
     public boolean remove(@RequestBody List<Integer> ids) {
         return this.userService.removeByIds(ids);
     }

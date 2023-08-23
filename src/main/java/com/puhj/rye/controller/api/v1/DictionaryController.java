@@ -45,7 +45,7 @@ public class DictionaryController {
 
     @Operation(summary = "删除字典", description = "根据字典id数组删除字典")
     @DeleteMapping
-    @RequiresPermissions(value = {Permissions.Dictionary.DELETE, Permissions.Dictionary.BATCHDELETE}, logical = Logical.OR)
+    @RequiresPermissions(Permissions.Dictionary.DELETE)
     public boolean remove(@RequestBody List<Integer> ids) {
         return this.dictionaryService.removeByIds(ids);
     }
