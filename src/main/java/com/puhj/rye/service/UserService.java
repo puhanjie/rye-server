@@ -3,16 +3,16 @@ package com.puhj.rye.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.puhj.rye.bo.PasswordBO;
+import com.puhj.rye.bo.UserBO;
 import com.puhj.rye.dto.UserDTO;
 import com.puhj.rye.entity.User;
-import com.puhj.rye.vo.AvatarVO;
+import com.puhj.rye.vo.FileVO;
 import com.puhj.rye.vo.PageVO;
+import com.puhj.rye.vo.UserBasicInfoVO;
 import com.puhj.rye.vo.UserInfoVO;
-import com.puhj.rye.vo.UserListVO;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * <p>
@@ -30,12 +30,14 @@ public interface UserService extends IService<User> {
 
     User getByUsername(String username);
 
-    UserInfoVO getInfo();
+    UserBasicInfoVO getBasicInfo();
 
-    PageVO<UserListVO> list(Page<UserListVO> page, String username, String phone, String email);
+    PageVO<UserInfoVO> list(Page<UserInfoVO> page, String username, String name, String phone, String email);
 
     int updatePassword(PasswordBO passwordBO);
 
-    AvatarVO modifyAvatar(MultipartFile[] files, HttpServletRequest request) throws IOException;
+    String modifyAvatar(User user, FileVO avatar) throws IOException;
+
+    List<UserBO> getOptions();
 
 }

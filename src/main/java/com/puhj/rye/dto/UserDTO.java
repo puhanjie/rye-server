@@ -17,16 +17,22 @@ public class UserDTO {
     @Schema(description = "用户id")
     private Integer id;
 
+    @Schema(description = "部门")
+    private Integer department;
+
     @Schema(description = "用户名")
     private String username;
 
-    @Schema(description = "昵称")
-    private String nickname;
+    @Schema(description = "姓名")
+    private String name;
+
+    @Schema(description = "性别")
+    private String sex;
 
     @Schema(description = "用户状态")
     private String userStatus;
 
-    @Schema(description = "密码")
+    @Schema(description = "登陆密码")
     private String password;
 
     @Schema(description = "手机")
@@ -40,5 +46,8 @@ public class UserDTO {
 
     @Schema(description = "角色,id数组")
     private List<Integer> roles;
+
+    @Schema(description = "岗位,id数组")
+    private List<Integer> posts;
 
 }

@@ -1,4 +1,4 @@
-package com.puhj.rye.vo;
+package com.puhj.rye.bo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
  * @description 用户状态数据字典对象
  * @create 2023-07-31
  */
-@Schema(name = "UserStatusVO", description = "用户状态数据字典对象")
+@Schema(name = "DictionaryBO", description = "字典项数据对象")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserStatusVO {
+public class DictionaryBO {
 
-    @Schema(description = "字典值")
-    private String itemValue;
+    @Schema(description = "字典键值")
+    private String dictValue;
 
-    @Schema(description = "字典文本")
-    private String itemText;
+    @Schema(description = "字典标签")
+    private String dictLabel;
 
 }

@@ -1,41 +1,221 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.puhj.rye.mapper.UserMapper">
-    <resultMap id="userList" type="com.puhj.rye.vo.UserListVO">
+    <resultMap id="userBasicInfo" type="com.puhj.rye.vo.UserBasicInfoVO">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
-        <result column="nickname" property="nickname"/>
-        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="avatar" property="avatar"/>
+        <result column="email" property="email"/>
+        <association property="department" javaType="com.puhj.rye.bo.DepartmentBO">
+            <result column="dept_id" property="id"/>
+            <result column="dept_code" property="code"/>
+            <result column="dept_name" property="name"/>
+        </association>
+        <association property="sex" javaType="com.puhj.rye.bo.DictionaryBO">
+            <result column="sex_value" property="dictValue"/>
+            <result column="sex_label" property="dictLabel"/>
+        </association>
+        <association property="userStatus" javaType="com.puhj.rye.bo.DictionaryBO">
+            <result column="status_value" property="dictValue"/>
+            <result column="status_label" property="dictLabel"/>
+        </association>
+        <collection property="roles" column="{userId=id}" javaType="java.util.List" ofType="com.puhj.rye.bo.RoleBO"
+                    select="selectRolesByUserId">
+        </collection>
+        <collection property="posts" column="{userId=id}" javaType="java.util.List" ofType="com.puhj.rye.bo.PostBO"
+                    select="selectPostsByUserId">
+        </collection>
+        <collection property="permissions" column="{userId=id}" javaType="java.util.List"
+                    ofType="com.puhj.rye.bo.PermissionBO"
+                    select="selectPermissionsByUserId">
+        </collection>
+    </resultMap>
+
+    <resultMap id="userList" type="com.puhj.rye.vo.UserInfoVO">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="name" property="name"/>
         <result column="phone" property="phone"/>
         <result column="avatar" property="avatar"/>
         <result column="email" property="email"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <association property="userStatus" javaType="com.puhj.rye.vo.UserStatusVO">
-            <result column="item_value" property="itemValue"/>
-            <result column="item_text" property="itemText"/>
+        <association property="department" javaType="com.puhj.rye.bo.DepartmentBO">
+            <result column="dept_id" property="id"/>
+            <result column="dept_code" property="code"/>
+            <result column="dept_name" property="name"/>
         </association>
-        <collection property="roles" column="id" javaType="java.util.List" ofType="com.puhj.rye.vo.RoleSimpleVO"
-                    select="getRolesByUserId">
+        <association property="sex" javaType="com.puhj.rye.bo.DictionaryBO">
+            <result column="sex_value" property="dictValue"/>
+            <result column="sex_label" property="dictLabel"/>
+        </association>
+        <association property="userStatus" javaType="com.puhj.rye.bo.DictionaryBO">
+            <result column="status_value" property="dictValue"/>
+            <result column="status_label" property="dictLabel"/>
+        </association>
+        <association property="createUser" javaType="com.puhj.rye.bo.UserBO">
+            <result column="create_user_id" property="id"/>
+            <result column="create_user_username" property="username"/>
+            <result column="create_user_name" property="name"/>
+        </association>
+        <association property="updateUser" javaType="com.puhj.rye.bo.UserBO">
+            <result column="update_user_id" property="id"/>
+            <result column="update_user_username" property="username"/>
+            <result column="update_user_name" property="name"/>
+        </association>
+        <collection property="roles" column="{userId=id}" javaType="java.util.List" ofType="com.puhj.rye.bo.RoleBO"
+                    select="selectRolesByUserId">
+        </collection>
+        <collection property="posts" column="{userId=id}" javaType="java.util.List" ofType="com.puhj.rye.bo.PostBO"
+                    select="selectPostsByUserId">
         </collection>
     </resultMap>
+
+    <insert id="insertRoleIdsByUserId">
+        insert into user_role(user_id, role_id) values
+        <foreach collection="roleIds" item="roleId" index="index" separator=",">
+            (#{userId},#{roleId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoleIdsByUserId">
+        delete
+        from user_role
+        where user_id = #{userId}
+        and role_id in
+        <foreach collection="roleIds" item="roleId" index="index" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
+    <select id="selectRoleIdsByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select role_id
+        from user_role
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertPostIdsByUserId">
+        insert into user_post(user_id, post_id) values
+        <foreach collection="postIds" item="postId" index="index" separator=",">
+            (#{userId},#{postId})
+        </foreach>
+    </insert>
+
+    <delete id="deletePostIdsByUserId">
+        delete
+        from user_post
+        where user_id = #{userId}
+        and post_id in
+        <foreach collection="postIds" item="postId" index="index" open="(" separator="," close=")">
+            #{postId}
+        </foreach>
+    </delete>
+
+    <select id="selectPostIdsByUserId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select post_id
+        from user_post
+        where user_id = #{userId}
+    </select>
+
+    <select id="selectRolesByUserId" resultType="com.puhj.rye.bo.RoleBO">
+        select r.id, r.code, r.name
+        from user_role ur
+                 left join role r on ur.role_id = r.id
+        where user_id = #{userId}
+    </select>
+
+    <select id="selectPostsByUserId" resultType="com.puhj.rye.bo.PostBO">
+        select p.id, p.code, p.name
+        from user_post up
+                 left join post p on up.post_id = p.id
+        where user_id = #{userId}
+    </select>
+
+    <select id="selectPermissionsByUserId" resultType="com.puhj.rye.bo.PermissionBO">
+        select p.id, p.code, p.name, p.menu
+        from permission p
+        where p.id in (select rp.permission_id
+                       from user_role ur
+                                left join role_permission rp on ur.role_id = rp.role_id
+                       where ur.user_id = #{userId}
+                       union
+                       select rp.permission_id
+                       from user_post up
+                                left join post_role pr on up.post_id = pr.post_id
+                                left join role_permission rp on pr.role_id = rp.role_id
+                       where up.user_id = #{userId}
+                       union
+                       select rp.permission_id
+                       from user u
+                                left join department dept on u.department = dept.id
+                                left join department_role dr on dept.id = dr.department_id
+                                left join role_permission rp on dr.role_id = rp.role_id
+                       where u.id = #{userId})
+           or 'admin' in (select r.code
+                          from user_role ur
+                                   left join role r on ur.role_id = r.id
+                          where ur.user_id = #{userId})
+    </select>
+
+    <select id="selectBasicInfo" resultMap="userBasicInfo">
+        select u.id,
+               u.username,
+               u.name,
+               u.phone,
+               u.avatar,
+               u.email,
+               dept.id       as dept_id,
+               dept.code     as dept_code,
+               dept.name     as dept_name,
+               d1.dict_value as sex_value,
+               d1.dict_label as sex_label,
+               d2.dict_value as status_value,
+               d2.dict_label as status_label
+        from user u
+                 left join department dept on u.department = dept.id
+                 left join dictionary d1 on d1.dict_type = 'sex' and u.sex = d1.dict_value
+                 left join dictionary d2 on d2.dict_type = 'user_status' and u.user_status = d2.dict_value
+        where u.id = #{userId}
+          and u.delete_time is null
+    </select>
 
     <select id="list" resultMap="userList">
         select u.id,
         u.username,
-        u.nickname,
+        u.name,
         u.phone,
         u.avatar,
         u.email,
         u.create_time,
         u.update_time,
-        d.item_value,
-        d.item_text
+        dept.id as dept_id,
+        dept.code as dept_code,
+        dept.name as dept_name,
+        d1.dict_value as sex_value,
+        d1.dict_label as sex_label,
+        d2.dict_value as status_value,
+        d2.dict_label as status_label,
+        u1.id as create_user_id,
+        u1.username as create_user_username,
+        u1.name as create_user_name,
+        u2.id as update_user_id,
+        u2.username as update_user_username,
+        u2.name as update_user_name
         from user u
-        left join dictionary d on d.dict_name = 'user_status' and u.user_status = d.item_value
+        left join department dept on u.department = dept.id
+        left join dictionary d1 on d1.dict_type = 'sex' and u.sex = d1.dict_value
+        left join dictionary d2 on d2.dict_type = 'user_status' and u.user_status = d2.dict_value
+        left join user u1 on u.create_user = u1.id
+        left join user u2 on u.update_user = u2.id
         <where>
+            u.delete_time is null
             <if test="username != null and username != ''">
                 and u.username like concat('%',#{username},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and u.name like concat('%',#{name},'%')
             </if>
             <if test="phone != null and phone != ''">
                 and u.phone like concat('%',#{phone},'%')
@@ -45,14 +225,5 @@
             </if>
         </where>
         order by u.id
-    </select>
-
-    <select id="getRolesByUserId" resultType="com.puhj.rye.vo.RoleSimpleVO">
-        select r.id,
-               r.name,
-               r.info
-        from role r
-                 left join user_role ur on r.id = ur.role_id
-        where ur.user_id = #{id}
     </select>
 </mapper>

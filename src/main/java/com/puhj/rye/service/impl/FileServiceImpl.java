@@ -1,8 +1,10 @@
 package com.puhj.rye.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.puhj.rye.common.utils.BasePathUtil;
+import com.puhj.rye.common.utils.PathUtil;
 import com.puhj.rye.common.utils.DateUtil;
+import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.entity.File;
 import com.puhj.rye.mapper.FileMapper;
 import com.puhj.rye.service.FileService;
@@ -35,6 +37,7 @@ import java.util.*;
 public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements FileService {
 
     private final FileMapper fileMapper;
+
     @Value("${files.path}")
     private String path;
 
@@ -45,6 +48,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     @Transactional
     @Override
     public List<FileVO> upload(MultipartFile[] files, HttpServletRequest request) throws IOException {
+        Integer currentUserId = SubjectUtil.getSubjectId();
         // 创建目录
         String fileDir = System.getProperty("user.dir");
         String dateFormat = DateUtil.getDateFormat(new Date(), "yyyyMMdd");
@@ -65,10 +69,10 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 
             file.transferTo(new java.io.File(folder, saveName));
 
-            String filePath = BasePathUtil.getBasePath(request) + "/" + this.path + "/" + dateFormat + "/" + saveName;
-            fileList.add(new FileVO(fileName, uuid, filePath));
+            String filePath = PathUtil.getBasePath(request) + "/" + this.path + "/" + dateFormat + "/" + saveName;
+            fileList.add(new FileVO(fileName, filePath));
 
-            this.fileMapper.insert(new File(filePath, fileName, fileSize, uuid));
+            this.fileMapper.insert(new File(filePath, fileName, fileSize, uuid, currentUserId));
         }
 
         return fileList;
@@ -77,20 +81,23 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     @Transactional
     @Override
     public void remove(String path, HttpServletRequest request) {
-        String fileDir = System.getProperty("user.dir") + path.substring(BasePathUtil.getBasePath(request).length());
-        this.fileMapper.deleteByPath(path); // 删除了的文件,更新文件表的delete_time字段表示已删除
-        FileSystemUtils.deleteRecursively(new java.io.File(fileDir));
+        Integer currentUserId = SubjectUtil.getSubjectId();
+        String fileDir = System.getProperty("user.dir") + path.substring(PathUtil.getBasePath(request).length());
+        this.fileMapper.deleteByPath(path, currentUserId); // 删除了的文件,更新文件表的delete_time字段表示已删除
+        FileSystemUtils.deleteRecursively(new java.io.File(fileDir)); // 移除本地文件
     }
 
     @Override
     public void download(String path, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String fileDir = System.getProperty("user.dir") + path.substring(BasePathUtil.getBasePath(request).length());
+        String fileDir = System.getProperty("user.dir") + path.substring(PathUtil.getBasePath(request).length());
         java.io.File folder = new java.io.File(fileDir);
         if (!folder.exists()) {
             throw new IOException("文件不存在");
         }
 
-        String fileName = this.fileMapper.selectByPath(path).getName();
+        QueryWrapper<File> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("path", path).isNull("delete_time");
+        String fileName = this.fileMapper.selectOne(queryWrapper).getName();
         byte[] buffer = new byte[1024];
 
         try (FileInputStream fis = new FileInputStream(folder);

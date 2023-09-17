@@ -1,12 +1,10 @@
 package com.puhj.rye.common.auth;
 
 import com.puhj.rye.common.utils.JwtUtil;
-import com.puhj.rye.entity.Permission;
-import com.puhj.rye.entity.Role;
-import com.puhj.rye.entity.User;
-import com.puhj.rye.service.PermissionService;
-import com.puhj.rye.service.RoleService;
 import com.puhj.rye.service.UserService;
+import com.puhj.rye.bo.PermissionBO;
+import com.puhj.rye.bo.RoleBO;
+import com.puhj.rye.vo.UserBasicInfoVO;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -17,8 +15,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author puhanjie
@@ -29,12 +27,6 @@ public class AuthRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private PermissionService permissionService;
 
     /**
      * 添加对自定义的AutoToken类型的支持,否则会报错
@@ -49,31 +41,16 @@ public class AuthRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String token = (String) principalCollection.getPrimaryPrincipal();
-        User user = this.userService.getByUsername(JwtUtil.getTokenInfo(token));
+        UserBasicInfoVO userBasicInfoVO = this.userService.getBasicInfo();
 
-        List<Role> roles = this.roleService.getListByUserId(user.getId());
-        List<Permission> permissions = this.permissionService.getListByRoles(roles);
-        // 无角色或权限,则返回一个未初始化过的SimpleAuthorizationInfo对象
-        if (roles == null || permissions == null) {
-            return new SimpleAuthorizationInfo();
-        }
-
-        List<String> roleList = new ArrayList<>();
-        List<String> permissionList = new ArrayList<>();
-
-        for (Role role : roles) {
-            roleList.add(role.getName());
-        }
-        for (Permission permission : permissions) {
-            permissionList.add(permission.getName());
-        }
+        List<String> rolesStr = userBasicInfoVO.getRoles().stream().map(RoleBO::getCode).toList();
+        List<String> permissionsStr = userBasicInfoVO.getPermissions().stream().map(PermissionBO::getCode).toList();
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         // 获取到的用户角色提交给Shiro
-        simpleAuthorizationInfo.addRoles(roleList);
+        simpleAuthorizationInfo.addRoles(rolesStr);
         // 获取到的用户权限提交给Shiro
-        simpleAuthorizationInfo.addStringPermissions(permissionList);
+        simpleAuthorizationInfo.addStringPermissions(permissionsStr);
         return simpleAuthorizationInfo;
     }
 
@@ -84,8 +61,9 @@ public class AuthRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String token = (String) authenticationToken.getCredentials();
         try {
+            String username = Objects.requireNonNull(JwtUtil.getTokenInfo(token, "username")).asString();
             // 若查询结果为空，则会抛出空指针异常
-            this.userService.getByUsername(JwtUtil.getTokenInfo(token));
+            this.userService.getByUsername(username);
         } catch (NullPointerException e) {
             // 故意传入Invalid Token让Shiro报登录异常
             return new SimpleAuthenticationInfo(token, "Invalid Token", this.getName());

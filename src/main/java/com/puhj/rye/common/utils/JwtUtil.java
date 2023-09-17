@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,7 @@ public class JwtUtil {
     /**
      * 创建令牌
      */
-    public static String createToken(String username) {
+    public static String createToken(Integer userId, String username) {
         Algorithm algorithm = Algorithm.HMAC256(JwtUtil.secret);
         Calendar calendar = Calendar.getInstance();
         Date currentTime = calendar.getTime();
@@ -35,6 +36,7 @@ public class JwtUtil {
         Date endTime = calendar.getTime();
 
         return JWT.create()
+                .withClaim("id", userId)
                 .withClaim("username", username)
                 .withIssuedAt(currentTime)
                 .withExpiresAt(endTime)
@@ -59,10 +61,10 @@ public class JwtUtil {
     /**
      * 解析令牌
      */
-    public static String getTokenInfo(String token) {
+    public static Claim getTokenInfo(String token, String claimName) {
         try {
             DecodedJWT jwt = JWT.decode(token);
-            return jwt.getClaim("username").asString();
+            return jwt.getClaim(claimName);
         } catch (JWTDecodeException e) {
             return null;
         }

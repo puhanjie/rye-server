@@ -17,11 +17,14 @@ public class RoleDTO {
     @Schema(description = "角色id")
     private Integer id;
 
-    @Schema(description = "角色名")
+    @Schema(description = "角色编码")
+    private String code;
+
+    @Schema(description = "角色名称")
     private String name;
 
-    @Schema(description = "角色信息")
-    private String info;
+    @Schema(description = "角色状态")
+    private String roleStatus;
 
     @Schema(description = "权限,id数组")
     private List<Integer> permissions;

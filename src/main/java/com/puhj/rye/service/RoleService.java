@@ -2,10 +2,11 @@ package com.puhj.rye.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.puhj.rye.bo.RoleBO;
 import com.puhj.rye.dto.RoleDTO;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.vo.PageVO;
-import com.puhj.rye.vo.RoleListVO;
+import com.puhj.rye.vo.RoleInfoVO;
 
 import java.util.List;
 
@@ -23,8 +24,8 @@ public interface RoleService extends IService<Role> {
 
     boolean edit(RoleDTO roleDTO);
 
-    List<Role> getListByUserId(Integer userId);
+    PageVO<RoleInfoVO> list(Page<RoleInfoVO> page, String code, String name);
 
-    PageVO<RoleListVO> list(Page<RoleListVO> page, String name, String info);
+    List<RoleBO> getOptions();
 
 }

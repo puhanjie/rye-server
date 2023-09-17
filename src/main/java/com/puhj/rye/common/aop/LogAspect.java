@@ -1,6 +1,7 @@
 package com.puhj.rye.common.aop;
 
-import com.puhj.rye.common.utils.JwtUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.entity.Log;
 import com.puhj.rye.entity.User;
 import com.puhj.rye.service.LogService;
@@ -14,6 +15,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * @author puhanjie
@@ -44,10 +46,20 @@ public class LogAspect {
             return;
         }
 
-        String token = request.getHeader("Authorization").split(" ")[1];
-        User user = this.userService.getByUsername(JwtUtil.getTokenInfo(token));
-        ResponseVO<?> res = (ResponseVO<?>) result;
-        Log operateLog = new Log(res.getCode(), res.getMessage(), user.getId(), user.getUsername(), res.getRequest());
+        User user = this.userService.getByUsername(SubjectUtil.getSubjectName());
+        ResponseVO<?> res;
+        // 若result为String类型,说明在ResponseAdvice.beforeBodyWrite中已经返回json字符串,则需要反序列化为ResponseVO对象
+        if (result instanceof String) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                res = mapper.readValue((String) result, ResponseVO.class);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            res = (ResponseVO<?>) result;
+        }
+        Log operateLog = new Log(res.getRequest(), res.getCode(), res.getMessage(), user.getId());
         // 记录操作日志和系统运行日志
         this.logService.add(operateLog);
         log.info("==> 接口：" + res.getRequest() + " 被调用 - [操作人：" + user.getUsername() + "] - [状态：" + res.getCode() + " | " + res.getMessage() + "]");

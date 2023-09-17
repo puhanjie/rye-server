@@ -2,8 +2,8 @@ package com.puhj.rye.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.puhj.rye.vo.PermissionInfoVO;
 import com.puhj.rye.entity.Permission;
-import com.puhj.rye.vo.PermissionListVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,9 +18,9 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
 
-    Page<PermissionListVO> list(Page<PermissionListVO> page,
+    Page<PermissionInfoVO> list(Page<PermissionInfoVO> page,
+                                @Param("code") String code,
                                 @Param("name") String name,
-                                @Param("info") String info,
                                 @Param("menu") String menu);
 
 }

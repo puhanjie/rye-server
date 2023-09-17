@@ -1,22 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.puhj.rye.mapper.DictionaryMapper">
-    <select id="list" resultType="com.puhj.rye.vo.DictionaryListVO">
-        select id,
-        dict_name,
-        dict_text,
-        item_value,
-        item_text,
-        description,
-        create_time,
-        update_time
-        from dictionary
+    <resultMap id="dictionaryList" type="com.puhj.rye.vo.DictionaryInfoVO">
+        <id column="id" property="id"/>
+        <result column="dict_type" property="dictType"/>
+        <result column="dict_name" property="dictName"/>
+        <result column="dict_value" property="dictValue"/>
+        <result column="dict_label" property="dictLabel"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="createUser" javaType="com.puhj.rye.bo.UserBO">
+            <result column="create_user_id" property="id"/>
+            <result column="create_user_username" property="username"/>
+            <result column="create_user_name" property="name"/>
+        </association>
+        <association property="updateUser" javaType="com.puhj.rye.bo.UserBO">
+            <result column="update_user_id" property="id"/>
+            <result column="update_user_username" property="username"/>
+            <result column="update_user_name" property="name"/>
+        </association>
+    </resultMap>
+
+    <select id="list" resultMap="dictionaryList">
+        select d.id,
+        d.dict_type,
+        d.dict_name,
+        d.dict_value,
+        d.dict_label,
+        d.description,
+        d.create_time,
+        d.update_time,
+        u1.id as create_user_id,
+        u1.username as create_user_username,
+        u1.name as create_user_name,
+        u2.id as update_user_id,
+        u2.username as update_user_username,
+        u2.name as update_user_name
+        from dictionary d
+        left join user u1 on d.create_user = u1.id
+        left join user u2 on d.update_user = u2.id
         <where>
-            <if test="dictName != null and dictName != ''">
-                and dict_name like concat('%',#{dictName},'%')
+            d.delete_time is null
+            <if test="dictType != null and dictType != ''">
+                and d.dict_type like concat('%',#{dictType},'%')
             </if>
-            <if test="itemText != null and itemText != ''">
-                and item_text like concat('%',#{itemText},'%')
+            <if test="dictLabel != null and dictLabel != ''">
+                and d.dict_label like concat('%',#{dictLabel},'%')
             </if>
         </where>
         order by id

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.puhj.rye.mapper.DepartmentMapper">
+    <resultMap id="departmentList" type="com.puhj.rye.bo.DepartmentInfoBO">
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="parentDept" javaType="com.puhj.rye.bo.DepartmentBO">
+            <result column="parent_id" property="id"/>
+            <result column="parent_code" property="code"/>
+            <result column="parent_name" property="name"/>
+        </association>
+        <association property="leader" javaType="com.puhj.rye.bo.UserBO">
+            <result column="leader_id" property="id"/>
+            <result column="leader_username" property="username"/>
+            <result column="leader_name" property="name"/>
+        </association>
+        <association property="deptStatus" javaType="com.puhj.rye.bo.DictionaryBO">
+            <result column="status_value" property="dictValue"/>
+            <result column="status_label" property="dictLabel"/>
+        </association>
+        <association property="createUser" javaType="com.puhj.rye.bo.UserBO">
+            <result column="create_user_id" property="id"/>
+            <result column="create_user_username" property="username"/>
+            <result column="create_user_name" property="name"/>
+        </association>
+        <association property="updateUser" javaType="com.puhj.rye.bo.UserBO">
+            <result column="update_user_id" property="id"/>
+            <result column="update_user_username" property="username"/>
+            <result column="update_user_name" property="name"/>
+        </association>
+        <collection property="roles" column="{departmentId=id}" javaType="java.util.List"
+                    ofType="com.puhj.rye.bo.RoleBO" select="selectRolesByDepartmentId">
+        </collection>
+    </resultMap>
+
+    <insert id="insertRoleIdsByDepartmentId">
+        insert into department_role(department_id, role_id) values
+        <foreach collection="roleIds" item="roleId" index="index" separator=",">
+            (#{departmentId},#{roleId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoleIdsByDepartmentId">
+        delete
+        from department_role
+        where department_id = #{departmentId}
+        and role_id in
+        <foreach collection="roleIds" item="roleId" index="index" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
+    <select id="selectRoleIdsByDepartmentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select role_id
+        from department_role
+        where department_id = #{departmentId}
+    </select>
+
+    <select id="list" resultMap="departmentList">
+        select dept.id,
+        dept.code,
+        dept.name,
+        dept.create_time,
+        dept.update_time,
+        dept.parent_id as parent_id,
+        parentDept.code as parent_code,
+        parentDept.name as parent_name,
+        u1.id as leader_id,
+        u1.username as leader_username,
+        u1.name as leader_name,
+        d.dict_value as status_value,
+        d.dict_label as status_label,
+        u2.id as create_user_id,
+        u2.username as create_user_username,
+        u2.name as create_user_name,
+        u3.id as update_user_id,
+        u3.username as update_user_username,
+        u3.name as update_user_name
+        from department dept
+        left join department parentDept on dept.parent_id = parentDept.id
+        left join dictionary d on d.dict_type = 'dept_status' and dept.dept_status = d.dict_value
+        left join user u1 on dept.leader = u1.id
+        left join user u2 on dept.create_user = u2.id
+        left join user u3 on dept.update_user = u3.id
+        <where>
+            dept.delete_time is null
+            <if test="code != null and code != ''">
+                and dept.code like concat('%',#{code},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and dept.name like concat('%',#{name},'%')
+            </if>
+        </where>
+        order by id
+    </select>
+
+    <select id="selectRolesByDepartmentId" resultType="com.puhj.rye.bo.RoleBO">
+        select r.id, r.code, r.name
+        from role r
+                 left join department_role dr on r.id = dr.role_id
+        where dr.department_id = #{departmentId}
+    </select>
+</mapper>

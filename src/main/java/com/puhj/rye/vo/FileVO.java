@@ -19,9 +19,6 @@ public class FileVO {
     @Schema(description = "文件名")
     private String fileName;
 
-    @Schema(description = "文件唯一uuid")
-    private String uuid;
-
     @Schema(description = "文件路径")
     private String filePath;
 

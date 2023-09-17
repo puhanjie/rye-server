@@ -1,16 +1,17 @@
 package com.puhj.rye.controller.api.v1;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.puhj.rye.bo.PasswordBO;
+import com.puhj.rye.bo.*;
 import com.puhj.rye.common.constant.Permissions;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.JwtUtil;
+import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.dto.LoginDTO;
 import com.puhj.rye.dto.PasswordDTO;
 import com.puhj.rye.dto.UserDTO;
 import com.puhj.rye.entity.User;
-import com.puhj.rye.service.UserService;
+import com.puhj.rye.service.*;
 import com.puhj.rye.vo.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,11 +20,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,13 +46,33 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    private final RoleService roleService;
+
+    private final PostService postService;
+
+    private final DepartmentService departmentService;
+
+    private final DictionaryService dictionaryService;
+
+    private final FileService fileService;
+
+    public UserController(UserService userService,
+                          RoleService roleService,
+                          PostService postService,
+                          DepartmentService departmentService,
+                          DictionaryService dictionaryService,
+                          FileService fileService) {
         this.userService = userService;
+        this.roleService = roleService;
+        this.postService = postService;
+        this.departmentService = departmentService;
+        this.dictionaryService = dictionaryService;
+        this.fileService = fileService;
     }
 
     @Operation(summary = "登陆", description = "用户登陆接口")
     @PostMapping("/login")
-    public TokenVO login(@RequestBody LoginDTO user) {
+    public String login(@RequestBody LoginDTO user) {
         User loginUser = this.userService.getByUsername(user.getUsername());
         String encryptPassword = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
 
@@ -67,8 +87,7 @@ public class UserController {
             throw new HttpException(ResultCode.USER_STATUS_ERROR);
         }
 
-        String token = JwtUtil.createToken(loginUser.getUsername());
-        return new TokenVO(token);
+        return JwtUtil.createToken(loginUser.getId(), loginUser.getUsername());
     }
 
     @Operation(summary = "新增用户", description = "增加一个用户")
@@ -98,8 +117,8 @@ public class UserController {
     @Operation(summary = "获取当前用户", description = "通过token获取当前登陆用户信息")
     @GetMapping("/info")
     @RequiresAuthentication
-    public UserInfoVO getInfo() {
-        return this.userService.getInfo();
+    public UserBasicInfoVO getInfo() {
+        return this.userService.getBasicInfo();
     }
 
     @Operation(summary = "查询用户列表", description = "分页查询用户列表")
@@ -112,22 +131,21 @@ public class UserController {
     })
     @GetMapping("/list")
     @RequiresPermissions(Permissions.User.VIEW)
-    public PageVO<UserListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+    public PageVO<UserInfoVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                    @RequestParam(value = "username", required = false) String username,
+                                   @RequestParam(value = "name", required = false) String name,
                                    @RequestParam(value = "phone", required = false) String phone,
                                    @RequestParam(value = "email", required = false) String email) {
-        Page<UserListVO> page = new Page<>(pageNum, pageSize);
-        return this.userService.list(page, username, phone, email);
+        Page<UserInfoVO> page = new Page<>(pageNum, pageSize);
+        return this.userService.list(page, username, name, phone, email);
     }
 
     @Operation(summary = "重置/修改密码", description = "type=1为重置密码,type=2为修改密码")
     @PutMapping("/password")
     @RequiresAuthentication
     public int updatePassword(@RequestBody PasswordDTO passwordDTO) {
-        Subject subject = SecurityUtils.getSubject();
-        String token = subject.getPrincipal().toString();
-        User currentUser = this.userService.getByUsername(JwtUtil.getTokenInfo(token));
+        User currentUser = this.userService.getByUsername(SubjectUtil.getSubjectName());
         User user = this.userService.getById(passwordDTO.getUserId());
 
         // 重置密码校验
@@ -160,8 +178,27 @@ public class UserController {
     )})
     @PutMapping("/avatar")
     @RequiresAuthentication
-    public AvatarVO modifyAvatar(@RequestBody MultipartFile[] files, HttpServletRequest request) throws IOException {
-        return this.userService.modifyAvatar(files, request);
+    public String modifyAvatar(@RequestBody MultipartFile[] files, HttpServletRequest request) throws IOException {
+        User user = this.userService.getByUsername(SubjectUtil.getSubjectName());
+
+        // 删除原有头像文件
+        if (StringUtils.hasLength(user.getAvatar())) {
+            this.fileService.remove(user.getAvatar(), request);
+        }
+        FileVO avatar = this.fileService.upload(files, request).get(0);
+        return this.userService.modifyAvatar(user, avatar);
+    }
+
+    @Operation(summary = "获取选项数据", description = "获取用户表单选项及字典数据")
+    @GetMapping("/options")
+    @RequiresPermissions(Permissions.User.VIEW)
+    public UserOptionsVO getUserOptions() {
+        List<DepartmentTreeBO> departments = this.departmentService.getOptions();
+        List<PostBO> posts = this.postService.getOptions();
+        List<RoleBO> roles = this.roleService.getOptions();
+        List<DictionaryBO> sex = this.dictionaryService.getItems("sex");
+        List<DictionaryBO> userStatus = this.dictionaryService.getItems("user_status");
+        return new UserOptionsVO(departments, posts, roles, sex, userStatus);
     }
 
 }

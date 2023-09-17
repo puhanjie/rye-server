@@ -2,10 +2,11 @@ package com.puhj.rye.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.puhj.rye.bo.PermissionBO;
+import com.puhj.rye.vo.PermissionInfoVO;
+import com.puhj.rye.dto.PermissionDTO;
 import com.puhj.rye.entity.Permission;
-import com.puhj.rye.entity.Role;
 import com.puhj.rye.vo.PageVO;
-import com.puhj.rye.vo.PermissionListVO;
 
 import java.util.List;
 
@@ -19,8 +20,12 @@ import java.util.List;
  */
 public interface PermissionService extends IService<Permission> {
 
-    List<Permission> getListByRoles(List<Role> roles);
+    boolean add(PermissionDTO permissionDTO);
 
-    PageVO<PermissionListVO> list(Page<PermissionListVO> page, String name, String info, String menu);
+    boolean edit(PermissionDTO permissionDTO);
+
+    PageVO<PermissionInfoVO> list(Page<PermissionInfoVO> page, String code, String name, String menu);
+
+    List<PermissionBO> getOptions();
 
 }

@@ -1,20 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.puhj.rye.mapper.PermissionMapper">
-    <select id="list" resultType="com.puhj.rye.vo.PermissionListVO">
-        select id,
-        name,
-        info,
-        menu,
-        create_time,
-        update_time
-        from permission
+    <resultMap id="permissionList" type="com.puhj.rye.vo.PermissionInfoVO">
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="name" property="name"/>
+        <result column="menu" property="menu"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="permissionStatus" javaType="com.puhj.rye.bo.DictionaryBO">
+            <result column="status_value" property="dictValue"/>
+            <result column="status_label" property="dictLabel"/>
+        </association>
+        <association property="createUser" javaType="com.puhj.rye.bo.UserBO">
+            <result column="create_user_id" property="id"/>
+            <result column="create_user_username" property="username"/>
+            <result column="create_user_name" property="name"/>
+        </association>
+        <association property="updateUser" javaType="com.puhj.rye.bo.UserBO">
+            <result column="update_user_id" property="id"/>
+            <result column="update_user_username" property="username"/>
+            <result column="update_user_name" property="name"/>
+        </association>
+    </resultMap>
+    <select id="list" resultMap="permissionList">
+        select p.id,
+        p.code,
+        p.name,
+        p.menu,
+        p.create_time,
+        p.update_time,
+        d.dict_value as status_value,
+        d.dict_label as status_label,
+        u1.id as create_user_id,
+        u1.username as create_user_username,
+        u1.name as create_user_name,
+        u2.id as update_user_id,
+        u2.username as update_user_username,
+        u2.name as update_user_name
+        from permission p
+        left join dictionary d on d.dict_type = 'permission_status' and p.permission_status = d.dict_value
+        left join user u1 on p.create_user = u1.id
+        left join user u2 on p.update_user = u2.id
         <where>
-            <if test="name != null and name != ''">
-                and name like concat('%',#{name},'%')
+            p.delete_time is null
+            <if test="code != null and code != ''">
+                and p.code like concat('%',#{code},'%')
             </if>
-            <if test="info != null and info != ''">
-                and info like concat('%',#{info},'%')
+            <if test="name != null and name != ''">
+                and p.name like concat('%',#{name},'%')
             </if>
             <if test="menu != null and menu != ''">
                 and menu = #{menu}

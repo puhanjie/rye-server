@@ -10,7 +10,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -32,39 +32,47 @@ public class Dictionary implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @Schema(description = "字典名")
+    @Schema(description = "字典类型")
+    @TableField("dict_type")
+    private String dictType;
+
+    @Schema(description = "字典名称")
     @TableField("dict_name")
     private String dictName;
 
-    @Schema(description = "字典文本")
-    @TableField("dict_text")
-    private String dictText;
+    @Schema(description = "字典键值")
+    @TableField("dict_value")
+    private String dictValue;
 
-    @Schema(description = "字典值")
-    @TableField("item_value")
-    private String itemValue;
-
-    @Schema(description = "字典值文本")
-    @TableField("item_text")
-    private String itemText;
+    @Schema(description = "字典标签")
+    @TableField("dict_label")
+    private String dictLabel;
 
     @Schema(description = "描述")
     @TableField("description")
     private String description;
 
+    @Schema(description = "创建者(用户id)")
+    @TableField("create_user")
+    private Integer createUser;
+
+    @Schema(description = "更新者(用户id)")
+    @TableField("update_user")
+    private Integer updateUser;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "创建时间")
     @TableField("create_time")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "更新时间")
     @TableField("update_time")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "删除时间")
     @TableField("delete_time")
-    private Date deleteTime;
+    private LocalDateTime deleteTime;
 
 }

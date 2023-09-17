@@ -28,7 +28,7 @@ public class File implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "id")
+    @Schema(description = "文件id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
@@ -44,30 +44,34 @@ public class File implements Serializable {
     @TableField("file_size")
     private Long fileSize;
 
-    @Schema(description = "文件唯一uuid值")
+    @Schema(description = "uuid")
     @TableField("uuid")
     private String uuid;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Schema(description = "创建时间")
-    @TableField("create_time")
-    private LocalDateTime createTime;
+    @Schema(description = "上传者(用户id)")
+    @TableField("upload_user")
+    private Integer uploadUser;
+
+    @Schema(description = "删除者(用户id)")
+    @TableField("delete_user")
+    private Integer deleteUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Schema(description = "更新时间")
-    @TableField("update_time")
-    private LocalDateTime updateTime;
+    @Schema(description = "上传时间")
+    @TableField("upload_time")
+    private LocalDateTime uploadTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "删除时间")
     @TableField("delete_time")
     private LocalDateTime deleteTime;
 
-    public File(String path, String name, Long fileSize, String uuid) {
+    public File(String path, String name, Long fileSize, String uuid, Integer uploadUser) {
         this.path = path;
         this.name = name;
         this.fileSize = fileSize;
         this.uuid = uuid;
+        this.uploadUser = uploadUser;
     }
 
 }

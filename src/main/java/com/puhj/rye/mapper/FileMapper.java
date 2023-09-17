@@ -3,6 +3,7 @@ package com.puhj.rye.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.puhj.rye.entity.File;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -15,8 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface FileMapper extends BaseMapper<File> {
 
-    File selectByPath(String path);
-
-    void deleteByPath(String path);
+    void deleteByPath(@Param("path") String path, @Param("userId") Integer userId);
 
 }

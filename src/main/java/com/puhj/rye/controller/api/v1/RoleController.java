@@ -1,17 +1,20 @@
 package com.puhj.rye.controller.api.v1;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.puhj.rye.bo.DictionaryBO;
+import com.puhj.rye.bo.PermissionBO;
+import com.puhj.rye.vo.RoleInfoVO;
 import com.puhj.rye.common.constant.Permissions;
 import com.puhj.rye.dto.RoleDTO;
-import com.puhj.rye.entity.Role;
+import com.puhj.rye.service.DictionaryService;
+import com.puhj.rye.service.PermissionService;
 import com.puhj.rye.service.RoleService;
 import com.puhj.rye.vo.PageVO;
-import com.puhj.rye.vo.RoleListVO;
+import com.puhj.rye.vo.RoleOptionsVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +35,16 @@ public class RoleController {
 
     private final RoleService roleService;
 
-    public RoleController(RoleService roleService) {
+    private final PermissionService permissionService;
+
+    private final DictionaryService dictionaryService;
+
+    public RoleController(RoleService roleService,
+                          PermissionService permissionService,
+                          DictionaryService dictionaryService) {
         this.roleService = roleService;
+        this.permissionService = permissionService;
+        this.dictionaryService = dictionaryService;
     }
 
     @Operation(summary = "新增角色", description = "新增一个角色")
@@ -61,24 +72,26 @@ public class RoleController {
     @Parameters({
             @Parameter(name = "pageNum", description = "分页查询页码"),
             @Parameter(name = "pageSize", description = "每页数据大小"),
-            @Parameter(name = "name", description = "角色名"),
-            @Parameter(name = "info", description = "角色信息")
+            @Parameter(name = "code", description = "角色编码"),
+            @Parameter(name = "name", description = "角色名称")
     })
     @GetMapping("/list")
     @RequiresPermissions(Permissions.Role.VIEW)
-    public PageVO<RoleListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+    public PageVO<RoleInfoVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                   @RequestParam(value = "name", required = false) String name,
-                                   @RequestParam(value = "info", required = false) String info) {
-        Page<RoleListVO> page = new Page<>(pageNum, pageSize);
-        return this.roleService.list(page, name, info);
+                                   @RequestParam(value = "code", required = false) String code,
+                                   @RequestParam(value = "name", required = false) String name) {
+        Page<RoleInfoVO> page = new Page<>(pageNum, pageSize);
+        return this.roleService.list(page, code, name);
     }
 
-    @Operation(summary = "查询所有角色", description = "查询所有角色数据")
-    @GetMapping
-    @RequiresPermissions(value = {Permissions.Role.VIEW, Permissions.User.VIEW}, logical = Logical.OR)
-    public List<Role> query() {
-        return this.roleService.list();
+    @Operation(summary = "获取选项数据", description = "获取角色表单选项及字典数据")
+    @GetMapping("/options")
+    @RequiresPermissions(Permissions.Role.VIEW)
+    public RoleOptionsVO getRoleOptions() {
+        List<DictionaryBO> roleStatus = this.dictionaryService.getItems("role_status");
+        List<PermissionBO> permissions = this.permissionService.getOptions();
+        return new RoleOptionsVO(roleStatus, permissions);
     }
 
 }

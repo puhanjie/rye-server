@@ -4,19 +4,22 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.puhj.rye.bo.RoleBO;
+import com.puhj.rye.vo.RoleInfoVO;
+import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.exception.HttpException;
+import com.puhj.rye.common.utils.ContrastUtil;
+import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.dto.RoleDTO;
 import com.puhj.rye.entity.Role;
-import com.puhj.rye.entity.RolePermission;
 import com.puhj.rye.mapper.RoleMapper;
-import com.puhj.rye.service.RolePermissionService;
 import com.puhj.rye.service.RoleService;
-import com.puhj.rye.service.UserRoleService;
 import com.puhj.rye.vo.PageVO;
-import com.puhj.rye.vo.RoleListVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,39 +34,31 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     private final RoleMapper roleMapper;
 
-    private final UserRoleService userRoleService;
-
-    private final RolePermissionService rolePermissionService;
-
-    public RoleServiceImpl(RoleMapper roleMapper, UserRoleService userRoleService, RolePermissionService rolePermissionService) {
+    public RoleServiceImpl(RoleMapper roleMapper) {
         this.roleMapper = roleMapper;
-        this.userRoleService = userRoleService;
-        this.rolePermissionService = rolePermissionService;
     }
 
     @Transactional
     @Override
     public boolean add(RoleDTO roleDTO) {
+        Integer currentUserId = SubjectUtil.getSubjectId();
         Role role = new Role();
+        role.setCode(roleDTO.getCode());
         role.setName(roleDTO.getName());
-        role.setInfo(roleDTO.getInfo());
-        int count = this.roleMapper.insert(role);
-        if (count <= 0) {
-            return false;
+        role.setRoleStatus(roleDTO.getRoleStatus());
+        role.setCreateUser(currentUserId);
+        role.setUpdateUser(currentUserId);
+
+        // 新增角色
+        if (this.roleMapper.insert(role) <= 0) {
+            throw new HttpException(ResultCode.ROLE_ADD_ERROR);
         }
 
-        if (roleDTO.getPermissions() != null) {
-            // 给新增角色分配权限
-            QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("name", roleDTO.getName());
-            Integer roleId = this.roleMapper.selectOne(queryWrapper).getId();
-            List<RolePermission> rolePermissions = roleDTO.getPermissions().stream().map(permissionId -> {
-                RolePermission rolePermission = new RolePermission();
-                rolePermission.setRoleId(roleId);
-                rolePermission.setPermissionId(permissionId);
-                return rolePermission;
-            }).toList();
-            return this.rolePermissionService.saveBatch(rolePermissions);
+        // 分配权限
+        if (roleDTO.getPermissions() != null && !roleDTO.getPermissions().isEmpty()) {
+            if (this.roleMapper.insertPermissionIdsByRoleId(role.getId(), roleDTO.getPermissions()) <= 0) {
+                throw new HttpException(ResultCode.ROLE_SET_PERMISSIONS_ERROR);
+            }
         }
 
         return true;
@@ -75,30 +70,53 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         Role role = this.roleMapper.selectById(roleDTO.getId());
         UpdateWrapper<Role> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", roleDTO.getId())
+                .set("code", roleDTO.getCode())
                 .set("name", roleDTO.getName())
-                .set("info", roleDTO.getInfo());
-        int count = this.roleMapper.update(role, updateWrapper);
-        // 分配权限
-        boolean flag = this.rolePermissionService.setPermissionsByRoleId(roleDTO.getId(), roleDTO.getPermissions());
-        return count > 0 && flag;
-    }
+                .set("role_status", roleDTO.getRoleStatus())
+                .set("update_user", SubjectUtil.getSubjectId());
 
-    @Override
-    public List<Role> getListByUserId(Integer userId) {
-        List<Integer> roleIds = this.userRoleService.getRoleIdsByUserId(userId);
-        // 用户没分配角色
-        if (roleIds.isEmpty()) {
-            return null;
+        // 编辑角色
+        if (this.roleMapper.update(role, updateWrapper) <= 0) {
+            throw new HttpException(ResultCode.ROLE_EDIT_ERROR);
         }
-        QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in("id", roleIds);
-        return this.roleMapper.selectList(queryWrapper);
+
+        // 分配权限
+        List<Integer> permissionIds = this.roleMapper.selectPermissionIdsByRoleId(roleDTO.getId());
+        Map<String, List<Integer>> permissionMap = ContrastUtil.getContrast(permissionIds, roleDTO.getPermissions());
+        if (!permissionMap.get("remove").isEmpty()) {
+            // 清除被移除的权限
+            if (!this.roleMapper.deletePermissionIdsByRoleId(roleDTO.getId(), permissionMap.get("remove"))) {
+                throw new HttpException(ResultCode.ROLE_SET_PERMISSIONS_ERROR);
+            }
+        }
+        if (!permissionMap.get("add").isEmpty()) {
+            // 添加新分配的权限
+            if (this.roleMapper.insertPermissionIdsByRoleId(roleDTO.getId(), permissionMap.get("add")) <= 0) {
+                throw new HttpException(ResultCode.ROLE_SET_PERMISSIONS_ERROR);
+            }
+        }
+
+        return true;
     }
 
     @Override
-    public PageVO<RoleListVO> list(Page<RoleListVO> page, String name, String info) {
-        Page<RoleListVO> pageList = this.roleMapper.list(page, name, info);
+    public PageVO<RoleInfoVO> list(Page<RoleInfoVO> page, String code, String name) {
+        Page<RoleInfoVO> pageList = this.roleMapper.list(page, code, name);
         return new PageVO<>(pageList);
+    }
+
+    @Override
+    public List<RoleBO> getOptions() {
+        QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
+        queryWrapper.isNull("delete_time");
+        List<Role> roles = this.roleMapper.selectList(queryWrapper);
+        return roles.stream().map(role -> {
+            RoleBO roleBO = new RoleBO();
+            roleBO.setId(role.getId());
+            roleBO.setCode(role.getCode());
+            roleBO.setName(role.getName());
+            return roleBO;
+        }).toList();
     }
 
 }

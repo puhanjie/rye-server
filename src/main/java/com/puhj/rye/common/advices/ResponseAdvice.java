@@ -1,5 +1,7 @@
 package com.puhj.rye.common.advices;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.vo.ResponseVO;
@@ -37,12 +39,18 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
      * 因整合了springdoc,所以springdoc相关资源返回false,不进行拦截
      */
     @Override
-    public boolean supports(@NotNull MethodParameter returnType, @NotNull Class<? extends HttpMessageConverter<?>> converterType) {
+    public boolean supports(@NotNull MethodParameter returnType,
+                            @NotNull Class<? extends HttpMessageConverter<?>> converterType) {
         return !returnType.getDeclaringClass().getName().contains("springdoc");
     }
 
     @Override
-    public Object beforeBodyWrite(Object body, @NotNull MethodParameter returnType, @NotNull MediaType selectedContentType, @NotNull Class<? extends HttpMessageConverter<?>> selectedConverterType, @NotNull ServerHttpRequest request, @NotNull ServerHttpResponse response) {
+    public Object beforeBodyWrite(Object body,
+                                  @NotNull MethodParameter returnType,
+                                  @NotNull MediaType selectedContentType,
+                                  @NotNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
+                                  @NotNull ServerHttpRequest request,
+                                  @NotNull ServerHttpResponse response) {
         // 异常捕获后返回的结果是ResponseVO类型,直接返回
         if (body instanceof ResponseVO) {
             return body;
@@ -51,6 +59,18 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         // 请求正常时统一数据响应格式处理
         String requestUrl = request.getURI().getPath();
         String method = String.valueOf(request.getMethod());
+
+        // 若body类型为String,beforeBodyWrite的返回对象不会再被Spring序列化,需提前把对象转为json字符串返回,否则会报类型转换异常
+        if (body instanceof String) {
+            ObjectMapper mapper = new ObjectMapper();
+            ResponseVO<Object> responseVO = ResponseVO.success(body, method + " " + requestUrl);
+            try {
+                return mapper.writeValueAsString(responseVO);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         return ResponseVO.success(body, method + " " + requestUrl);
     }
 
@@ -61,7 +81,9 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         log.error(e.getMessage(), e);
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
-        return ResponseVO.fail(ResultCode.FAIL.getCode(), ResultCode.FAIL.getMessage(), method + " " + requestUrl);
+        return ResponseVO.fail(ResultCode.FAIL.getCode(),
+                ResultCode.FAIL.getMessage(),
+                method + " " + requestUrl);
     }
 
     // 自定义业务异常捕获
@@ -82,7 +104,9 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         log.error(e.getMessage(), e);
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
-        return ResponseVO.fail(ResultCode.AUTHENTICATION_FAIL.getCode(), ResultCode.AUTHENTICATION_FAIL.getMessage(), method + " " + requestUrl);
+        return ResponseVO.fail(ResultCode.AUTHENTICATION_FAIL.getCode(),
+                ResultCode.AUTHENTICATION_FAIL.getMessage(),
+                method + " " + requestUrl);
     }
 
     // shiro授权异常捕获
@@ -92,7 +116,9 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         log.error(e.getMessage(), e);
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
-        return ResponseVO.fail(ResultCode.ACCESS_DENIED.getCode(), ResultCode.ACCESS_DENIED.getMessage(), method + " " + requestUrl);
+        return ResponseVO.fail(ResultCode.ACCESS_DENIED.getCode(),
+                ResultCode.ACCESS_DENIED.getMessage(),
+                method + " " + requestUrl);
     }
 
     // 请求资源不存在异常捕获
@@ -102,7 +128,9 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         log.error(e.getMessage(), e);
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
-        return ResponseVO.fail(ResultCode.NO_HANDLE_FOUND.getCode(), ResultCode.NO_HANDLE_FOUND.getMessage(), method + " " + requestUrl);
+        return ResponseVO.fail(ResultCode.NO_HANDLE_FOUND.getCode(),
+                ResultCode.NO_HANDLE_FOUND.getMessage(),
+                method + " " + requestUrl);
     }
 
 }

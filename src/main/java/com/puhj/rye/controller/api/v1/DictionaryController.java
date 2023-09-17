@@ -2,10 +2,11 @@ package com.puhj.rye.controller.api.v1;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.puhj.rye.bo.DictionaryBO;
+import com.puhj.rye.vo.DictionaryInfoVO;
 import com.puhj.rye.common.constant.Permissions;
-import com.puhj.rye.entity.Dictionary;
+import com.puhj.rye.dto.DictionaryDTO;
 import com.puhj.rye.service.DictionaryService;
-import com.puhj.rye.vo.DictionaryListVO;
 import com.puhj.rye.vo.PageVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,8 +40,8 @@ public class DictionaryController {
     @Operation(summary = "新增字典", description = "增加一个字典项")
     @PostMapping
     @RequiresPermissions(Permissions.Dictionary.ADD)
-    public boolean add(@RequestBody Dictionary dictionary) {
-        return this.dictionaryService.save(dictionary);
+    public boolean add(@RequestBody DictionaryDTO dictionaryDTO) {
+        return this.dictionaryService.add(dictionaryDTO);
     }
 
     @Operation(summary = "删除字典", description = "根据字典id数组删除字典")
@@ -53,35 +54,35 @@ public class DictionaryController {
     @Operation(summary = "编辑字典", description = "编辑字典信息")
     @PutMapping
     @RequiresPermissions(Permissions.Dictionary.EDIT)
-    public boolean edit(@RequestBody Dictionary dictionary) {
-        return this.dictionaryService.updateById(dictionary);
+    public boolean edit(@RequestBody DictionaryDTO dictionaryDTO) {
+        return this.dictionaryService.edit(dictionaryDTO);
     }
 
     @Operation(summary = "查询字典列表", description = "分页查询字典列表")
     @Parameters({
             @Parameter(name = "pageNum", description = "分页查询页码"),
             @Parameter(name = "pageSize", description = "每页数据大小"),
-            @Parameter(name = "dictName", description = "字典名"),
-            @Parameter(name = "itemText", description = "字典值文本")
+            @Parameter(name = "dictType", description = "字典类型"),
+            @Parameter(name = "dictLabel", description = "字典标签")
     })
     @GetMapping("/list")
     @RequiresPermissions(Permissions.Dictionary.VIEW)
-    public PageVO<DictionaryListVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+    public PageVO<DictionaryInfoVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                         @RequestParam(value = "dictName", required = false) String dictName,
-                                         @RequestParam(value = "itemText", required = false) String itemText) {
-        Page<DictionaryListVO> page = new Page<>(pageNum, pageSize);
-        return this.dictionaryService.list(page, dictName, itemText);
+                                         @RequestParam(value = "dictType", required = false) String dictType,
+                                         @RequestParam(value = "dictLabel", required = false) String dictLabel) {
+        Page<DictionaryInfoVO> page = new Page<>(pageNum, pageSize);
+        return this.dictionaryService.list(page, dictType, dictLabel);
     }
 
     @Operation(summary = "查询字典项", description = "根据字典类型查询字典项")
     @Parameters({
-            @Parameter(name = "dictName", description = "字典名")
+            @Parameter(name = "dictType", description = "字典类型")
     })
     @GetMapping("/items")
     @RequiresPermissions(value = {Permissions.Dictionary.VIEW, Permissions.User.VIEW}, logical = Logical.OR)
-    public List<Dictionary> getItems(@RequestParam String dictName) {
-        return this.dictionaryService.getItems(dictName);
+    public List<DictionaryBO> getItems(@RequestParam String dictType) {
+        return this.dictionaryService.getItems(dictType);
     }
 
 }

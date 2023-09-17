@@ -32,37 +32,32 @@ public class Log implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @Schema(description = "请求url")
+    @TableField("url")
+    private String url;
+
     @Schema(description = "响应状态码")
     @TableField("code")
     private Integer code;
 
-    @Schema(description = "响应状态消息")
+    @Schema(description = "响应消息")
     @TableField("message")
     private String message;
 
-    @Schema(description = "操作用户ID")
-    @TableField("user_id")
-    private Integer userId;
-
-    @Schema(description = "操作用户")
-    @TableField("username")
-    private String username;
-
-    @Schema(description = "接口地址")
-    @TableField("path")
-    private String path;
+    @Schema(description = "操作人(用户id)")
+    @TableField("operate_user")
+    private Integer operateUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "操作时间")
     @TableField("operate_time")
     private LocalDateTime operateTime;
 
-    public Log(Integer code, String message, Integer userId, String username, String path) {
+    public Log(String url, Integer code, String message, Integer operateUser) {
+        this.url = url;
         this.code = code;
         this.message = message;
-        this.userId = userId;
-        this.username = username;
-        this.path = path;
+        this.operateUser = operateUser;
     }
 
 }

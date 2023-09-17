@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.puhj.rye.mapper.LogMapper">
+    <resultMap id="logList" type="com.puhj.rye.vo.LogInfoVO">
+        <id column="id" property="id"/>
+        <result column="url" property="url"/>
+        <result column="code" property="code"/>
+        <result column="message" property="message"/>
+        <result column="operate_time" property="operateTime"/>
+        <association property="operateUser" javaType="com.puhj.rye.bo.UserBO">
+            <result column="operate_user_id" property="id"/>
+            <result column="operate_user_username" property="username"/>
+            <result column="operate_user_name" property="name"/>
+        </association>
+    </resultMap>
 
+    <select id="list" resultMap="logList">
+        select l.id,
+        l.url,
+        l.code,
+        l.message,
+        l.operate_time,
+        u.id as operate_user_id,
+        u.username as operate_user_username,
+        u.name as operate_user_name
+        from log l
+        left join user u on l.operate_user = u.id
+        <where>
+            <if test="message != null and message != ''">
+                and l.message like concat('%',#{message},'%')
+            </if>
+            <if test="operateUser != null and operateUser != ''">
+                and u.name like concat('%',#{operateUser},'%')
+            </if>
+        </where>
+        order by id
+    </select>
 </mapper>

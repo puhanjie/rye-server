@@ -7,15 +7,28 @@ package com.puhj.rye.common.constant;
  */
 public final class Permissions {
 
-    // admin角色标识
-    public static final String ADMIN = "admin";
-
     /* 用户管理 */
     public static final class User {
         public static final String VIEW = "user:view";
         public static final String ADD = "user:add";
         public static final String EDIT = "user:edit";
         public static final String DELETE = "user:delete";
+    }
+
+    /* 岗位管理 */
+    public static final class Post {
+        public static final String VIEW = "post:view";
+        public static final String ADD = "post:add";
+        public static final String EDIT = "post:edit";
+        public static final String DELETE = "post:delete";
+    }
+
+    /* 部门管理 */
+    public static final class Department {
+        public static final String VIEW = "department:view";
+        public static final String ADD = "department:add";
+        public static final String EDIT = "department:edit";
+        public static final String DELETE = "department:delete";
     }
 
     /* 角色管理 */
@@ -40,6 +53,13 @@ public final class Permissions {
         public static final String ADD = "dictionary:add";
         public static final String EDIT = "dictionary:edit";
         public static final String DELETE = "dictionary:delete";
+    }
+
+    /* 日志管理 */
+    public static final class Log {
+        public static final String VIEW = "log:view";
+        public static final String DELETE = "log:delete";
+        public static final String EMPTY = "log:empty";
     }
 
 }

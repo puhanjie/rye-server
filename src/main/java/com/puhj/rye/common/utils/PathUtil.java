@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
  * @description 访问基础路径工具类
  * @create 2022-12-14
  */
-public class BasePathUtil {
+public class PathUtil {
 
     public static String getBasePath(HttpServletRequest request) {
         String scheme = request.getScheme();

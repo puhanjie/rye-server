@@ -10,7 +10,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -28,17 +28,25 @@ public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "id")
+    @Schema(description = "用户id")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @Schema(description = "用户名(唯一)")
+    @Schema(description = "部门(部门id)")
+    @TableField(value = "department")
+    private Integer department;
+
+    @Schema(description = "用户名")
     @TableField("username")
     private String username;
 
-    @Schema(description = "昵称")
-    @TableField("nickname")
-    private String nickname;
+    @Schema(description = "姓名")
+    @TableField("name")
+    private String name;
+
+    @Schema(description = "性别(字典:sex)")
+    @TableField("sex")
+    private String sex;
 
     @Schema(description = "用户状态(字典:user_status)")
     @TableField("user_status")
@@ -60,19 +68,27 @@ public class User implements Serializable {
     @TableField("email")
     private String email;
 
+    @Schema(description = "创建者(用户id)")
+    @TableField(value = "create_user")
+    private Integer createUser;
+
+    @Schema(description = "更新者(用户id)")
+    @TableField(value = "update_user")
+    private Integer updateUser;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "创建时间")
     @TableField("create_time")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "更新时间")
     @TableField("update_time")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Schema(description = "删除时间")
     @TableField("delete_time")
-    private Date deleteTime;
+    private LocalDateTime deleteTime;
 
 }
