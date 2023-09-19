@@ -85,7 +85,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Override
     public List<PermissionBO> getOptions() {
         QueryWrapper<Permission> queryWrapper = new QueryWrapper<>();
-        queryWrapper.isNull("delete_time");
+        queryWrapper.eq("permission_status", "0").isNull("delete_time");
         List<Permission> permissions = this.permissionMapper.selectList(queryWrapper);
         return permissions.stream().map(permission -> {
             PermissionBO permissionBO = new PermissionBO();

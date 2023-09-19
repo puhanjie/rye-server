@@ -76,7 +76,7 @@
                 and r.name like concat('%',#{name},'%')
             </if>
         </where>
-        order by id
+        order by r.id
     </select>
 
     <select id="selectPermissionsByRoleId" resultType="com.puhj.rye.bo.PermissionBO">

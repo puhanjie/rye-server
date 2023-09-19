@@ -119,7 +119,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     @Override
     public List<DepartmentTreeBO> getOptions() {
         QueryWrapper<Department> queryWrapper = new QueryWrapper<>();
-        queryWrapper.isNull("delete_time");
+        queryWrapper.eq("dept_status", "0").isNull("delete_time");
         List<Department> departments = this.departmentMapper.selectList(queryWrapper);
 
         // 转为树节点数据

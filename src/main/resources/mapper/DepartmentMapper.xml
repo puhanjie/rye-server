@@ -94,7 +94,7 @@
                 and dept.name like concat('%',#{name},'%')
             </if>
         </where>
-        order by id
+        order by dept.id
     </select>
 
     <select id="selectRolesByDepartmentId" resultType="com.puhj.rye.bo.RoleBO">

@@ -108,7 +108,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public List<RoleBO> getOptions() {
         QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
-        queryWrapper.isNull("delete_time");
+        queryWrapper.eq("role_status", "0").isNull("delete_time");
         List<Role> roles = this.roleMapper.selectList(queryWrapper);
         return roles.stream().map(role -> {
             RoleBO roleBO = new RoleBO();

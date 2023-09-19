@@ -1,14 +1,17 @@
 package com.puhj.rye.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.puhj.rye.common.utils.PathUtil;
 import com.puhj.rye.common.utils.DateUtil;
+import com.puhj.rye.common.utils.PathUtil;
 import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.entity.File;
 import com.puhj.rye.mapper.FileMapper;
 import com.puhj.rye.service.FileService;
+import com.puhj.rye.vo.FileInfoVO;
 import com.puhj.rye.vo.FileVO;
+import com.puhj.rye.vo.PageVO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,9 +73,15 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
             file.transferTo(new java.io.File(folder, saveName));
 
             String filePath = PathUtil.getBasePath(request) + "/" + this.path + "/" + dateFormat + "/" + saveName;
-            fileList.add(new FileVO(fileName, filePath));
+            fileList.add(new FileVO(filePath, fileName));
 
-            this.fileMapper.insert(new File(filePath, fileName, fileSize, uuid, currentUserId));
+            File fileData = new File();
+            fileData.setPath(filePath);
+            fileData.setName(fileName);
+            fileData.setFileSize(fileSize);
+            fileData.setUuid(uuid);
+            fileData.setUploadUser(currentUserId);
+            this.fileMapper.insert(fileData);
         }
 
         return fileList;
@@ -80,11 +89,12 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 
     @Transactional
     @Override
-    public void remove(String path, HttpServletRequest request) {
+    public boolean remove(String path, HttpServletRequest request) {
         Integer currentUserId = SubjectUtil.getSubjectId();
         String fileDir = System.getProperty("user.dir") + path.substring(PathUtil.getBasePath(request).length());
         this.fileMapper.deleteByPath(path, currentUserId); // 删除了的文件,更新文件表的delete_time字段表示已删除
         FileSystemUtils.deleteRecursively(new java.io.File(fileDir)); // 移除本地文件
+        return true;
     }
 
     @Override
@@ -101,7 +111,8 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         byte[] buffer = new byte[1024];
 
         try (FileInputStream fis = new FileInputStream(folder);
-             BufferedInputStream bis = new BufferedInputStream(fis)) {
+             BufferedInputStream bis = new BufferedInputStream(fis)
+        ) {
             OutputStream os = response.getOutputStream();
             response.setContentType("application/octet-stream");
             // attachment表示以附件形式下载,若为inline则表示在线方式打开;fileName为下载后的文件名
@@ -115,6 +126,12 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         } catch (IOException e) {
             throw new IOException("文件下载失败");
         }
+    }
+
+    @Override
+    public PageVO<FileInfoVO> list(Page<FileInfoVO> page, String name, String uploadUser) {
+        Page<FileInfoVO> pageList = this.fileMapper.list(page, name, uploadUser);
+        return new PageVO<>(pageList);
     }
 
 }

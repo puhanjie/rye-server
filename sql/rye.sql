@@ -227,7 +227,7 @@ CREATE TABLE `permission`
     PRIMARY KEY (`id`),
     UNIQUE KEY `code` (`code`, `delete_time`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 30
+  AUTO_INCREMENT = 34
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT ='权限表';
 
@@ -350,6 +350,22 @@ VALUES (28, 'department:edit', '编辑', 'department', '0', 1, 1,
 INSERT INTO `permission` (`id`, `code`, `name`, `menu`, `permission_status`, `create_user`, `update_user`,
                           `create_time`, `update_time`, `delete_time`)
 VALUES (29, 'department:view', '查看', 'department', '0', 1, 1,
+        NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `code`, `name`, `menu`, `permission_status`, `create_user`, `update_user`,
+                          `create_time`, `update_time`, `delete_time`)
+VALUES (30, 'file:upload', '上传', 'file', '0', 1, 1,
+        NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `code`, `name`, `menu`, `permission_status`, `create_user`, `update_user`,
+                          `create_time`, `update_time`, `delete_time`)
+VALUES (31, 'file:delete', '删除', 'file', '0', 1, 1,
+        NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `code`, `name`, `menu`, `permission_status`, `create_user`, `update_user`,
+                          `create_time`, `update_time`, `delete_time`)
+VALUES (32, 'file:download', '下载', 'file', '0', 1, 1,
+        NOW(), NOW(), NULL);
+INSERT INTO `permission` (`id`, `code`, `name`, `menu`, `permission_status`, `create_user`, `update_user`,
+                          `create_time`, `update_time`, `delete_time`)
+VALUES (33, 'file:view', '查看', 'file', '0', 1, 1,
         NOW(), NOW(), NULL);
 COMMIT;
 

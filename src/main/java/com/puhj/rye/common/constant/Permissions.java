@@ -55,6 +55,14 @@ public final class Permissions {
         public static final String DELETE = "dictionary:delete";
     }
 
+    /* 文件管理 */
+    public static final class File {
+        public static final String VIEW = "file:view";
+        public static final String UPLOAD = "file:upload";
+        public static final String DOWNLOAD = "file:download";
+        public static final String DELETE = "file:delete";
+    }
+
     /* 日志管理 */
     public static final class Log {
         public static final String VIEW = "log:view";

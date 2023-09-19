@@ -54,6 +54,6 @@
                 and menu = #{menu}
             </if>
         </where>
-        order by id
+        order by p.id
     </select>
 </mapper>

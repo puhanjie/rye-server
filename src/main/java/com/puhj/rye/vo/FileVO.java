@@ -16,10 +16,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FileVO {
 
-    @Schema(description = "文件名")
-    private String fileName;
-
     @Schema(description = "文件路径")
-    private String filePath;
+    private String path;
+
+    @Schema(description = "文件名")
+    private String name;
 
 }

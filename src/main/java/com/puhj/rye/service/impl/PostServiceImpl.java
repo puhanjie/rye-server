@@ -110,7 +110,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Override
     public List<PostBO> getOptions() {
         QueryWrapper<Post> queryWrapper = new QueryWrapper<>();
-        queryWrapper.isNull("delete_time");
+        queryWrapper.eq("post_status", "0").isNull("delete_time");
         List<Post> posts = this.postMapper.selectList(queryWrapper);
         return posts.stream().map(post -> {
             PostBO postBO = new PostBO();

@@ -33,6 +33,6 @@
                 and u.name like concat('%',#{operateUser},'%')
             </if>
         </where>
-        order by id
+        order by l.id
     </select>
 </mapper>

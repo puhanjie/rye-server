@@ -66,12 +66,4 @@ public class File implements Serializable {
     @TableField("delete_time")
     private LocalDateTime deleteTime;
 
-    public File(String path, String name, Long fileSize, String uuid, Integer uploadUser) {
-        this.path = path;
-        this.name = name;
-        this.fileSize = fileSize;
-        this.uuid = uuid;
-        this.uploadUser = uploadUser;
-    }
-
 }

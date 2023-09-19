@@ -165,15 +165,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public String modifyAvatar(User user, FileVO avatar) {
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id", user.getId()).set("avatar", avatar.getFilePath());
+        updateWrapper.eq("id", user.getId()).set("avatar", avatar.getPath());
         this.userMapper.update(user, updateWrapper);
-        return avatar.getFilePath();
+        return avatar.getPath();
     }
 
     @Override
     public List<UserBO> getOptions() {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.isNull("delete_time");
+        queryWrapper.eq("user_status", "0").isNull("delete_time");
         List<User> users = this.userMapper.selectList(queryWrapper);
         return users.stream().map(user -> {
             UserBO userBO = new UserBO();
