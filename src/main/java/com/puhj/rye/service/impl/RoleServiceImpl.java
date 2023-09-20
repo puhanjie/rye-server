@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.RoleBO;
+import com.puhj.rye.common.constant.Permissions;
 import com.puhj.rye.vo.RoleInfoVO;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
@@ -55,6 +56,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         }
 
         // 分配权限
+        if (Permissions.ADMIN.equals(roleDTO.getCode())) {
+            // 若为admin角色则无需分配权限
+            return true;
+        }
         if (roleDTO.getPermissions() != null && !roleDTO.getPermissions().isEmpty()) {
             if (this.roleMapper.insertPermissionIdsByRoleId(role.getId(), roleDTO.getPermissions()) <= 0) {
                 throw new HttpException(ResultCode.ROLE_SET_PERMISSIONS_ERROR);
@@ -81,6 +86,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         }
 
         // 分配权限
+        if (Permissions.ADMIN.equals(roleDTO.getCode())) {
+            // 若为admin角色则无需分配权限
+            return true;
+        }
         List<Integer> permissionIds = this.roleMapper.selectPermissionIdsByRoleId(roleDTO.getId());
         Map<String, List<Integer>> permissionMap = ContrastUtil.getContrast(permissionIds, roleDTO.getPermissions());
         if (!permissionMap.get("remove").isEmpty()) {

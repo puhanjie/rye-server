@@ -22,6 +22,7 @@ public interface FileMapper extends BaseMapper<File> {
 
     Page<FileInfoVO> list(Page<FileInfoVO> page,
                           @Param("name") String name,
-                          @Param("uploadUser") String uploadUser);
+                          @Param("uploadUser") String uploadUser,
+                          @Param("currentUserId") Integer currentUserId);
 
 }

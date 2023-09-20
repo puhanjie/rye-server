@@ -87,6 +87,6 @@
         from permission p
                  left join role_permission rp on p.id = rp.permission_id
         where rp.role_id = #{roleId}
-           or #{roleId} = 1
+           or 'admin' = (select r.code from role r where r.id = #{roleId})
     </select>
 </mapper>

@@ -130,7 +130,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 
     @Override
     public PageVO<FileInfoVO> list(Page<FileInfoVO> page, String name, String uploadUser) {
-        Page<FileInfoVO> pageList = this.fileMapper.list(page, name, uploadUser);
+        Page<FileInfoVO> pageList = this.fileMapper.list(page, name, uploadUser, SubjectUtil.getSubjectId());
         return new PageVO<>(pageList);
     }
 

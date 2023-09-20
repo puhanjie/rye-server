@@ -7,6 +7,8 @@ package com.puhj.rye.common.constant;
  */
 public final class Permissions {
 
+    public static final String ADMIN = "admin";
+
     /* 用户管理 */
     public static final class User {
         public static final String VIEW = "user:view";
