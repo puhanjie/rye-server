@@ -121,6 +121,13 @@ public class UserController {
         return this.userService.getBasicInfo();
     }
 
+    @Operation(summary = "编辑基本信息", description = "编辑用户基本信息")
+    @PutMapping("/info")
+    @RequiresAuthentication
+    public boolean editInfo(@RequestBody UserDTO userDTO) {
+        return this.userService.editBasicInfo(userDTO);
+    }
+
     @Operation(summary = "查询用户列表", description = "分页查询用户列表")
     @Parameters({
             @Parameter(name = "pageNum", description = "分页查询页码"),

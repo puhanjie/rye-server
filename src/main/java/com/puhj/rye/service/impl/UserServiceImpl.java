@@ -148,6 +148,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    public boolean editBasicInfo(UserDTO userDTO) {
+        User user = this.userMapper.selectById(userDTO.getId());
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", userDTO.getId())
+                .set("name", userDTO.getName())
+                .set("sex", userDTO.getSex())
+                .set("phone", userDTO.getPhone())
+                .set("email", userDTO.getEmail())
+                .set("update_user", SubjectUtil.getSubjectId());
+
+        // 编辑基本用户信息
+        if (this.userMapper.update(user, updateWrapper) <= 0) {
+            throw new HttpException(ResultCode.USER_EDIT_ERROR);
+        }
+        return true;
+    }
+
+    @Override
     public PageVO<UserInfoVO> list(Page<UserInfoVO> page, String username, String name, String phone, String email) {
         Page<UserInfoVO> pageList = this.userMapper.list(page, username, name, phone, email);
         return new PageVO<>(pageList);

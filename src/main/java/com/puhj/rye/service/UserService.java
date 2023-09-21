@@ -32,6 +32,8 @@ public interface UserService extends IService<User> {
 
     UserBasicInfoVO getBasicInfo();
 
+    boolean editBasicInfo(UserDTO userDTO);
+
     PageVO<UserInfoVO> list(Page<UserInfoVO> page, String username, String name, String phone, String email);
 
     int updatePassword(PasswordBO passwordBO);
