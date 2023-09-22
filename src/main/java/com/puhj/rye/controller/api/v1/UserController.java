@@ -121,7 +121,7 @@ public class UserController {
         return this.userService.getBasicInfo();
     }
 
-    @Operation(summary = "编辑基本信息", description = "编辑用户基本信息")
+    @Operation(summary = "编辑当前用户信息", description = "编辑当前用户基本信息")
     @PutMapping("/info")
     @RequiresAuthentication
     public boolean editInfo(@RequestBody UserDTO userDTO) {
