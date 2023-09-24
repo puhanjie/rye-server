@@ -224,6 +224,6 @@
                 and u.email like concat('%',#{email},'%')
             </if>
         </where>
-        order by u.id
+        order by u.id desc
     </select>
 </mapper>

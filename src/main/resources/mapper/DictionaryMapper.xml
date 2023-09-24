@@ -49,6 +49,6 @@
                 and d.dict_label like concat('%',#{dictLabel},'%')
             </if>
         </where>
-        order by d.id
+        order by d.id desc
     </select>
 </mapper>

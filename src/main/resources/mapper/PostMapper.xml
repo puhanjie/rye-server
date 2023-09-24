@@ -78,7 +78,7 @@
                 and p.name like concat('%',#{name},'%')
             </if>
         </where>
-        order by p.id
+        order by p.id desc
     </select>
 
     <select id="selectRolesByPostId" resultType="com.puhj.rye.bo.RoleBO">
