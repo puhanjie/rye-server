@@ -72,4 +72,9 @@ public final class Permissions {
         public static final String EMPTY = "log:empty";
     }
 
+    /* 个人设置 */
+    public static final class Settings {
+        public static final String VIEW = "settings:view";
+    }
+
 }

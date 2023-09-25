@@ -9,6 +9,7 @@ import com.puhj.rye.bo.UserBO;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.ContrastUtil;
+import com.puhj.rye.common.utils.DateUtil;
 import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.dto.UserDTO;
 import com.puhj.rye.entity.User;
@@ -21,6 +22,7 @@ import com.puhj.rye.vo.UserInfoVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -131,16 +133,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public boolean editBasicInfo(UserDTO userDTO) {
-        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id", userDTO.getId())
-                .set("name", userDTO.getName())
-                .set("sex", userDTO.getSex())
-                .set("phone", userDTO.getPhone())
-                .set("email", userDTO.getEmail())
-                .set("update_user", SubjectUtil.getSubjectId());
+        User user = userDTO.entity();
+        user.setUpdateUser(userDTO.getId());
 
         // 编辑基本用户信息
-        if (this.userMapper.update(null, updateWrapper) <= 0) {
+        if (this.userMapper.updateById(user) <= 0) {
             throw new HttpException(ResultCode.USER_EDIT_ERROR);
         }
         return true;
@@ -163,7 +160,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public String modifyAvatar(User user, FileVO avatar) {
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id", user.getId()).set("avatar", avatar.getPath());
+        updateWrapper.eq("id", user.getId())
+                .set("avatar", avatar.getPath())
+                .set("update_user", user.getId())
+                .set("update_time", DateUtil.getLocalDateTime(new Date()));
         this.userMapper.update(null, updateWrapper);
         return avatar.getPath();
     }
