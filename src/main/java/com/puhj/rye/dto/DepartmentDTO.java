@@ -1,5 +1,6 @@
 package com.puhj.rye.dto;
 
+import com.puhj.rye.entity.Department;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -34,5 +35,16 @@ public class DepartmentDTO {
 
     @Schema(description = "角色,id数组")
     private List<Integer> roles;
+
+    public Department entity() {
+        Department department = new Department();
+        department.setId(this.id);
+        department.setParentId(this.parentId);
+        department.setCode(this.code);
+        department.setName(this.name);
+        department.setLeader(this.leader);
+        department.setDeptStatus(this.deptStatus);
+        return department;
+    }
 
 }

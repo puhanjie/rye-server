@@ -1,5 +1,6 @@
 package com.puhj.rye.dto;
 
+import com.puhj.rye.entity.Permission;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -26,5 +27,15 @@ public class PermissionDTO {
 
     @Schema(description = "权限状态")
     private String permissionStatus;
+
+    public Permission entity() {
+        Permission permission = new Permission();
+        permission.setId(this.id);
+        permission.setCode(this.code);
+        permission.setName(this.name);
+        permission.setMenu(this.menu);
+        permission.setPermissionStatus(this.permissionStatus);
+        return permission;
+    }
 
 }

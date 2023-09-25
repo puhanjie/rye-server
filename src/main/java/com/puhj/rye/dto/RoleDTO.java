@@ -1,5 +1,6 @@
 package com.puhj.rye.dto;
 
+import com.puhj.rye.entity.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -28,5 +29,14 @@ public class RoleDTO {
 
     @Schema(description = "权限,id数组")
     private List<Integer> permissions;
+
+    public Role entity() {
+        Role role = new Role();
+        role.setId(this.id);
+        role.setCode(this.code);
+        role.setName(this.name);
+        role.setRoleStatus(this.roleStatus);
+        return role;
+    }
 
 }

@@ -45,16 +45,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public boolean add(UserDTO userDTO) {
         Integer currentUserId = SubjectUtil.getSubjectId();
-        User user = new User();
-        user.setDepartment(userDTO.getDepartment());
-        user.setUsername(userDTO.getUsername());
-        user.setName(userDTO.getName());
-        user.setSex(userDTO.getSex());
-        user.setUserStatus(userDTO.getUserStatus());
-        user.setPassword(userDTO.getPassword());
-        user.setPhone(userDTO.getPhone());
-        user.setAvatar(userDTO.getAvatar());
-        user.setEmail(userDTO.getEmail());
+        User user = userDTO.entity();
         user.setCreateUser(currentUserId);
         user.setUpdateUser(currentUserId);
 
@@ -83,20 +74,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Transactional
     @Override
     public boolean edit(UserDTO userDTO) {
-        User user = this.userMapper.selectById(userDTO.getId());
-        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id", userDTO.getId())
-                .set("department", userDTO.getDepartment())
-                .set("username", userDTO.getUsername())
-                .set("name", userDTO.getName())
-                .set("sex", userDTO.getSex())
-                .set("user_status", userDTO.getUserStatus())
-                .set("phone", userDTO.getPhone())
-                .set("email", userDTO.getEmail())
-                .set("update_user", SubjectUtil.getSubjectId());
+        User user = userDTO.entity();
+        user.setUpdateUser(SubjectUtil.getSubjectId());
 
         // 编辑用户
-        if (this.userMapper.update(user, updateWrapper) <= 0) {
+        if (this.userMapper.updateById(user) <= 0) {
             throw new HttpException(ResultCode.USER_EDIT_ERROR);
         }
 
@@ -149,7 +131,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public boolean editBasicInfo(UserDTO userDTO) {
-        User user = this.userMapper.selectById(userDTO.getId());
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", userDTO.getId())
                 .set("name", userDTO.getName())
@@ -159,7 +140,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .set("update_user", SubjectUtil.getSubjectId());
 
         // 编辑基本用户信息
-        if (this.userMapper.update(user, updateWrapper) <= 0) {
+        if (this.userMapper.update(null, updateWrapper) <= 0) {
             throw new HttpException(ResultCode.USER_EDIT_ERROR);
         }
         return true;
@@ -173,18 +154,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public int updatePassword(PasswordBO passwordBO) {
-        User user = this.userMapper.selectById(passwordBO.getUserId());
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", passwordBO.getUserId());
         updateWrapper.set("password", passwordBO.getNewPassword());
-        return this.userMapper.update(user, updateWrapper);
+        return this.userMapper.update(null, updateWrapper);
     }
 
     @Override
     public String modifyAvatar(User user, FileVO avatar) {
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", user.getId()).set("avatar", avatar.getPath());
-        this.userMapper.update(user, updateWrapper);
+        this.userMapper.update(null, updateWrapper);
         return avatar.getPath();
     }
 

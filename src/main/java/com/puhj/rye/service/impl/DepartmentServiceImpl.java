@@ -1,9 +1,7 @@
 package com.puhj.rye.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.puhj.rye.vo.DepartmentDetailTreeVO;
 import com.puhj.rye.bo.DepartmentInfoBO;
 import com.puhj.rye.bo.DepartmentTreeBO;
 import com.puhj.rye.common.constant.ResultCode;
@@ -15,6 +13,7 @@ import com.puhj.rye.dto.DepartmentDTO;
 import com.puhj.rye.entity.Department;
 import com.puhj.rye.mapper.DepartmentMapper;
 import com.puhj.rye.service.DepartmentService;
+import com.puhj.rye.vo.DepartmentDetailTreeVO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,12 +41,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     @Override
     public boolean add(DepartmentDTO departmentDTO) {
         Integer currentUserId = SubjectUtil.getSubjectId();
-        Department department = new Department();
-        department.setParentId(departmentDTO.getParentId());
-        department.setCode(departmentDTO.getCode());
-        department.setName(departmentDTO.getName());
-        department.setLeader(departmentDTO.getLeader());
-        department.setDeptStatus(departmentDTO.getDeptStatus());
+        Department department = departmentDTO.entity();
         department.setCreateUser(currentUserId);
         department.setUpdateUser(currentUserId);
 
@@ -68,18 +62,11 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     @Override
     public boolean edit(DepartmentDTO departmentDTO) {
-        Department department = this.departmentMapper.selectById(departmentDTO.getId());
-        UpdateWrapper<Department> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id", departmentDTO.getId())
-                .set("parent_id", departmentDTO.getParentId())
-                .set("code", departmentDTO.getCode())
-                .set("name", departmentDTO.getName())
-                .set("leader", departmentDTO.getLeader())
-                .set("dept_status", departmentDTO.getDeptStatus())
-                .set("update_user", SubjectUtil.getSubjectId());
+        Department department = departmentDTO.entity();
+        department.setUpdateUser(SubjectUtil.getSubjectId());
 
         // 编辑部门
-        if (this.departmentMapper.update(department, updateWrapper) <= 0) {
+        if (this.departmentMapper.updateById(department) <= 0) {
             throw new HttpException(ResultCode.DEPARTMENT_EDIT_ERROR);
         }
 

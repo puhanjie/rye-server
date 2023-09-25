@@ -1,12 +1,10 @@
 package com.puhj.rye.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.RoleBO;
 import com.puhj.rye.common.constant.Permissions;
-import com.puhj.rye.vo.RoleInfoVO;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.ContrastUtil;
@@ -16,6 +14,7 @@ import com.puhj.rye.entity.Role;
 import com.puhj.rye.mapper.RoleMapper;
 import com.puhj.rye.service.RoleService;
 import com.puhj.rye.vo.PageVO;
+import com.puhj.rye.vo.RoleInfoVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,10 +42,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public boolean add(RoleDTO roleDTO) {
         Integer currentUserId = SubjectUtil.getSubjectId();
-        Role role = new Role();
-        role.setCode(roleDTO.getCode());
-        role.setName(roleDTO.getName());
-        role.setRoleStatus(roleDTO.getRoleStatus());
+        Role role = roleDTO.entity();
         role.setCreateUser(currentUserId);
         role.setUpdateUser(currentUserId);
 
@@ -72,16 +68,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Transactional
     @Override
     public boolean edit(RoleDTO roleDTO) {
-        Role role = this.roleMapper.selectById(roleDTO.getId());
-        UpdateWrapper<Role> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id", roleDTO.getId())
-                .set("code", roleDTO.getCode())
-                .set("name", roleDTO.getName())
-                .set("role_status", roleDTO.getRoleStatus())
-                .set("update_user", SubjectUtil.getSubjectId());
+        Role role = roleDTO.entity();
+        role.setUpdateUser(SubjectUtil.getSubjectId());
 
         // 编辑角色
-        if (this.roleMapper.update(role, updateWrapper) <= 0) {
+        if (this.roleMapper.updateById(role) <= 0) {
             throw new HttpException(ResultCode.ROLE_EDIT_ERROR);
         }
 

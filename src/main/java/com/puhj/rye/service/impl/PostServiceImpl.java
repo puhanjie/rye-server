@@ -1,11 +1,9 @@
 package com.puhj.rye.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.PostBO;
-import com.puhj.rye.vo.PostInfoVO;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.ContrastUtil;
@@ -15,6 +13,7 @@ import com.puhj.rye.entity.Post;
 import com.puhj.rye.mapper.PostMapper;
 import com.puhj.rye.service.PostService;
 import com.puhj.rye.vo.PageVO;
+import com.puhj.rye.vo.PostInfoVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,11 +41,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Override
     public boolean add(PostDTO postDTO) {
         Integer currentUserId = SubjectUtil.getSubjectId();
-        Post post = new Post();
-        post.setCode(postDTO.getCode());
-        post.setName(postDTO.getName());
-        post.setPostStatus(postDTO.getPostStatus());
-        post.setRemark(postDTO.getRemark());
+        Post post = postDTO.entity();
         post.setCreateUser(currentUserId);
         post.setUpdateUser(currentUserId);
 
@@ -68,17 +63,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Transactional
     @Override
     public boolean edit(PostDTO postDTO) {
-        Post post = this.postMapper.selectById(postDTO.getId());
-        UpdateWrapper<Post> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id", postDTO.getId())
-                .set("code", postDTO.getCode())
-                .set("name", postDTO.getName())
-                .set("post_status", postDTO.getPostStatus())
-                .set("remark", postDTO.getRemark())
-                .set("update_user", SubjectUtil.getSubjectId());
+        Post post = postDTO.entity();
+        post.setUpdateUser(SubjectUtil.getSubjectId());
 
         // 编辑岗位
-        if (this.postMapper.update(post, updateWrapper) <= 0) {
+        if (this.postMapper.updateById(post) <= 0) {
             throw new HttpException(ResultCode.POST_EDIT_ERROR);
         }
 

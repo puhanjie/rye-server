@@ -1,5 +1,6 @@
 package com.puhj.rye.dto;
 
+import com.puhj.rye.entity.Dictionary;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -29,5 +30,16 @@ public class DictionaryDTO {
 
     @Schema(description = "描述")
     private String description;
+
+    public Dictionary entity() {
+        Dictionary dictionary = new Dictionary();
+        dictionary.setId(this.id);
+        dictionary.setDictType(this.dictType);
+        dictionary.setDictName(this.dictName);
+        dictionary.setDictValue(this.dictValue);
+        dictionary.setDictLabel(this.dictLabel);
+        dictionary.setDescription(this.description);
+        return dictionary;
+    }
 
 }

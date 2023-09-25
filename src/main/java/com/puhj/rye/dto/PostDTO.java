@@ -1,5 +1,6 @@
 package com.puhj.rye.dto;
 
+import com.puhj.rye.entity.Post;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -31,5 +32,15 @@ public class PostDTO {
 
     @Schema(description = "角色,id数组")
     private List<Integer> roles;
+
+    public Post entity() {
+        Post post = new Post();
+        post.setId(this.id);
+        post.setCode(this.code);
+        post.setName(this.name);
+        post.setPostStatus(this.postStatus);
+        post.setRemark(this.remark);
+        return post;
+    }
 
 }

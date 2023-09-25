@@ -1,5 +1,6 @@
 package com.puhj.rye.dto;
 
+import com.puhj.rye.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -49,5 +50,20 @@ public class UserDTO {
 
     @Schema(description = "岗位,id数组")
     private List<Integer> posts;
+
+    public User entity() {
+        User user = new User();
+        user.setId(this.id);
+        user.setDepartment(this.department);
+        user.setUsername(this.username);
+        user.setName(this.name);
+        user.setSex(this.sex);
+        user.setUserStatus(this.userStatus);
+        user.setPassword(this.password);
+        user.setPhone(this.phone);
+        user.setAvatar(this.avatar);
+        user.setEmail(this.email);
+        return user;
+    }
 
 }

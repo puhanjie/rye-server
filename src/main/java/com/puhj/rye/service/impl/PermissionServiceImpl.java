@@ -1,11 +1,9 @@
 package com.puhj.rye.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.PermissionBO;
-import com.puhj.rye.vo.PermissionInfoVO;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.SubjectUtil;
@@ -14,6 +12,7 @@ import com.puhj.rye.entity.Permission;
 import com.puhj.rye.mapper.PermissionMapper;
 import com.puhj.rye.service.PermissionService;
 import com.puhj.rye.vo.PageVO;
+import com.puhj.rye.vo.PermissionInfoVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,11 +39,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Override
     public boolean add(PermissionDTO permissionDTO) {
         Integer currentUserId = SubjectUtil.getSubjectId();
-        Permission permission = new Permission();
-        permission.setCode(permissionDTO.getCode());
-        permission.setName(permissionDTO.getName());
-        permission.setMenu(permissionDTO.getMenu());
-        permission.setPermissionStatus(permissionDTO.getPermissionStatus());
+        Permission permission = permissionDTO.entity();
         permission.setCreateUser(currentUserId);
         permission.setUpdateUser(currentUserId);
 
@@ -59,17 +54,11 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Transactional
     @Override
     public boolean edit(PermissionDTO permissionDTO) {
-        Permission permission = this.permissionMapper.selectById(permissionDTO.getId());
-        UpdateWrapper<Permission> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id", permissionDTO.getId())
-                .set("code", permissionDTO.getCode())
-                .set("name", permissionDTO.getName())
-                .set("menu", permissionDTO.getMenu())
-                .set("permission_status", permissionDTO.getPermissionStatus())
-                .set("update_user", SubjectUtil.getSubjectId());
+        Permission permission = permissionDTO.entity();
+        permission.setUpdateUser(SubjectUtil.getSubjectId());
 
         // 编辑权限
-        if (this.permissionMapper.update(permission, updateWrapper) <= 0) {
+        if (this.permissionMapper.updateById(permission) <= 0) {
             throw new HttpException(ResultCode.PERMISSION_EDIT_ERROR);
         }
 
