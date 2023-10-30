@@ -7,7 +7,6 @@ import com.puhj.rye.bo.PostBO;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.ContrastUtil;
-import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.dto.PostDTO;
 import com.puhj.rye.entity.Post;
 import com.puhj.rye.mapper.PostMapper;
@@ -40,10 +39,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Transactional
     @Override
     public boolean add(PostDTO postDTO) {
-        Integer currentUserId = SubjectUtil.getSubjectId();
         Post post = postDTO.entity();
-        post.setCreateUser(currentUserId);
-        post.setUpdateUser(currentUserId);
 
         // 新增岗位
         if (this.postMapper.insert(post) <= 0) {
@@ -64,7 +60,6 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     @Override
     public boolean edit(PostDTO postDTO) {
         Post post = postDTO.entity();
-        post.setUpdateUser(SubjectUtil.getSubjectId());
 
         // 编辑岗位
         if (this.postMapper.updateById(post) <= 0) {

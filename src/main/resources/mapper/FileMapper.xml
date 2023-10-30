@@ -37,8 +37,8 @@
         <where>
             f.delete_time is null
             and (f.upload_user = #{currentUserId} or
-            'admin' in (select r.code from user_role ur
-            left join role r on ur.role_id = r.id where ur.user_id = #{currentUserId}))
+            exists (select 1 from user_role ur
+            left join role r on ur.role_id = r.id where ur.user_id = #{currentUserId} and r.code = 'admin'))
             <if test="name != null and name != ''">
                 and f.name like concat('%',#{name},'%')
             </if>

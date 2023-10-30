@@ -46,10 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Transactional
     @Override
     public boolean add(UserDTO userDTO) {
-        Integer currentUserId = SubjectUtil.getSubjectId();
         User user = userDTO.entity();
-        user.setCreateUser(currentUserId);
-        user.setUpdateUser(currentUserId);
 
         // 新增用户
         if (this.userMapper.insert(user) <= 0) {
@@ -77,7 +74,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public boolean edit(UserDTO userDTO) {
         User user = userDTO.entity();
-        user.setUpdateUser(SubjectUtil.getSubjectId());
 
         // 编辑用户
         if (this.userMapper.updateById(user) <= 0) {
@@ -134,7 +130,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public boolean editBasicInfo(UserDTO userDTO) {
         User user = userDTO.entity();
-        user.setUpdateUser(userDTO.getId());
 
         // 编辑基本用户信息
         if (this.userMapper.updateById(user) <= 0) {
@@ -152,8 +147,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public int updatePassword(PasswordBO passwordBO) {
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id", passwordBO.getUserId());
-        updateWrapper.set("password", passwordBO.getNewPassword());
+        updateWrapper.eq("id", passwordBO.getUserId())
+                .set("password", passwordBO.getNewPassword())
+                .set("update_time", DateUtil.getLocalDateTime(new Date()));
         return this.userMapper.update(null, updateWrapper);
     }
 

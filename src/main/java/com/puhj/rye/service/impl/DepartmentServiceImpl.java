@@ -7,7 +7,6 @@ import com.puhj.rye.bo.DepartmentTreeBO;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.ContrastUtil;
-import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.common.utils.TreeUtil;
 import com.puhj.rye.dto.DepartmentDTO;
 import com.puhj.rye.entity.Department;
@@ -40,10 +39,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     @Override
     public boolean add(DepartmentDTO departmentDTO) {
-        Integer currentUserId = SubjectUtil.getSubjectId();
         Department department = departmentDTO.entity();
-        department.setCreateUser(currentUserId);
-        department.setUpdateUser(currentUserId);
 
         // 新增部门
         if (this.departmentMapper.insert(department) <= 0) {
@@ -63,7 +59,6 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     @Override
     public boolean edit(DepartmentDTO departmentDTO) {
         Department department = departmentDTO.entity();
-        department.setUpdateUser(SubjectUtil.getSubjectId());
 
         // 编辑部门
         if (this.departmentMapper.updateById(department) <= 0) {

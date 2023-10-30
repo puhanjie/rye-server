@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.DictionaryBO;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
-import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.dto.DictionaryDTO;
 import com.puhj.rye.entity.Dictionary;
 import com.puhj.rye.mapper.DictionaryMapper;
@@ -38,10 +37,7 @@ public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Diction
     @Transactional
     @Override
     public boolean add(DictionaryDTO dictionaryDTO) {
-        Integer currentUserId = SubjectUtil.getSubjectId();
         Dictionary dictionary = dictionaryDTO.entity();
-        dictionary.setCreateUser(currentUserId);
-        dictionary.setUpdateUser(currentUserId);
 
         // 新增字典
         if (this.dictionaryMapper.insert(dictionary) <= 0) {
@@ -55,7 +51,6 @@ public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Diction
     @Override
     public boolean edit(DictionaryDTO dictionaryDTO) {
         Dictionary dictionary = dictionaryDTO.entity();
-        dictionary.setUpdateUser(SubjectUtil.getSubjectId());
 
         // 编辑字典
         if (this.dictionaryMapper.updateById(dictionary) <= 0) {

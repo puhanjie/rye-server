@@ -8,7 +8,6 @@ import com.puhj.rye.common.constant.Permissions;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.ContrastUtil;
-import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.dto.RoleDTO;
 import com.puhj.rye.entity.Role;
 import com.puhj.rye.mapper.RoleMapper;
@@ -41,10 +40,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Transactional
     @Override
     public boolean add(RoleDTO roleDTO) {
-        Integer currentUserId = SubjectUtil.getSubjectId();
         Role role = roleDTO.entity();
-        role.setCreateUser(currentUserId);
-        role.setUpdateUser(currentUserId);
 
         // 新增角色
         if (this.roleMapper.insert(role) <= 0) {
@@ -69,7 +65,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public boolean edit(RoleDTO roleDTO) {
         Role role = roleDTO.entity();
-        role.setUpdateUser(SubjectUtil.getSubjectId());
 
         // 编辑角色
         if (this.roleMapper.updateById(role) <= 0) {

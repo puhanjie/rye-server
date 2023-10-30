@@ -66,11 +66,11 @@ public class User implements Serializable {
     private String email;
 
     @Schema(description = "创建者(用户id)")
-    @TableField(value = "create_user")
+    @TableField(value = "create_user", fill = FieldFill.INSERT)
     private Integer createUser;
 
     @Schema(description = "更新者(用户id)")
-    @TableField(value = "update_user")
+    @TableField(value = "update_user", fill = FieldFill.INSERT_UPDATE)
     private Integer updateUser;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.PermissionBO;
 import com.puhj.rye.common.constant.ResultCode;
 import com.puhj.rye.common.exception.HttpException;
-import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.dto.PermissionDTO;
 import com.puhj.rye.entity.Permission;
 import com.puhj.rye.mapper.PermissionMapper;
@@ -38,10 +37,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Transactional
     @Override
     public boolean add(PermissionDTO permissionDTO) {
-        Integer currentUserId = SubjectUtil.getSubjectId();
         Permission permission = permissionDTO.entity();
-        permission.setCreateUser(currentUserId);
-        permission.setUpdateUser(currentUserId);
 
         // 新增权限
         if (this.permissionMapper.insert(permission) <= 0) {
@@ -55,7 +51,6 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Override
     public boolean edit(PermissionDTO permissionDTO) {
         Permission permission = permissionDTO.entity();
-        permission.setUpdateUser(SubjectUtil.getSubjectId());
 
         // 编辑权限
         if (this.permissionMapper.updateById(permission) <= 0) {
