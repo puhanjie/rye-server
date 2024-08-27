@@ -1,6 +1,7 @@
 package com.puhj.rye.common.aop;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.puhj.rye.common.utils.JwtUtil;
 import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.entity.Log;
 import com.puhj.rye.service.LogService;
@@ -37,26 +38,32 @@ public class LogAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
-        // 登陆接口暂不记录操作日志,因为无法从request中获取到token记录操作人
-        if ("/api/v1/user/login".equals(request.getRequestURI())) {
-            return;
-        }
-        ResponseVO<?> res;
-        // 若result为String类型,说明在ResponseAdvice.beforeBodyWrite中已经返回json字符串,则需要反序列化为ResponseVO对象
+        ResponseVO<?> responseVO;
         if (result instanceof String) {
             ObjectMapper mapper = new ObjectMapper();
             try {
-                res = mapper.readValue((String) result, ResponseVO.class);
+                responseVO = mapper.readValue((String) result, ResponseVO.class);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         } else {
-            res = (ResponseVO<?>) result;
+            responseVO = (ResponseVO<?>) result;
         }
-        Log operateLog = new Log(res.getRequest(), res.getCode(), res.getMessage(), SubjectUtil.getSubjectId());
+
+        Integer userId;
+        String username;
+        if ("/api/v1/user/login".equals(request.getRequestURI())) {
+            userId = JwtUtil.getTokenInfo(responseVO.getData().toString(), "id").asInt();
+            username = JwtUtil.getTokenInfo(responseVO.getData().toString(), "username").asString();
+        } else {
+            userId = SubjectUtil.getSubjectId();
+            username = SubjectUtil.getSubjectName();
+        }
+
+        Log operateLog = new Log(responseVO.getRequest(), responseVO.getCode(), responseVO.getMessage(), userId);
         // 记录操作日志和系统运行日志
         this.logService.add(operateLog);
-        log.info("==> 接口：" + res.getRequest() + " 被调用 - [操作人：" + SubjectUtil.getSubjectName() + "] - [状态：" + res.getCode() + " | " + res.getMessage() + "]");
+        log.info("==> 接口：" + responseVO.getRequest() + " 被调用 - [操作人：" + username + "] - [状态：" + responseVO.getCode() + " | " + responseVO.getMessage() + "]");
     }
 
 }
