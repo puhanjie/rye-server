@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.PostBO;
-import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.constant.Result;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.ContrastUtil;
 import com.puhj.rye.dto.PostDTO;
@@ -43,13 +43,13 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         // 新增岗位
         if (this.postMapper.insert(post) <= 0) {
-            throw new HttpException(ResultCode.POST_ADD_ERROR);
+            throw new HttpException(Result.POST_ADD_ERROR);
         }
 
         // 分配角色
         if (postDTO.getRoles() != null && !postDTO.getRoles().isEmpty()) {
             if (this.postMapper.insertRoleIdsByPostId(post.getId(), postDTO.getRoles()) <= 0) {
-                throw new HttpException(ResultCode.POST_SET_ROLES_ERROR);
+                throw new HttpException(Result.POST_SET_ROLES_ERROR);
             }
         }
 
@@ -63,7 +63,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
 
         // 编辑岗位
         if (this.postMapper.updateById(post) <= 0) {
-            throw new HttpException(ResultCode.POST_EDIT_ERROR);
+            throw new HttpException(Result.POST_EDIT_ERROR);
         }
 
         // 分配角色
@@ -72,13 +72,13 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
         if (!roleMap.get("remove").isEmpty()) {
             // 清除被移除的角色
             if (!this.postMapper.deleteRoleIdsByPostId(postDTO.getId(), roleMap.get("remove"))) {
-                throw new HttpException(ResultCode.POST_SET_ROLES_ERROR);
+                throw new HttpException(Result.POST_SET_ROLES_ERROR);
             }
         }
         if (!roleMap.get("add").isEmpty()) {
             // 添加新分配的角色
             if (this.postMapper.insertRoleIdsByPostId(postDTO.getId(), roleMap.get("add")) <= 0) {
-                throw new HttpException(ResultCode.POST_SET_ROLES_ERROR);
+                throw new HttpException(Result.POST_SET_ROLES_ERROR);
             }
         }
 

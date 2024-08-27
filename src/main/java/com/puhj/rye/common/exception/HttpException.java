@@ -1,6 +1,6 @@
 package com.puhj.rye.common.exception;
 
-import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.constant.Result;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,10 +21,10 @@ public class HttpException extends RuntimeException {
 
     protected Integer httpCode;
 
-    public HttpException(ResultCode resultCode) {
-        this.code = resultCode.getCode();
-        this.message = resultCode.getMessage();
-        this.httpCode = resultCode.getHttpCode();
+    public HttpException(Result result) {
+        this.code = result.getCode();
+        this.message = result.getMessage();
+        this.httpCode = result.getHttpCode();
     }
 
 }

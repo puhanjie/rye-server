@@ -8,7 +8,7 @@ import lombok.Getter;
  * @create 2022-3-20
  */
 @Getter
-public enum ResultCode {
+public enum Result {
 
     SUCCESS(0, "成功", 200),
     FAIL(-1, "失败", 500),
@@ -51,7 +51,7 @@ public enum ResultCode {
 
     private final Integer httpCode;
 
-    ResultCode(Integer code, String message, Integer httpCode) {
+    Result(Integer code, String message, Integer httpCode) {
         this.code = code;
         this.message = message;
         this.httpCode = httpCode;
@@ -59,7 +59,7 @@ public enum ResultCode {
 
     @Override
     public String toString() {
-        return "ResultCode{" +
+        return "Result{" +
                 "code=" + code +
                 ", message='" + message + '\'' +
                 ", httpCode=" + httpCode +

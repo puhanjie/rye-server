@@ -1,7 +1,7 @@
 package com.puhj.rye.common.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.constant.Result;
 import com.puhj.rye.common.utils.JwtUtil;
 import com.puhj.rye.vo.ResponseVO;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
@@ -50,15 +50,15 @@ public class AuthFilter extends FormAuthenticationFilter {
         HttpServletResponse resp = (HttpServletResponse) response;
 
         // 因过滤器中的异常无法被springboot全局异常类捕获,因此发生异常需要给response对象写入信息返回给前端
-        ResponseVO<?> result = ResponseVO.fail(ResultCode.AUTHENTICATION_FAIL.getCode(),
-                ResultCode.AUTHENTICATION_FAIL.getMessage(),
+        ResponseVO<?> result = ResponseVO.fail(Result.AUTHENTICATION_FAIL.getCode(),
+                Result.AUTHENTICATION_FAIL.getMessage(),
                 req.getMethod() + " " + req.getRequestURI());
 
         ObjectMapper objectMapper = new ObjectMapper();
 
         resp.setCharacterEncoding("utf-8");
         resp.setContentType("application/json; charset = utf-8");
-        resp.setStatus(ResultCode.AUTHENTICATION_FAIL.getHttpCode());
+        resp.setStatus(Result.AUTHENTICATION_FAIL.getHttpCode());
         resp.getWriter().write(objectMapper.writeValueAsString(result));
         return false;
     }

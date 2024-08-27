@@ -2,7 +2,7 @@ package com.puhj.rye.common.advices;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.constant.Result;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.vo.ResponseVO;
 import lombok.extern.slf4j.Slf4j;
@@ -81,15 +81,15 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         log.error(e.getMessage(), e);
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
-        return ResponseVO.fail(ResultCode.FAIL.getCode(),
-                ResultCode.FAIL.getMessage(),
+        return ResponseVO.fail(Result.FAIL.getCode(),
+                Result.FAIL.getMessage(),
                 method + " " + requestUrl);
     }
 
     // 自定义业务异常捕获
     @ExceptionHandler(value = HttpException.class)
     public ResponseEntity<?> handleSystemException(HttpServletRequest request, HttpException e) {
-        log.error(e.getCode().toString() + " | " + e.getMessage(), e);
+        log.error("{} | {}", e.getCode().toString(), e.getMessage(), e);
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
         HttpStatus httpStatus = HttpStatus.resolve(e.getHttpCode());
@@ -104,8 +104,8 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         log.error(e.getMessage(), e);
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
-        return ResponseVO.fail(ResultCode.AUTHENTICATION_FAIL.getCode(),
-                ResultCode.AUTHENTICATION_FAIL.getMessage(),
+        return ResponseVO.fail(Result.AUTHENTICATION_FAIL.getCode(),
+                Result.AUTHENTICATION_FAIL.getMessage(),
                 method + " " + requestUrl);
     }
 
@@ -116,8 +116,8 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         log.error(e.getMessage(), e);
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
-        return ResponseVO.fail(ResultCode.ACCESS_DENIED.getCode(),
-                ResultCode.ACCESS_DENIED.getMessage(),
+        return ResponseVO.fail(Result.ACCESS_DENIED.getCode(),
+                Result.ACCESS_DENIED.getMessage(),
                 method + " " + requestUrl);
     }
 
@@ -128,8 +128,8 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         log.error(e.getMessage(), e);
         String requestUrl = request.getRequestURI();
         String method = request.getMethod();
-        return ResponseVO.fail(ResultCode.NO_HANDLE_FOUND.getCode(),
-                ResultCode.NO_HANDLE_FOUND.getMessage(),
+        return ResponseVO.fail(Result.NO_HANDLE_FOUND.getCode(),
+                Result.NO_HANDLE_FOUND.getMessage(),
                 method + " " + requestUrl);
     }
 

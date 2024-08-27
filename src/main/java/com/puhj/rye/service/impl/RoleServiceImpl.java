@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.RoleBO;
 import com.puhj.rye.common.constant.Permissions;
-import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.constant.Result;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.ContrastUtil;
 import com.puhj.rye.dto.RoleDTO;
@@ -44,7 +44,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
         // 新增角色
         if (this.roleMapper.insert(role) <= 0) {
-            throw new HttpException(ResultCode.ROLE_ADD_ERROR);
+            throw new HttpException(Result.ROLE_ADD_ERROR);
         }
 
         // 分配权限
@@ -54,7 +54,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         }
         if (roleDTO.getPermissions() != null && !roleDTO.getPermissions().isEmpty()) {
             if (this.roleMapper.insertPermissionIdsByRoleId(role.getId(), roleDTO.getPermissions()) <= 0) {
-                throw new HttpException(ResultCode.ROLE_SET_PERMISSIONS_ERROR);
+                throw new HttpException(Result.ROLE_SET_PERMISSIONS_ERROR);
             }
         }
 
@@ -68,7 +68,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
         // 编辑角色
         if (this.roleMapper.updateById(role) <= 0) {
-            throw new HttpException(ResultCode.ROLE_EDIT_ERROR);
+            throw new HttpException(Result.ROLE_EDIT_ERROR);
         }
 
         // 分配权限
@@ -81,13 +81,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         if (!permissionMap.get("remove").isEmpty()) {
             // 清除被移除的权限
             if (!this.roleMapper.deletePermissionIdsByRoleId(roleDTO.getId(), permissionMap.get("remove"))) {
-                throw new HttpException(ResultCode.ROLE_SET_PERMISSIONS_ERROR);
+                throw new HttpException(Result.ROLE_SET_PERMISSIONS_ERROR);
             }
         }
         if (!permissionMap.get("add").isEmpty()) {
             // 添加新分配的权限
             if (this.roleMapper.insertPermissionIdsByRoleId(roleDTO.getId(), permissionMap.get("add")) <= 0) {
-                throw new HttpException(ResultCode.ROLE_SET_PERMISSIONS_ERROR);
+                throw new HttpException(Result.ROLE_SET_PERMISSIONS_ERROR);
             }
         }
 

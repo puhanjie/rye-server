@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.PasswordBO;
 import com.puhj.rye.bo.UserBO;
-import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.constant.Result;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.ContrastUtil;
 import com.puhj.rye.common.utils.DateUtil;
@@ -50,20 +50,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         // 新增用户
         if (this.userMapper.insert(user) <= 0) {
-            throw new HttpException(ResultCode.USER_ADD_ERROR);
+            throw new HttpException(Result.USER_ADD_ERROR);
         }
 
         // 分配角色
         if (userDTO.getRoles() != null && !userDTO.getRoles().isEmpty()) {
             if (this.userMapper.insertRoleIdsByUserId(user.getId(), userDTO.getRoles()) <= 0) {
-                throw new HttpException(ResultCode.USER_SET_ROLES_ERROR);
+                throw new HttpException(Result.USER_SET_ROLES_ERROR);
             }
         }
 
         // 分配岗位
         if (userDTO.getPosts() != null && !userDTO.getPosts().isEmpty()) {
             if (this.userMapper.insertPostIdsByUserId(user.getId(), userDTO.getPosts()) <= 0) {
-                throw new HttpException(ResultCode.USER_SET_POSTS_ERROR);
+                throw new HttpException(Result.USER_SET_POSTS_ERROR);
             }
         }
 
@@ -77,7 +77,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         // 编辑用户
         if (this.userMapper.updateById(user) <= 0) {
-            throw new HttpException(ResultCode.USER_EDIT_ERROR);
+            throw new HttpException(Result.USER_EDIT_ERROR);
         }
 
         // 分配角色
@@ -86,13 +86,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (!roleMap.get("remove").isEmpty()) {
             // 清除被移除的角色
             if (!this.userMapper.deleteRoleIdsByUserId(userDTO.getId(), roleMap.get("remove"))) {
-                throw new HttpException(ResultCode.USER_SET_ROLES_ERROR);
+                throw new HttpException(Result.USER_SET_ROLES_ERROR);
             }
         }
         if (!roleMap.get("add").isEmpty()) {
             // 添加新分配的角色
             if (this.userMapper.insertRoleIdsByUserId(userDTO.getId(), roleMap.get("add")) <= 0) {
-                throw new HttpException(ResultCode.USER_SET_ROLES_ERROR);
+                throw new HttpException(Result.USER_SET_ROLES_ERROR);
             }
         }
 
@@ -102,13 +102,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (!postMap.get("remove").isEmpty()) {
             // 清除被移除的岗位
             if (!this.userMapper.deletePostIdsByUserId(userDTO.getId(), postMap.get("remove"))) {
-                throw new HttpException(ResultCode.USER_SET_POSTS_ERROR);
+                throw new HttpException(Result.USER_SET_POSTS_ERROR);
             }
         }
         if (!postMap.get("add").isEmpty()) {
             // 添加新分配的岗位
             if (this.userMapper.insertPostIdsByUserId(userDTO.getId(), postMap.get("add")) <= 0) {
-                throw new HttpException(ResultCode.USER_SET_POSTS_ERROR);
+                throw new HttpException(Result.USER_SET_POSTS_ERROR);
             }
         }
 
@@ -133,7 +133,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         // 编辑基本用户信息
         if (this.userMapper.updateById(user) <= 0) {
-            throw new HttpException(ResultCode.USER_EDIT_ERROR);
+            throw new HttpException(Result.USER_EDIT_ERROR);
         }
         return true;
     }

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.DictionaryBO;
-import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.constant.Result;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.dto.DictionaryDTO;
 import com.puhj.rye.entity.Dictionary;
@@ -41,7 +41,7 @@ public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Diction
 
         // 新增字典
         if (this.dictionaryMapper.insert(dictionary) <= 0) {
-            throw new HttpException(ResultCode.DICTIONARY_ADD_ERROR);
+            throw new HttpException(Result.DICTIONARY_ADD_ERROR);
         }
 
         return true;
@@ -54,7 +54,7 @@ public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Diction
 
         // 编辑字典
         if (this.dictionaryMapper.updateById(dictionary) <= 0) {
-            throw new HttpException(ResultCode.DICTIONARY_EDIT_ERROR);
+            throw new HttpException(Result.DICTIONARY_EDIT_ERROR);
         }
 
         return true;

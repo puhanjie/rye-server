@@ -1,11 +1,9 @@
 package com.puhj.rye.common.aop;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.puhj.rye.common.utils.JwtUtil;
 import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.entity.Log;
 import com.puhj.rye.service.LogService;
-import com.puhj.rye.service.UserService;
 import com.puhj.rye.vo.ResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -29,7 +27,7 @@ public class LogAspect {
 
     private final LogService logService;
 
-    public LogAspect(UserService userService, LogService logService) {
+    public LogAspect(LogService logService) {
         this.logService = logService;
     }
 
@@ -37,6 +35,11 @@ public class LogAspect {
     public void getResult(Object result) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
+
+        // 登陆日志在登陆接口里记录,此处不进行记录
+        if ("/api/v1/user/login".equals(request.getRequestURI())) {
+            return;
+        }
 
         ResponseVO<?> responseVO;
         if (result instanceof String) {
@@ -50,20 +53,10 @@ public class LogAspect {
             responseVO = (ResponseVO<?>) result;
         }
 
-        Integer userId;
-        String username;
-        if ("/api/v1/user/login".equals(request.getRequestURI())) {
-            userId = JwtUtil.getTokenInfo(responseVO.getData().toString(), "id").asInt();
-            username = JwtUtil.getTokenInfo(responseVO.getData().toString(), "username").asString();
-        } else {
-            userId = SubjectUtil.getSubjectId();
-            username = SubjectUtil.getSubjectName();
-        }
-
-        Log operateLog = new Log(responseVO.getRequest(), responseVO.getCode(), responseVO.getMessage(), userId);
-        // 记录操作日志和系统运行日志
+        Log operateLog = new Log(responseVO.getRequest(), responseVO.getCode(), responseVO.getMessage(), SubjectUtil.getSubjectId());
+        // 记录操作日志
         this.logService.add(operateLog);
-        log.info("==> 接口：" + responseVO.getRequest() + " 被调用 - [操作人：" + username + "] - [状态：" + responseVO.getCode() + " | " + responseVO.getMessage() + "]");
+        log.info("==> 接口: {} 被调用 - [操作人: {}] - [状态: {} | {}]", responseVO.getRequest(), SubjectUtil.getSubjectName(), responseVO.getCode(), responseVO.getMessage());
     }
 
 }

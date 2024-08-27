@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.PermissionBO;
-import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.constant.Result;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.dto.PermissionDTO;
 import com.puhj.rye.entity.Permission;
@@ -41,7 +41,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
         // 新增权限
         if (this.permissionMapper.insert(permission) <= 0) {
-            throw new HttpException(ResultCode.PERMISSION_ADD_ERROR);
+            throw new HttpException(Result.PERMISSION_ADD_ERROR);
         }
 
         return true;
@@ -54,7 +54,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
         // 编辑权限
         if (this.permissionMapper.updateById(permission) <= 0) {
-            throw new HttpException(ResultCode.PERMISSION_EDIT_ERROR);
+            throw new HttpException(Result.PERMISSION_EDIT_ERROR);
         }
 
         return true;

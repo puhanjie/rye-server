@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.puhj.rye.bo.DepartmentInfoBO;
 import com.puhj.rye.bo.DepartmentTreeBO;
-import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.constant.Result;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.ContrastUtil;
 import com.puhj.rye.common.utils.TreeUtil;
@@ -43,13 +43,13 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
         // 新增部门
         if (this.departmentMapper.insert(department) <= 0) {
-            throw new HttpException(ResultCode.DEPARTMENT_ADD_ERROR);
+            throw new HttpException(Result.DEPARTMENT_ADD_ERROR);
         }
 
         // 分配角色
         if (departmentDTO.getRoles() != null && !departmentDTO.getRoles().isEmpty()) {
             if (this.departmentMapper.insertRoleIdsByDepartmentId(department.getId(), departmentDTO.getRoles()) <= 0) {
-                throw new HttpException(ResultCode.DEPARTMENT_SET_ROLES_ERROR);
+                throw new HttpException(Result.DEPARTMENT_SET_ROLES_ERROR);
             }
         }
 
@@ -62,7 +62,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
         // 编辑部门
         if (this.departmentMapper.updateById(department) <= 0) {
-            throw new HttpException(ResultCode.DEPARTMENT_EDIT_ERROR);
+            throw new HttpException(Result.DEPARTMENT_EDIT_ERROR);
         }
 
         // 分配角色
@@ -71,13 +71,13 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         if (!roleMap.get("remove").isEmpty()) {
             // 清除被移除的角色
             if (!this.departmentMapper.deleteRoleIdsByDepartmentId(departmentDTO.getId(), roleMap.get("remove"))) {
-                throw new HttpException(ResultCode.DEPARTMENT_SET_ROLES_ERROR);
+                throw new HttpException(Result.DEPARTMENT_SET_ROLES_ERROR);
             }
         }
         if (!roleMap.get("add").isEmpty()) {
             // 添加新分配的角色
             if (this.departmentMapper.insertRoleIdsByDepartmentId(departmentDTO.getId(), roleMap.get("add")) <= 0) {
-                throw new HttpException(ResultCode.DEPARTMENT_SET_ROLES_ERROR);
+                throw new HttpException(Result.DEPARTMENT_SET_ROLES_ERROR);
             }
         }
 

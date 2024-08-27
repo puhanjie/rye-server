@@ -2,7 +2,7 @@ package com.puhj.rye.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.constant.Result;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,8 +38,8 @@ public class ResponseVO<T> {
 
     public static <T> ResponseVO<T> success(T data, String request) {
         ResponseVO<T> responseVO = new ResponseVO<>();
-        responseVO.setCode(ResultCode.SUCCESS.getCode());
-        responseVO.setMessage(ResultCode.SUCCESS.getMessage());
+        responseVO.setCode(Result.SUCCESS.getCode());
+        responseVO.setMessage(Result.SUCCESS.getMessage());
         responseVO.setRequest(request);
         responseVO.setData(data);
 

@@ -3,13 +3,14 @@ package com.puhj.rye.controller.api.v1;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.puhj.rye.bo.*;
 import com.puhj.rye.common.constant.Permissions;
-import com.puhj.rye.common.constant.ResultCode;
+import com.puhj.rye.common.constant.Result;
 import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.JwtUtil;
 import com.puhj.rye.common.utils.SubjectUtil;
 import com.puhj.rye.dto.LoginDTO;
 import com.puhj.rye.dto.PasswordDTO;
 import com.puhj.rye.dto.UserDTO;
+import com.puhj.rye.entity.Log;
 import com.puhj.rye.entity.User;
 import com.puhj.rye.service.*;
 import com.puhj.rye.vo.*;
@@ -20,6 +21,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.SchemaProperty;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.util.DigestUtils;
@@ -39,6 +41,7 @@ import java.util.List;
  * @author puhanjie
  * @since 2022-11-30
  */
+@Slf4j
 @Tag(name = "用户接口", description = "用户操作相关接口")
 @RestController
 @RequestMapping("/api/v1/user")
@@ -56,37 +59,54 @@ public class UserController {
 
     private final FileService fileService;
 
+    private final LogService logService;
+
     public UserController(UserService userService,
                           RoleService roleService,
                           PostService postService,
                           DepartmentService departmentService,
                           DictionaryService dictionaryService,
-                          FileService fileService) {
+                          FileService fileService,
+                          LogService logService) {
         this.userService = userService;
         this.roleService = roleService;
         this.postService = postService;
         this.departmentService = departmentService;
         this.dictionaryService = dictionaryService;
         this.fileService = fileService;
+        this.logService = logService;
     }
 
     @Operation(summary = "登陆", description = "用户登陆接口")
     @PostMapping("/login")
-    public String login(@RequestBody LoginDTO user) {
+    public String login(@RequestBody LoginDTO user, HttpServletRequest request) {
+        String url = request.getMethod() + " " + request.getRequestURI();
+        Integer code = Result.SUCCESS.getCode();
+        String message = Result.SUCCESS.getMessage();
+
         User loginUser = this.userService.getByUsername(user.getUsername());
         String encryptPassword = DigestUtils.md5DigestAsHex(user.getPassword().getBytes());
 
         if (loginUser == null) {
-            throw new HttpException(ResultCode.NOT_FOUND_USER);
+            throw new HttpException(Result.NOT_FOUND_USER);
         }
         if (!loginUser.getPassword().equals(encryptPassword)) {
-            throw new HttpException(ResultCode.PASSWORD_ERROR);
+            code = Result.PASSWORD_ERROR.getCode();
+            message = Result.PASSWORD_ERROR.getMessage();
+            this.logService.add(new Log(url, code, message, loginUser.getId()));
+            log.info("==> 接口: {} 被调用 - [操作人: {}] - [状态: {} | {}]", url, loginUser.getUsername(), code, message);
+            throw new HttpException(Result.PASSWORD_ERROR);
         }
-        // 用户状态异常
         if (!"0".equals(loginUser.getUserStatus())) {
-            throw new HttpException(ResultCode.USER_STATUS_ERROR);
+            code = Result.USER_STATUS_ERROR.getCode();
+            message = Result.USER_STATUS_ERROR.getMessage();
+            this.logService.add(new Log(url, code, message, loginUser.getId()));
+            log.info("==> 接口: {} 被调用 - [操作人: {}] - [状态: {} | {}]", url, loginUser.getUsername(), code, message);
+            throw new HttpException(Result.USER_STATUS_ERROR);
         }
 
+        this.logService.add(new Log(url, code, message, loginUser.getId()));
+        log.info("==> 接口: {} 被调用 - [操作人: {}] - [状态: {} | {}]", url, loginUser.getUsername(), code, message);
         return JwtUtil.createToken(loginUser.getId(), loginUser.getUsername());
     }
 
@@ -157,14 +177,14 @@ public class UserController {
 
         // 重置密码校验
         if (passwordDTO.getType() == 1 && !"admin".equals(currentUser.getUsername())) {
-            throw new HttpException(ResultCode.NOT_ADMIN);
+            throw new HttpException(Result.NOT_ADMIN);
         }
 
         // 修改密码校验
         if (passwordDTO.getType() == 2) {
             String currentPassword = DigestUtils.md5DigestAsHex(passwordDTO.getCurrentPassword().getBytes());
             if (!currentPassword.equals(user.getPassword())) {
-                throw new HttpException(ResultCode.CURRENT_PASSWORD_ERROR);
+                throw new HttpException(Result.CURRENT_PASSWORD_ERROR);
             }
         }
 
