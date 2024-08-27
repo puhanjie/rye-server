@@ -36,12 +36,12 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     /*
      * 判断是否要执行 beforeBodyWrite 方法（true:执行;false:不执行）
-     * 因整合了springdoc,所以springdoc相关资源返回false,不进行拦截
+     * 只对本项目接口返回数据做拦截处理,通过判断returnType中类名是否包含rye来确定是否是接口数据
      */
     @Override
     public boolean supports(@NotNull MethodParameter returnType,
                             @NotNull Class<? extends HttpMessageConverter<?>> converterType) {
-        return !returnType.getDeclaringClass().getName().contains("springdoc");
+        return returnType.getDeclaringClass().getName().contains("rye");
     }
 
     @Override
