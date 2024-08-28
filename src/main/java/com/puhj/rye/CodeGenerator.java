@@ -40,7 +40,7 @@ public class CodeGenerator {
                                     projectPath + "/src/main/resources/mapper")); // 设置mapper.xml文件生成路径
                 })
                 .strategyConfig((scanner, builder) -> builder
-                        .addInclude(getTables(scanner.apply("请输入表名，多个表用英文逗号分隔（所有输入 all）："))) // 设置需要生成的表名
+                        .addInclude(getTables(scanner.apply("请输入表名，多个表用英文逗号分隔(所有输入 all): "))) // 设置需要生成的表名
                         .controllerBuilder() // controller策略配置
                         .enableRestStyle() // controller开启生成@RestController控制器
                         .formatFileName("%sController") // controller文件名格式化
