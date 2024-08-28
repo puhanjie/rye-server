@@ -36,7 +36,7 @@ public class PermissionController {
     private final DictionaryService dictionaryService;
 
     public PermissionController(PermissionService permissionService,
-            DictionaryService dictionaryService) {
+                                DictionaryService dictionaryService) {
         this.permissionService = permissionService;
         this.dictionaryService = dictionaryService;
     }

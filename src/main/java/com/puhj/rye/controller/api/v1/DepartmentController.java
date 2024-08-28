@@ -43,9 +43,9 @@ public class DepartmentController {
     private final DictionaryService dictionaryService;
 
     public DepartmentController(DepartmentService departmentService,
-            UserService userService,
-            RoleService roleService,
-            DictionaryService dictionaryService) {
+                                UserService userService,
+                                RoleService roleService,
+                                DictionaryService dictionaryService) {
         this.departmentService = departmentService;
         this.userService = userService;
         this.roleService = roleService;
@@ -81,7 +81,7 @@ public class DepartmentController {
     @GetMapping("/list")
     @RequiresPermissions(Permissions.Department.VIEW)
     public List<DepartmentDetailTreeVO> list(@RequestParam(value = "code", required = false) String code,
-            @RequestParam(value = "name", required = false) String name) {
+                                             @RequestParam(value = "name", required = false) String name) {
         return this.departmentService.list(code, name);
     }
 

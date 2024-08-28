@@ -40,8 +40,8 @@ public class RoleController {
     private final DictionaryService dictionaryService;
 
     public RoleController(RoleService roleService,
-            PermissionService permissionService,
-            DictionaryService dictionaryService) {
+                          PermissionService permissionService,
+                          DictionaryService dictionaryService) {
         this.roleService = roleService;
         this.permissionService = permissionService;
         this.dictionaryService = dictionaryService;

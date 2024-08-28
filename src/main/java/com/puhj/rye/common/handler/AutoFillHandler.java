@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * @author puhanjie
- * @description 数据库数据操作时间记录类,需要在实体类公共填充字段注解@TableField中加上参数fill的值
+ * @description 数据库数据操作时间记录类, 需要在实体类公共填充字段注解@TableField中加上参数fill的值
  * @create 2023-09-25
  */
 @Component

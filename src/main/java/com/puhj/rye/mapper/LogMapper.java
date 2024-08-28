@@ -19,7 +19,7 @@ import org.apache.ibatis.annotations.Param;
 public interface LogMapper extends BaseMapper<Log> {
 
     Page<LogInfoVO> list(Page<LogInfoVO> page,
-            @Param("message") String message,
-            @Param("operateUser") String operateUser);
+                         @Param("message") String message,
+                         @Param("operateUser") String operateUser);
 
 }

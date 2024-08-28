@@ -45,7 +45,7 @@ public class FileController {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(content = {
             @Content(mediaType = "multipart/form-data", schema = @Schema(type = "object"), schemaProperties = {
                     @SchemaProperty(name = "files", schema = @Schema(type = "string", format = "binary"))
-            }) })
+            })})
     @PostMapping
     @RequiresPermissions(Permissions.File.UPLOAD)
     public List<FileVO> upload(@RequestBody MultipartFile[] files, HttpServletRequest request) throws IOException {

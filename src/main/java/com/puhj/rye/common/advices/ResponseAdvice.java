@@ -40,17 +40,17 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
      */
     @Override
     public boolean supports(@NotNull MethodParameter returnType,
-            @NotNull Class<? extends HttpMessageConverter<?>> converterType) {
+                            @NotNull Class<? extends HttpMessageConverter<?>> converterType) {
         return returnType.getDeclaringClass().getName().contains("rye");
     }
 
     @Override
     public Object beforeBodyWrite(Object body,
-            @NotNull MethodParameter returnType,
-            @NotNull MediaType selectedContentType,
-            @NotNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
-            @NotNull ServerHttpRequest request,
-            @NotNull ServerHttpResponse response) {
+                                  @NotNull MethodParameter returnType,
+                                  @NotNull MediaType selectedContentType,
+                                  @NotNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
+                                  @NotNull ServerHttpRequest request,
+                                  @NotNull ServerHttpResponse response) {
         // 异常捕获后返回的结果是ResponseVO类型,直接返回
         if (body instanceof ResponseVO) {
             return body;

@@ -21,8 +21,8 @@ public interface FileMapper extends BaseMapper<File> {
     void deleteByPath(@Param("path") String path, @Param("userId") Integer userId);
 
     Page<FileInfoVO> list(Page<FileInfoVO> page,
-            @Param("name") String name,
-            @Param("uploadUser") String uploadUser,
-            @Param("currentUserId") Integer currentUserId);
+                          @Param("name") String name,
+                          @Param("uploadUser") String uploadUser,
+                          @Param("currentUserId") Integer currentUserId);
 
 }

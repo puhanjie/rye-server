@@ -40,8 +40,8 @@ public class PostController {
     private final DictionaryService dictionaryService;
 
     public PostController(PostService postService,
-            RoleService roleService,
-            DictionaryService dictionaryService) {
+                          RoleService roleService,
+                          DictionaryService dictionaryService) {
         this.postService = postService;
         this.roleService = roleService;
         this.dictionaryService = dictionaryService;

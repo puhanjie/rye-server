@@ -36,9 +36,9 @@ public interface UserMapper extends BaseMapper<User> {
     UserBasicInfoVO selectBasicInfo(@Param("userId") Integer userId);
 
     Page<UserInfoVO> list(Page<UserInfoVO> page,
-            @Param("username") String username,
-            @Param("name") String name,
-            @Param("phone") String phone,
-            @Param("email") String email);
+                          @Param("username") String username,
+                          @Param("name") String name,
+                          @Param("phone") String phone,
+                          @Param("email") String email);
 
 }

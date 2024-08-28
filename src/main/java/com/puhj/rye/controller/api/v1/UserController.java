@@ -62,12 +62,12 @@ public class UserController {
     private final LogService logService;
 
     public UserController(UserService userService,
-            RoleService roleService,
-            PostService postService,
-            DepartmentService departmentService,
-            DictionaryService dictionaryService,
-            FileService fileService,
-            LogService logService) {
+                          RoleService roleService,
+                          PostService postService,
+                          DepartmentService departmentService,
+                          DictionaryService dictionaryService,
+                          FileService fileService,
+                          LogService logService) {
         this.userService = userService;
         this.roleService = roleService;
         this.postService = postService;
@@ -197,7 +197,7 @@ public class UserController {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(content = {
             @Content(mediaType = "multipart/form-data", schema = @Schema(type = "object"), schemaProperties = {
                     @SchemaProperty(name = "files", schema = @Schema(type = "string", format = "binary"))
-            }) })
+            })})
     @PutMapping("/avatar")
     @RequiresAuthentication
     public String modifyAvatar(@RequestBody MultipartFile[] files, HttpServletRequest request) throws IOException {

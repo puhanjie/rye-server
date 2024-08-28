@@ -19,7 +19,7 @@ import org.apache.ibatis.annotations.Param;
 public interface DictionaryMapper extends BaseMapper<Dictionary> {
 
     Page<DictionaryInfoVO> list(Page<DictionaryInfoVO> page,
-            @Param("dictType") String dictType,
-            @Param("dictLabel") String dictLabel);
+                                @Param("dictType") String dictType,
+                                @Param("dictLabel") String dictLabel);
 
 }

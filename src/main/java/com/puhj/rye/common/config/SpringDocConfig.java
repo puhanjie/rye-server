@@ -18,31 +18,31 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SpringDocConfig {
 
-        @Bean
-        public OpenAPI createOpenAPI() {
-                return new OpenAPI()
-                                .info(new Info()
-                                                .title("Rye接口文档")
-                                                .version("V1.0.0")
-                                                .description("Rye Restful接口描述文档")
-                                                .license(new License()
-                                                                .name("rye license")
-                                                                .url("https://github.com/puhanjie/rye-server"))
-                                                .contact(new Contact()
-                                                                .name("puhanjie")
-                                                                .email("hanjie.pu@outlook.com")
-                                                                .url("https://github.com/puhanjie")))
-                                .externalDocs(new ExternalDocumentation()
-                                                .description("Rye服务端项目rye-admin详情")
-                                                .url("https://github.com/puhanjie/rye-server"))
-                                .components(new Components()
-                                                .addSecuritySchemes("Authorization",
-                                                                new SecurityScheme()
-                                                                                .name("认证")
-                                                                                .type(SecurityScheme.Type.HTTP)
-                                                                                .description("JWT认证")
-                                                                                .scheme("Bearer")
-                                                                                .bearerFormat("JWT")));
-        }
+    @Bean
+    public OpenAPI createOpenAPI() {
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Rye接口文档")
+                        .version("V1.0.0")
+                        .description("Rye Restful接口描述文档")
+                        .license(new License()
+                                .name("rye license")
+                                .url("https://github.com/puhanjie/rye-server"))
+                        .contact(new Contact()
+                                .name("puhanjie")
+                                .email("hanjie.pu@outlook.com")
+                                .url("https://github.com/puhanjie")))
+                .externalDocs(new ExternalDocumentation()
+                        .description("Rye服务端项目rye-admin详情")
+                        .url("https://github.com/puhanjie/rye-server"))
+                .components(new Components()
+                        .addSecuritySchemes("Authorization",
+                                new SecurityScheme()
+                                        .name("认证")
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .description("JWT认证")
+                                        .scheme("Bearer")
+                                        .bearerFormat("JWT")));
+    }
 
 }
