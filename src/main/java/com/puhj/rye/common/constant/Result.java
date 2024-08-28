@@ -23,14 +23,14 @@ public enum Result {
     USER_EDIT_ERROR(10006, "编辑用户失败", 500),
     USER_SET_ROLES_ERROR(10007, "用户分配角色失败", 500),
     USER_SET_POSTS_ERROR(10008, "用户分配岗位失败", 500),
-    //角色模块异常码
+    // 角色模块异常码
     ROLE_ADD_ERROR(11000, "新增角色失败", 500),
     ROLE_EDIT_ERROR(11001, "编辑角色失败", 500),
     ROLE_SET_PERMISSIONS_ERROR(11002, "角色分配权限失败", 500),
     // 权限模块异常码
     PERMISSION_ADD_ERROR(12000, "新增权限失败", 500),
     PERMISSION_EDIT_ERROR(12001, "编辑权限失败", 500),
-    //岗位模块异常码
+    // 岗位模块异常码
     POST_ADD_ERROR(13000, "新增岗位失败", 500),
     POST_EDIT_ERROR(13001, "编辑岗位失败", 500),
     POST_SET_ROLES_ERROR(13002, "岗位分配角色失败", 500),

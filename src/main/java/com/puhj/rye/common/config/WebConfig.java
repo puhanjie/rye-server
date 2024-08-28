@@ -14,7 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/res/**")   // 客户端访问静态资源前缀
+        registry.addResourceHandler("/res/**") // 客户端访问静态资源前缀
                 .addResourceLocations("file:" + System.getProperty("user.dir") + "/res/"); // 映射的本地静态资源地址
     }
 

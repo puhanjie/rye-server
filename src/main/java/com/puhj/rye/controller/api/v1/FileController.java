@@ -1,6 +1,5 @@
 package com.puhj.rye.controller.api.v1;
 
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.puhj.rye.common.constant.Permissions;
 import com.puhj.rye.service.FileService;
@@ -43,16 +42,10 @@ public class FileController {
     }
 
     @Operation(summary = "文件上传", description = "上传一个或多个文件")
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(content = {@Content(
-            mediaType = "multipart/form-data",
-            schema = @Schema(type = "object"),
-            schemaProperties = {
-                    @SchemaProperty(
-                            name = "files",
-                            schema = @Schema(type = "string", format = "binary")
-                    )
-            }
-    )})
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(content = {
+            @Content(mediaType = "multipart/form-data", schema = @Schema(type = "object"), schemaProperties = {
+                    @SchemaProperty(name = "files", schema = @Schema(type = "string", format = "binary"))
+            }) })
     @PostMapping
     @RequiresPermissions(Permissions.File.UPLOAD)
     public List<FileVO> upload(@RequestBody MultipartFile[] files, HttpServletRequest request) throws IOException {
@@ -69,7 +62,8 @@ public class FileController {
     @Operation(summary = "文件下载", description = "根据文件路径下载一个文件")
     @GetMapping
     @RequiresPermissions(Permissions.File.DOWNLOAD)
-    public void download(@RequestParam String path, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void download(@RequestParam String path, HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         this.fileService.download(path, request, response);
     }
 
@@ -82,10 +76,11 @@ public class FileController {
     })
     @GetMapping("/list")
     @RequiresPermissions(Permissions.File.VIEW)
-    public PageVO<FileInfoVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                   @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                   @RequestParam(value = "name", required = false) String name,
-                                   @RequestParam(value = "uploadUser", required = false) String uploadUser) {
+    public PageVO<FileInfoVO> list(
+            @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "uploadUser", required = false) String uploadUser) {
         Page<FileInfoVO> page = new Page<>(pageNum, pageSize);
         return this.fileService.list(page, name, uploadUser);
     }

@@ -36,7 +36,6 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         this.departmentMapper = departmentMapper;
     }
 
-
     @Override
     public boolean add(DepartmentDTO departmentDTO) {
         Department department = departmentDTO.entity();

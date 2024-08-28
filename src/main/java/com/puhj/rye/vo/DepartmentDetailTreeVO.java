@@ -22,8 +22,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@JsonPropertyOrder({"id", "parentId", "parentDept", "code", "name", "leader", "deptStatus",
-        "createUser", "updateUser", "createTime", "updateTime", "roles", "children"})
+@JsonPropertyOrder({ "id", "parentId", "parentDept", "code", "name", "leader", "deptStatus",
+        "createUser", "updateUser", "createTime", "updateTime", "roles", "children" })
 public class DepartmentDetailTreeVO extends TreeNodeBO {
 
     @Schema(description = "上级部门")

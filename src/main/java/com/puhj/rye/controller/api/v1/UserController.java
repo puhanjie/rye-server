@@ -62,12 +62,12 @@ public class UserController {
     private final LogService logService;
 
     public UserController(UserService userService,
-                          RoleService roleService,
-                          PostService postService,
-                          DepartmentService departmentService,
-                          DictionaryService dictionaryService,
-                          FileService fileService,
-                          LogService logService) {
+            RoleService roleService,
+            PostService postService,
+            DepartmentService departmentService,
+            DictionaryService dictionaryService,
+            FileService fileService,
+            LogService logService) {
         this.userService = userService;
         this.roleService = roleService;
         this.postService = postService;
@@ -158,12 +158,13 @@ public class UserController {
     })
     @GetMapping("/list")
     @RequiresPermissions(Permissions.User.VIEW)
-    public PageVO<UserInfoVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                   @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                   @RequestParam(value = "username", required = false) String username,
-                                   @RequestParam(value = "name", required = false) String name,
-                                   @RequestParam(value = "phone", required = false) String phone,
-                                   @RequestParam(value = "email", required = false) String email) {
+    public PageVO<UserInfoVO> list(
+            @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+            @RequestParam(value = "username", required = false) String username,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "phone", required = false) String phone,
+            @RequestParam(value = "email", required = false) String email) {
         Page<UserInfoVO> page = new Page<>(pageNum, pageSize);
         return this.userService.list(page, username, name, phone, email);
     }
@@ -193,16 +194,10 @@ public class UserController {
     }
 
     @Operation(summary = "修改头像", description = "修改用户头像")
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(content = {@Content(
-            mediaType = "multipart/form-data",
-            schema = @Schema(type = "object"),
-            schemaProperties = {
-                    @SchemaProperty(
-                            name = "files",
-                            schema = @Schema(type = "string", format = "binary")
-                    )
-            }
-    )})
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(content = {
+            @Content(mediaType = "multipart/form-data", schema = @Schema(type = "object"), schemaProperties = {
+                    @SchemaProperty(name = "files", schema = @Schema(type = "string", format = "binary"))
+            }) })
     @PutMapping("/avatar")
     @RequiresAuthentication
     public String modifyAvatar(@RequestBody MultipartFile[] files, HttpServletRequest request) throws IOException {

@@ -40,8 +40,8 @@ public class RoleController {
     private final DictionaryService dictionaryService;
 
     public RoleController(RoleService roleService,
-                          PermissionService permissionService,
-                          DictionaryService dictionaryService) {
+            PermissionService permissionService,
+            DictionaryService dictionaryService) {
         this.roleService = roleService;
         this.permissionService = permissionService;
         this.dictionaryService = dictionaryService;
@@ -77,10 +77,11 @@ public class RoleController {
     })
     @GetMapping("/list")
     @RequiresPermissions(Permissions.Role.VIEW)
-    public PageVO<RoleInfoVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                   @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                   @RequestParam(value = "code", required = false) String code,
-                                   @RequestParam(value = "name", required = false) String name) {
+    public PageVO<RoleInfoVO> list(
+            @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "name", required = false) String name) {
         Page<RoleInfoVO> page = new Page<>(pageNum, pageSize);
         return this.roleService.list(page, code, name);
     }

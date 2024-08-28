@@ -1,6 +1,5 @@
 package com.puhj.rye.controller.api.v1;
 
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.puhj.rye.bo.DictionaryBO;
 import com.puhj.rye.bo.RoleBO;
@@ -41,8 +40,8 @@ public class PostController {
     private final DictionaryService dictionaryService;
 
     public PostController(PostService postService,
-                          RoleService roleService,
-                          DictionaryService dictionaryService) {
+            RoleService roleService,
+            DictionaryService dictionaryService) {
         this.postService = postService;
         this.roleService = roleService;
         this.dictionaryService = dictionaryService;
@@ -78,10 +77,11 @@ public class PostController {
     })
     @GetMapping("/list")
     @RequiresPermissions(Permissions.Post.VIEW)
-    public PageVO<PostInfoVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                   @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                   @RequestParam(value = "code", required = false) String code,
-                                   @RequestParam(value = "name", required = false) String name) {
+    public PageVO<PostInfoVO> list(
+            @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "name", required = false) String name) {
         Page<PostInfoVO> page = new Page<>(pageNum, pageSize);
         return this.postService.list(page, code, name);
     }
@@ -96,4 +96,3 @@ public class PostController {
     }
 
 }
-

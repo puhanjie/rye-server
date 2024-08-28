@@ -111,12 +111,12 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         byte[] buffer = new byte[1024];
 
         try (FileInputStream fis = new FileInputStream(folder);
-             BufferedInputStream bis = new BufferedInputStream(fis)
-        ) {
+                BufferedInputStream bis = new BufferedInputStream(fis)) {
             OutputStream os = response.getOutputStream();
             response.setContentType("application/octet-stream");
             // attachment表示以附件形式下载,若为inline则表示在线方式打开;fileName为下载后的文件名
-            response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+            response.setHeader("Content-Disposition",
+                    "attachment;fileName=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
             response.setHeader("Content-Length", String.valueOf(folder.length()));
             int i = bis.read(buffer);
             while (i != -1) {

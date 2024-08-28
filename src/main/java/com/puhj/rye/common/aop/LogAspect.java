@@ -33,7 +33,8 @@ public class LogAspect {
 
     @AfterReturning(value = "execution(public * com.puhj.rye.common.advices.ResponseAdvice.beforeBodyWrite(..))", returning = "result")
     public void getResult(Object result) {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
+                .currentRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
         // 登陆日志在登陆接口里记录,此处不进行记录
@@ -53,10 +54,12 @@ public class LogAspect {
             responseVO = (ResponseVO<?>) result;
         }
 
-        Log operateLog = new Log(responseVO.getRequest(), responseVO.getCode(), responseVO.getMessage(), SubjectUtil.getSubjectId());
+        Log operateLog = new Log(responseVO.getRequest(), responseVO.getCode(), responseVO.getMessage(),
+                SubjectUtil.getSubjectId());
         // 记录操作日志
         this.logService.add(operateLog);
-        log.info("==> 接口: {} 被调用 - [操作人: {}] - [状态: {} | {}]", responseVO.getRequest(), SubjectUtil.getSubjectName(), responseVO.getCode(), responseVO.getMessage());
+        log.info("==> 接口: {} 被调用 - [操作人: {}] - [状态: {} | {}]", responseVO.getRequest(), SubjectUtil.getSubjectName(),
+                responseVO.getCode(), responseVO.getMessage());
     }
 
 }

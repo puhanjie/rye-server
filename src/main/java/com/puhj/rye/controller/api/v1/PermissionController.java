@@ -36,7 +36,7 @@ public class PermissionController {
     private final DictionaryService dictionaryService;
 
     public PermissionController(PermissionService permissionService,
-                                DictionaryService dictionaryService) {
+            DictionaryService dictionaryService) {
         this.permissionService = permissionService;
         this.dictionaryService = dictionaryService;
     }
@@ -72,11 +72,12 @@ public class PermissionController {
     })
     @GetMapping("/list")
     @RequiresPermissions(Permissions.Permission.VIEW)
-    public PageVO<PermissionInfoVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                         @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                         @RequestParam(value = "code", required = false) String code,
-                                         @RequestParam(value = "name", required = false) String name,
-                                         @RequestParam(value = "menu", required = false) String menu) {
+    public PageVO<PermissionInfoVO> list(
+            @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+            @RequestParam(value = "code", required = false) String code,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "menu", required = false) String menu) {
         Page<PermissionInfoVO> page = new Page<>(pageNum, pageSize);
         return this.permissionService.list(page, code, name, menu);
     }

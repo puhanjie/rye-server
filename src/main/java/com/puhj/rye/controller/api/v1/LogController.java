@@ -1,6 +1,5 @@
 package com.puhj.rye.controller.api.v1;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.puhj.rye.vo.LogInfoVO;
@@ -58,10 +57,11 @@ public class LogController {
     })
     @GetMapping("/list")
     @RequiresPermissions(Permissions.Log.VIEW)
-    public PageVO<LogInfoVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                  @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                  @RequestParam(value = "message", required = false) String message,
-                                  @RequestParam(value = "operateUser", required = false) String operateUser) {
+    public PageVO<LogInfoVO> list(
+            @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+            @RequestParam(value = "message", required = false) String message,
+            @RequestParam(value = "operateUser", required = false) String operateUser) {
         Page<LogInfoVO> page = new Page<>(pageNum, pageSize);
         return this.logService.list(page, message, operateUser);
     }

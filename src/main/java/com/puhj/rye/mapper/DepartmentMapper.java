@@ -19,9 +19,11 @@ import java.util.List;
 @Mapper
 public interface DepartmentMapper extends BaseMapper<Department> {
 
-    int insertRoleIdsByDepartmentId(@Param("departmentId") Integer departmentId, @Param("roleIds") List<Integer> roleIds);
+    int insertRoleIdsByDepartmentId(@Param("departmentId") Integer departmentId,
+            @Param("roleIds") List<Integer> roleIds);
 
-    boolean deleteRoleIdsByDepartmentId(@Param("departmentId") Integer departmentId, @Param("roleIds") List<Integer> roleIds);
+    boolean deleteRoleIdsByDepartmentId(@Param("departmentId") Integer departmentId,
+            @Param("roleIds") List<Integer> roleIds);
 
     List<Integer> selectRoleIdsByDepartmentId(@Param("departmentId") Integer departmentId);
 

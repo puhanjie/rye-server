@@ -1,6 +1,5 @@
 package com.puhj.rye.controller.api.v1;
 
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.puhj.rye.bo.DictionaryBO;
 import com.puhj.rye.vo.DictionaryInfoVO;
@@ -67,10 +66,11 @@ public class DictionaryController {
     })
     @GetMapping("/list")
     @RequiresPermissions(Permissions.Dictionary.VIEW)
-    public PageVO<DictionaryInfoVO> list(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                         @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                         @RequestParam(value = "dictType", required = false) String dictType,
-                                         @RequestParam(value = "dictLabel", required = false) String dictLabel) {
+    public PageVO<DictionaryInfoVO> list(
+            @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+            @RequestParam(value = "dictType", required = false) String dictType,
+            @RequestParam(value = "dictLabel", required = false) String dictLabel) {
         Page<DictionaryInfoVO> page = new Page<>(pageNum, pageSize);
         return this.dictionaryService.list(page, dictType, dictLabel);
     }
@@ -80,7 +80,8 @@ public class DictionaryController {
             @Parameter(name = "dictType", description = "字典类型")
     })
     @GetMapping("/items")
-    @RequiresPermissions(value = {Permissions.Dictionary.VIEW, Permissions.User.VIEW, Permissions.Settings.VIEW}, logical = Logical.OR)
+    @RequiresPermissions(value = { Permissions.Dictionary.VIEW, Permissions.User.VIEW,
+            Permissions.Settings.VIEW }, logical = Logical.OR)
     public List<DictionaryBO> getItems(@RequestParam String dictType) {
         return this.dictionaryService.getItems(dictType);
     }

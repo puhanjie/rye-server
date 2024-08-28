@@ -27,7 +27,7 @@ public interface PostMapper extends BaseMapper<Post> {
     List<Integer> selectRoleIdsByPostId(@Param("postId") Integer postId);
 
     Page<PostInfoVO> list(Page<PostInfoVO> page,
-                          @Param("code") String code,
-                          @Param("name") String name);
+            @Param("code") String code,
+            @Param("name") String name);
 
 }

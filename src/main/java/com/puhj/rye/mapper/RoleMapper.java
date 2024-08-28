@@ -21,15 +21,15 @@ import java.util.List;
 public interface RoleMapper extends BaseMapper<Role> {
 
     int insertPermissionIdsByRoleId(@Param("roleId") Integer roleId,
-                                    @Param("permissionIds") List<Integer> permissionIds);
+            @Param("permissionIds") List<Integer> permissionIds);
 
     boolean deletePermissionIdsByRoleId(@Param("roleId") Integer roleId,
-                                        @Param("permissionIds") List<Integer> permissionIds);
+            @Param("permissionIds") List<Integer> permissionIds);
 
     List<Integer> selectPermissionIdsByRoleId(@Param("roleId") Integer roleId);
 
     Page<RoleInfoVO> list(Page<RoleInfoVO> page,
-                          @Param("code") String code,
-                          @Param("name") String name);
+            @Param("code") String code,
+            @Param("name") String name);
 
 }

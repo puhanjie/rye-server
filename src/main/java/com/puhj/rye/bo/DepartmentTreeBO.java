@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@JsonPropertyOrder({"id", "parentId", "code", "name", "children"})
+@JsonPropertyOrder({ "id", "parentId", "code", "name", "children" })
 public class DepartmentTreeBO extends TreeNodeBO {
 
     @Schema(description = "部门编码")

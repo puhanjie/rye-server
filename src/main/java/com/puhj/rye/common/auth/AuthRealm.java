@@ -58,7 +58,8 @@ public class AuthRealm extends AuthorizingRealm {
      * 登陆认证
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
+            throws AuthenticationException {
         String token = (String) authenticationToken.getCredentials();
         try {
             String username = Objects.requireNonNull(JwtUtil.getTokenInfo(token, "username")).asString();
