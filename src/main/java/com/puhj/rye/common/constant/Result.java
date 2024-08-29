@@ -41,6 +41,8 @@ public enum Result {
     // 字典模块异常码
     DICTIONARY_ADD_ERROR(15000, "新增权限失败", 500),
     DICTIONARY_EDIT_ERROR(15001, "编辑权限失败", 500),
+    FILE_UPLOAD_FAIL(16000, "文件上传失败", 500),
+    FILE_DOWNLOAD_FAIL(16001, "文件下载失败", 500),
     // 资源访问异常码
     NO_HANDLE_FOUND(20000, "资源不存在", 404),
     ACCESS_DENIED(20001, "无资源访问权限", 403);

@@ -3,6 +3,8 @@ package com.puhj.rye.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.puhj.rye.common.constant.Result;
+import com.puhj.rye.common.exception.HttpException;
 import com.puhj.rye.common.utils.DateUtil;
 import com.puhj.rye.common.utils.PathUtil;
 import com.puhj.rye.common.utils.SubjectUtil;
@@ -50,7 +52,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
 
     @Transactional
     @Override
-    public List<FileVO> upload(MultipartFile[] files, HttpServletRequest request) throws IOException {
+    public List<FileVO> upload(MultipartFile[] files, HttpServletRequest request) throws HttpException {
         Integer currentUserId = SubjectUtil.getSubjectId();
         // 创建目录
         String fileDir = System.getProperty("user.dir");
@@ -59,29 +61,33 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
         if (!folder.exists()) {
             boolean flag = folder.mkdirs();
             if (!flag) {
-                throw new IOException("文件目录创建失败");
+                throw new HttpException(Result.FILE_UPLOAD_FAIL);
             }
         }
 
         List<FileVO> fileList = new ArrayList<>();
-        for (MultipartFile file : files) {
-            String fileName = file.getOriginalFilename();
-            Long fileSize = file.getSize();
-            String uuid = UUID.randomUUID().toString();
-            String saveName = uuid + Objects.requireNonNull(fileName).substring(fileName.lastIndexOf("."));
+        try {
+            for (MultipartFile file : files) {
+                String fileName = file.getOriginalFilename();
+                Long fileSize = file.getSize();
+                String uuid = UUID.randomUUID().toString();
+                String saveName = uuid + Objects.requireNonNull(fileName).substring(fileName.lastIndexOf("."));
 
-            file.transferTo(new java.io.File(folder, saveName));
+                file.transferTo(new java.io.File(folder, saveName));
 
-            String filePath = PathUtil.getBasePath(request) + "/" + this.path + "/" + dateFormat + "/" + saveName;
-            fileList.add(new FileVO(filePath, fileName));
+                String filePath = PathUtil.getBasePath(request) + "/" + this.path + "/" + dateFormat + "/" + saveName;
+                fileList.add(new FileVO(filePath, fileName));
 
-            File fileData = new File();
-            fileData.setPath(filePath);
-            fileData.setName(fileName);
-            fileData.setFileSize(fileSize);
-            fileData.setUuid(uuid);
-            fileData.setUploadUser(currentUserId);
-            this.fileMapper.insert(fileData);
+                File fileData = new File();
+                fileData.setPath(filePath);
+                fileData.setName(fileName);
+                fileData.setFileSize(fileSize);
+                fileData.setUuid(uuid);
+                fileData.setUploadUser(currentUserId);
+                this.fileMapper.insert(fileData);
+            }
+        } catch (Exception e) {
+            throw new HttpException(Result.FILE_UPLOAD_FAIL);
         }
 
         return fileList;
@@ -98,11 +104,11 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
     }
 
     @Override
-    public void download(String path, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void download(String path, HttpServletRequest request, HttpServletResponse response) throws HttpException {
         String fileDir = System.getProperty("user.dir") + path.substring(PathUtil.getBasePath(request).length());
         java.io.File folder = new java.io.File(fileDir);
         if (!folder.exists()) {
-            throw new IOException("文件不存在");
+            throw new HttpException(Result.FILE_DOWNLOAD_FAIL);
         }
 
         QueryWrapper<File> queryWrapper = new QueryWrapper<>();
@@ -124,7 +130,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, File> implements Fi
                 i = bis.read(buffer);
             }
         } catch (IOException e) {
-            throw new IOException("文件下载失败");
+            throw new HttpException(Result.FILE_DOWNLOAD_FAIL);
         }
     }
 
