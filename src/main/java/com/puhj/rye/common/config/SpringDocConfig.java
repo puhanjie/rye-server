@@ -33,7 +33,7 @@ public class SpringDocConfig {
                                 .email("hanjie.pu@outlook.com")
                                 .url("https://github.com/puhanjie")))
                 .externalDocs(new ExternalDocumentation()
-                        .description("Rye服务端项目rye-admin详情")
+                        .description("Rye服务端项目rye-server详情")
                         .url("https://github.com/puhanjie/rye-server"))
                 .components(new Components()
                         .addSecuritySchemes("Authorization",
